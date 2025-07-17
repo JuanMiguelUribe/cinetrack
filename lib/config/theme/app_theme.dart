@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const colorList = <Color>[
-  Color(0xFF1565C0), // Azul fuerte
+  Color(0xFF2862F5), // Azul fuerte
   Color(0xFF42A5F5), // Azul cielo
   Color(0xFF009688), // Verde azulado
   Color(0xFF4CAF50), // Verde
