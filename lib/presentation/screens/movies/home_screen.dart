@@ -3,6 +3,7 @@ import 'package:cinetrack/presentation/widgets/shared/botton_nav_with_animation.
 import 'package:cinetrack/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatelessWidget {
   static const name = "home-screen";
@@ -35,16 +36,43 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
-    return Column(
-      children: [
-        CustomAppbar(),
-        MoviesSlideshow(movies: slideShowMovies, showTitle: true),
-        MovieHorizontalListView(
-          movies: nowPlayingMovies,
-          title: "En Cines",
-          subtitle: DateFormat('EEEE, d MMMM', 'es_ES').format(DateTime.now()),
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CustomAppbar(),
+          MoviesSlideshow(movies: slideShowMovies, showTitle: true),
+          MovieHorizontalListView(
+            movies: nowPlayingMovies,
+            title: "En Cines",
+            subtitle: DateFormat('EEEE, d MMMM', 'es').format(DateTime.now()),
+            loadNextPage: () =>
+                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+          ),
+          MovieHorizontalListView(
+            movies: nowPlayingMovies,
+            title: "Proximamente",
+            subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
+            loadNextPage: () =>
+                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+          ),
+          MovieHorizontalListView(
+            movies: nowPlayingMovies,
+            title: "Populares",
+            subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
+            loadNextPage: () =>
+                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+          ),
+          MovieHorizontalListView(
+            movies: nowPlayingMovies,
+            title: "Mejor Calificadas",
+            subtitle: "Siempre",
+            loadNextPage: () =>
+                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+          ),
+
+          const SizedBox(height: 20), // Espacio al final de la lista
+        ],
+      ),
     );
   }
 }

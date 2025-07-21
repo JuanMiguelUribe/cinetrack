@@ -72,7 +72,7 @@ class _Slide extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: Stack(
             children: [
-              // Imagen
+              //* Imagen
               Positioned.fill(
                 //se llena la imagen
                 child: Image.network(
