@@ -61,7 +61,7 @@ class MovieDetails {
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) => MovieDetails(
     adult: json["adult"],
-    backdropPath: json["backdrop_path"] ?? "",
+    backdropPath: json["backdrop_path"],
     belongsToCollection: json["belongs_to_collection"] == null
         ? null
         : BelongsToCollection.fromJson(json["belongs_to_collection"]),
@@ -136,8 +136,8 @@ class MovieDetails {
 class BelongsToCollection {
   final int id;
   final String name;
-  final String posterPath;
-  final String backdropPath;
+  final String? posterPath;
+  final String? backdropPath;
 
   BelongsToCollection({
     required this.id,
@@ -150,8 +150,8 @@ class BelongsToCollection {
       BelongsToCollection(
         id: json["id"],
         name: json["name"],
-        posterPath: json["poster_path"],
-        backdropPath: json["backdrop_path"],
+        posterPath: json["poster_path"] ?? "",
+        backdropPath: json["backdrop_path"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -176,7 +176,7 @@ class Genre {
 
 class ProductionCompany {
   final int id;
-  final String logoPath;
+  final String? logoPath;
   final String name;
   final String originCountry;
 
