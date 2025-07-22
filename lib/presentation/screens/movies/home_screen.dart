@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: _HomeView(),
       bottomNavigationBar: BottonNavWithAnimation(),
     );
@@ -30,49 +31,78 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          CustomAppbar(),
-          MoviesSlideshow(movies: slideShowMovies, showTitle: true),
-          MovieHorizontalListView(
-            movies: nowPlayingMovies,
-            title: "En Cines",
-            subtitle: DateFormat('EEEE, d MMMM', 'es').format(DateTime.now()),
-            loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          snap: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          elevation: 0,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(
+              top: kToolbarHeight * 0.1,
+            ), // opcional
+            child: CustomAppbar(),
           ),
-          MovieHorizontalListView(
-            movies: nowPlayingMovies,
-            title: "Proximamente",
-            subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
-            loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
-          ),
-          MovieHorizontalListView(
-            movies: nowPlayingMovies,
-            title: "Populares",
-            subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
-            loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
-          ),
-          MovieHorizontalListView(
-            movies: nowPlayingMovies,
-            title: "Mejor Calificadas",
-            subtitle: "Siempre",
-            loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
-          ),
+          expandedHeight: 80,
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return Column(
+              children: [
+                // CustomAppbar(),
+                MoviesSlideshow(movies: slideShowMovies, showTitle: true),
+                MovieHorizontalListView(
+                  movies: nowPlayingMovies,
+                  title: "En Cines",
+                  subtitle: DateFormat(
+                    'EEEE, d MMMM',
+                    'es',
+                  ).format(DateTime.now()),
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+                MovieHorizontalListView(
+                  movies: upcomingMovies,
+                  title: "Proximamente",
+                  subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
+                  loadNextPage: () =>
+                      ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
+                ),
+                MovieHorizontalListView(
+                  movies: popularMovies,
+                  title: "Populares",
+                  subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
+                  loadNextPage: () =>
+                      ref.read(popularMoviesProvider.notifier).loadNextPage(),
+                ),
+                MovieHorizontalListView(
+                  movies: topRatedMovies,
+                  title: "Mejor Calificadas",
+                  subtitle: "Siempre",
+                  loadNextPage: () =>
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
+                ),
 
-          const SizedBox(height: 20), // Espacio al final de la lista
-        ],
-      ),
+                const SizedBox(height: 100), // Espacio al final de la lista
+              ],
+            );
+          }, childCount: 1),
+        ),
+      ],
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cinetrack/presentation/widgets/shared/botton_nav_with_animation.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationbar extends StatelessWidget {
@@ -9,8 +8,10 @@ class CustomBottomNavigationbar extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     return SafeArea(
+      top: false,
+      bottom: true,
       child: Container(
-        height: 56,
+        height: 72,
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.symmetric(horizontal: 24),
         decoration: BoxDecoration(
