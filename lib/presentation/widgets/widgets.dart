@@ -1,6 +1,8 @@
-export 'package:cinetrack/presentation/widgets/movies/movie_horizontal_listview.dart';
+export 'shared/full_screen_loader.dart';
 
-export 'package:cinetrack/presentation/widgets/shared/custom_bottom_navigationbar.dart';
+export 'movies/movie_horizontal_listview.dart';
+
+export 'shared/custom_bottom_navigationbar.dart';
 
 export 'movies/movies_slideshow.dart';
 
