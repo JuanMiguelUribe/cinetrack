@@ -19,12 +19,11 @@ class MovieRepositoryImple extends MoviesRepository {
 
   @override
   Future<List<Movie>> getTopRated({int page = 1}) {
-    return datasource.getPopular(page: page);
+    return datasource.getTopRated(page: page);
   }
 
   @override
   Future<List<Movie>> getUpcoming({int page = 1}) {
-    // TODO: implement getUpcoming
-    throw UnimplementedError();
+    return datasource.getUpcoming(page: page);
   }
 }
