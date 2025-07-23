@@ -44,4 +44,8 @@ class MovieMapper {
     voteAverage: moviedb.voteAverage,
     voteCount: moviedb.voteCount,
   );
+
+  // static Movie movieCreditsToEntity(MovieDetails moviedb) => Movie(adult: null, backdropPath: '', genreIds: [], id: null, originalLanguage: '', originalTitle: '', overview: '', popularity: null, posterPath: '', releaseDate: null, title: '', video: null, voteAverage: null, voteCount: null
+
+  // );
 }

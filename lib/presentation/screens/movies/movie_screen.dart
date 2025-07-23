@@ -1,7 +1,9 @@
 import 'package:cinetrack/domain/entities/movie.dart';
 import 'package:cinetrack/presentation/providers/movies/movie_details_provider.dart';
+import 'package:cinetrack/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cinetrack/presentation/widgets/shared/expandable_text.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   final String movieId;
@@ -40,8 +42,64 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     return Scaffold(
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
-        slivers: [_CustomSliverAppBar(movie: movie)],
+        slivers: [
+          _CustomSliverAppBar(movie: movie),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _MovieDetails(movie: movie),
+              childCount: 1,
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class _MovieDetails extends StatelessWidget {
+  final Movie movie;
+  const _MovieDetails({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Center(
+                  child: AnimatedRatingCircle(rating: movie.voteAverage),
+                ),
+              ),
+              const SizedBox(width: 3),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                  child: ExpandableText(
+                    text: movie.overview,
+                    wordLimit: 30,
+                    style: textStyles.bodyMedium?.copyWith(
+                      color: colors.onSurface,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 10),
+        Placeholder(),
+      ],
     );
   }
 }

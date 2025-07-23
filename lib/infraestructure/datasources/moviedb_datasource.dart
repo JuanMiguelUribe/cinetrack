@@ -6,6 +6,8 @@ import 'package:cinetrack/infraestructure/mappers/movie_mapper.dart';
 import 'package:cinetrack/config/constants/environment.dart';
 import 'package:cinetrack/domain/entities/movie.dart';
 
+import '../models/movieDb/movie_credits.dart';
+
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
     BaseOptions(
@@ -72,4 +74,15 @@ class MoviedbDatasource extends MoviesDatasource {
     final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
     return movie;
   }
+
+  // Future<Movie> getCreditsById(String id) async {
+  //   final response = await dio.get("/movie/$id/credits");
+  //   if (response.statusCode != 200) {
+  //     throw Exception("Error fetching movie credits");
+  //   }
+
+  //   final movieCredits = MovieCredits.fromJson(response.data);
+  //   final Movie movie = MovieMapper.movieDetailsToEntity(movieCredits);
+  //   return movie;
+  // }
 }
