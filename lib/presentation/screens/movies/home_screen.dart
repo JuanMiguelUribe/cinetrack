@@ -33,14 +33,20 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   void initState() {
     super.initState();
+
+    // Cargar solo películas inicialmente
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     ref.read(popularMoviesProvider.notifier).loadNextPage();
     ref.read(upcomingMoviesProvider.notifier).loadNextPage();
     ref.read(topRatedMoviesProvider.notifier).loadNextPage();
-    ref.read(airingTvShowProvider.notifier).loadNextPage();
-    ref.read(onTheAirTvShowProvider.notifier).loadNextPage();
-    ref.read(popularTvShowProvider.notifier).loadNextPage();
-    ref.read(topRatedTvShowProvider.notifier).loadNextPage();
+
+    // Cargar series después de un frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(airingTvShowProvider.notifier).loadNextPage();
+      ref.read(onTheAirTvShowProvider.notifier).loadNextPage();
+      ref.read(popularTvShowProvider.notifier).loadNextPage();
+      ref.read(topRatedTvShowProvider.notifier).loadNextPage();
+    });
   }
 
   @override

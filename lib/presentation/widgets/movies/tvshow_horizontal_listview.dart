@@ -56,6 +56,8 @@ class _TvShowHorizontalListViewState extends State<TvShowHorizontalListView> {
           const SizedBox(height: 5),
           Expanded(
             child: ListView.builder(
+              controller: scrollController,
+
               itemCount: widget.tvShows.length,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
