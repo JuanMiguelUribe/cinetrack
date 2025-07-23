@@ -1,31 +1,31 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinetrack/config/helpers/human_formats.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:cinetrack/domain/entities/tv_shows.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class MovieHorizontalListView extends StatefulWidget {
-  final List<Movie> movies;
+class TvShowHorizontalListView extends StatefulWidget {
+  final List<TvShow> tvShows;
   final String? title;
   final String? subtitle;
   final VoidCallback? loadNextPage;
 
-  const MovieHorizontalListView({
+  const TvShowHorizontalListView({
     super.key,
-    required this.movies,
+    required this.tvShows,
     this.title,
     this.subtitle,
     this.loadNextPage,
   });
 
   @override
-  State<MovieHorizontalListView> createState() =>
-      _MovieHorizontalListViewState();
+  State<TvShowHorizontalListView> createState() =>
+      _TvShowHorizontalListViewState();
 }
 
-class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
+class _TvShowHorizontalListViewState extends State<TvShowHorizontalListView> {
   final ScrollController scrollController = ScrollController();
   @override
   void initState() {
@@ -53,16 +53,14 @@ class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
         children: [
           if (widget.title != null || widget.subtitle != null)
             _Title(title: widget.title, subtitle: widget.subtitle),
-          SizedBox(height: 5),
-
+          const SizedBox(height: 5),
           Expanded(
             child: ListView.builder(
-              controller: scrollController,
-              itemCount: widget.movies.length,
+              itemCount: widget.tvShows.length,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return FadeInRight(child: _Slide(movie: widget.movies[index]));
+                return _TvShowSlide(tvShow: widget.tvShows[index]);
               },
             ),
           ),
@@ -72,77 +70,65 @@ class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
   }
 }
 
-class _Slide extends StatelessWidget {
-  final Movie movie;
-  const _Slide({required this.movie});
+class _TvShowSlide extends StatelessWidget {
+  final TvShow tvShow;
+  const _TvShowSlide({required this.tvShow});
 
   @override
   Widget build(BuildContext context) {
     final textStyles = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () {
-        context.push('/movie/${movie.id}');
-      },
+      onTap: () => context.push('/tvshow/${tvShow.id}'),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //*IMAGEN
+            //* Imagen
             SizedBox(
               width: 150,
               height: 225,
               child: ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(20),
+                borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  movie.posterPath,
+                  tvShow.posterPath,
                   fit: BoxFit.cover,
-                  width: 150,
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2,
-                            backgroundColor: Colors.black45,
-                          ),
-                        ),
-                      );
+                      return const Center(child: CircularProgressIndicator());
                     }
                     return FadeIn(child: child);
                   },
                 ),
               ),
             ),
-            SizedBox(height: 5),
-
-            //*TITULO
+            const SizedBox(height: 5),
+            //* Nombre
             SizedBox(
               width: 150,
               child: Text(
-                movie.title,
+                tvShow.name,
                 maxLines: 2,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                style: const TextStyle(fontSize: 15),
               ),
             ),
-            //*Rating
+            //* Rating
             SizedBox(
               width: 150,
               child: Row(
                 children: [
                   Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
                   Text(
-                    movie.voteAverage.toStringAsFixed(1),
+                    tvShow.voteAverage.toStringAsFixed(1),
                     style: textStyles.bodyMedium?.copyWith(
                       color: Colors.yellow.shade800,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
-                    HumanFormats.humanReadbleNumber(movie.popularity),
+                    HumanFormats.humanReadbleNumber(tvShow.popularity),
                     style: textStyles.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w400,
                     ),
