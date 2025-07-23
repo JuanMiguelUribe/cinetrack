@@ -31,6 +31,7 @@ class _ExpandableTextState extends State<ExpandableText> {
     final visibleText = showAll
         ? widget.text
         : words.take(widget.wordLimit).join(' ');
+    final hasLink = words.length > widget.wordLimit;
 
     return AnimatedSize(
       duration: const Duration(milliseconds: 800),
@@ -41,22 +42,23 @@ class _ExpandableTextState extends State<ExpandableText> {
           style: widget.style ?? DefaultTextStyle.of(context).style,
           children: [
             TextSpan(text: visibleText),
-            if (!showAll) const TextSpan(text: '... '),
-            TextSpan(
-              text: showAll ? ' Ver menos' : ' Ver más',
-              style:
-                  widget.linkStyle ??
-                  TextStyle(
-                    color: colors.brightness == Brightness.dark
-                        ? Colors.blueAccent.shade200
-                        : Colors.blueAccent.shade700,
-                    fontWeight: FontWeight.w600,
-                  ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  setState(() => isExpanded = !isExpanded);
-                },
-            ),
+            if (hasLink && !showAll) const TextSpan(text: '... '),
+            if (hasLink)
+              TextSpan(
+                text: isExpanded ? ' Ver menos' : ' Ver más',
+                style:
+                    widget.linkStyle ??
+                    TextStyle(
+                      color: colors.brightness == Brightness.dark
+                          ? Colors.blueAccent.shade200
+                          : Colors.blueAccent.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    setState(() => isExpanded = !isExpanded);
+                  },
+              ),
           ],
         ),
       ),

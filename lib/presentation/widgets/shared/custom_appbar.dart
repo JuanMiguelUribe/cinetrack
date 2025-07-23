@@ -17,23 +17,27 @@ class CustomAppbar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
-              Icon(
-                Icons.local_movies_outlined,
-                color: colors.primary,
-                size: 30,
-              ),
               const SizedBox(width: 10),
-              Spacer(),
-              Text(
-                "CineTrack",
-                style: GoogleFonts.robotoFlex(
-                  fontSize: 32,
-                  color: colors.onSurface,
-                  fontWeight: FontWeight.bold,
-                  // background:
-                  // Puedes probar: 'Cinzel', 'Bebas Neue', 'Playfair Display', etc.
+
+              RichText(
+                text: TextSpan(
+                  style: GoogleFonts.robotoFlex(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "Movie",
+                      style: TextStyle(color: colors.onSurface),
+                    ),
+                    TextSpan(
+                      text: "Dex",
+                      style: TextStyle(color: colors.primary),
+                    ),
+                  ],
                 ),
               ),
+
               Spacer(),
               IconButton(
                 onPressed: () {},
