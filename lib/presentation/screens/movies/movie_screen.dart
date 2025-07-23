@@ -3,7 +3,7 @@ import 'package:cinetrack/presentation/providers/movies/movie_details_provider.d
 import 'package:cinetrack/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cinetrack/presentation/widgets/shared/expandable_text.dart';
+import 'package:intl/intl.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   final String movieId;
@@ -142,8 +142,11 @@ class _CustomSliverAppBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                "${movie.releaseDate.year} • ${movie.genreIds.join(', ')} ",
-                style: TextStyle(fontSize: 10, color: colors.onSurface),
+                "${DateFormat('d MMMM y', 'en').format(movie.releaseDate)} • ${movie.genreIds.join(', ')}",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),

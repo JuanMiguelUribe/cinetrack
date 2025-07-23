@@ -9,6 +9,11 @@ final movieInfoProvider =
     });
 
 /*
+{
+  "505652": "Movie()",
+  "505653": "Movie()",
+  "505654": "Movie()",
+  "505655": "Movie()",
  */
 
 typedef GetMovieCallBack = Future<Movie> Function(String movieId);
@@ -19,8 +24,6 @@ class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
 
   Future<void> loadMovie(String movieID) async {
     if (state[movieID] != null) return;
-    print("Loading movie with ID: $movieID");
-
     final movie = await getMovie(movieID);
     state = {...state, movieID: movie};
   }

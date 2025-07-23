@@ -1,3 +1,7 @@
+export 'package:cinetrack/presentation/widgets/shared/expandable_text.dart';
+
+export 'package:cinetrack/presentation/widgets/shared/animated_stars.dart';
+
 export 'shared/full_screen_loader.dart';
 
 export 'movies/movie_horizontal_listview.dart';

@@ -6,8 +6,6 @@ import 'package:cinetrack/infraestructure/mappers/movie_mapper.dart';
 import 'package:cinetrack/config/constants/environment.dart';
 import 'package:cinetrack/domain/entities/movie.dart';
 
-import '../models/movieDb/movie_credits.dart';
-
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
     BaseOptions(
