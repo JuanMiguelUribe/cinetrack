@@ -1,4 +1,5 @@
 import 'package:cinetrack/domain/datasources/tvshows_datasources.dart';
+import 'package:cinetrack/domain/entities/tv_show_details.dart';
 import 'package:cinetrack/domain/entities/tv_shows.dart';
 import 'package:cinetrack/domain/respositories/tvshows_repository.dart';
 
@@ -24,5 +25,10 @@ class TvshowsDbRepositoryImpl extends TvShowsDBRepository {
   @override
   Future<List<TvShow>> getTvShowsTopRated({int page = 1}) {
     return datasource.getTvShowsTopRated(page: page);
+  }
+
+  @override
+  Future<TvShowDetails> getTvShowById(String id) {
+    return datasource.getTvShowById(id);
   }
 }

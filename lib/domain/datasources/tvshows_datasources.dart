@@ -1,3 +1,4 @@
+import 'package:cinetrack/domain/entities/tv_show_details.dart';
 import 'package:cinetrack/domain/entities/tv_shows.dart';
 
 abstract class TvShowsDBDatasource {
@@ -5,4 +6,6 @@ abstract class TvShowsDBDatasource {
   Future<List<TvShow>> getTvShowsOnTheAir({int page = 1});
   Future<List<TvShow>> getTvShowsPopular({int page = 1});
   Future<List<TvShow>> getTvShowsTopRated({int page = 1});
+
+  Future<TvShowDetails> getTvShowById(String id);
 }

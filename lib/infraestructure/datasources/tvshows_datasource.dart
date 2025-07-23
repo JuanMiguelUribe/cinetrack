@@ -1,5 +1,7 @@
 import 'package:cinetrack/domain/datasources/tvshows_datasources.dart';
+import 'package:cinetrack/domain/entities/tv_show_details.dart';
 import 'package:cinetrack/domain/entities/tv_shows.dart';
+import 'package:cinetrack/infraestructure/models/movieDb/tvshow_details_response.dart';
 import 'package:cinetrack/infraestructure/models/movieDb/tvshowdb_response.dart';
 import 'package:dio/dio.dart';
 import 'package:cinetrack/config/constants/environment.dart';
@@ -57,5 +59,19 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
       queryParameters: {'page': page},
     );
     return _jsonToTvShows(response.data);
+  }
+
+  @override
+  Future<TvShowDetails> getTvShowById(String id) async {
+    final response = await dio.get("/tv/$id");
+    if (response.statusCode != 200) {
+      throw Exception("Error fetching series details");
+    }
+
+    final tvshowDetails = TvShowsDetails.fromJson(response.data);
+    final TvShowDetails tvShow = TvshowMapper.tvshowDetailsToEntity(
+      tvshowDetails,
+    );
+    return tvShow;
   }
 }
