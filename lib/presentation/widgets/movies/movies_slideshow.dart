@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:cinetrack/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MoviesSlideshow extends StatelessWidget {
   final double aspectRatio;
@@ -64,41 +65,48 @@ class _Slide extends StatelessWidget {
       ],
     );
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30, top: 0),
-      child: DecoratedBox(
-        decoration: decoration,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Stack(
-            children: [
-              //* Imagen
-              Positioned.fill(
-                //se llena la imagen
-                child: Image.network(
-                  movie.backdropPath,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress != null) {
-                      return DecoratedBox(
-                        decoration: const BoxDecoration(color: Colors.black12),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            backgroundColor: Colors.black45,
-                            color: colors.onSecondary,
+    return GestureDetector(
+      onTap: () {
+        context.push('/movie/${movie.id}');
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30, top: 0),
+        child: DecoratedBox(
+          decoration: decoration,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              children: [
+                //* Imagen
+                Positioned.fill(
+                  //se llena la imagen
+                  child: Image.network(
+                    movie.backdropPath,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress != null) {
+                        return DecoratedBox(
+                          decoration: const BoxDecoration(
+                            color: Colors.black12,
                           ),
-                        ),
-                      );
-                    }
-                    return FadeIn(child: child);
-                  },
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              backgroundColor: Colors.black45,
+                              color: colors.onSecondary,
+                            ),
+                          ),
+                        );
+                      }
+                      return FadeIn(child: child);
+                    },
+                  ),
                 ),
-              ),
 
-              // Gradient + título solo si showTitle es true
-              if (showTitle) _GradientAndTitle(movie: movie),
-            ],
+                // Gradient + título solo si showTitle es true
+                if (showTitle) _GradientAndTitle(movie: movie),
+              ],
+            ),
           ),
         ),
       ),
