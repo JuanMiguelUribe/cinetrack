@@ -1,4 +1,5 @@
 import 'package:cinetrack/infraestructure/models/movieDb/movie_details.dart';
+import 'package:cinetrack/presentation/providers/providers.dart';
 import 'package:dio/dio.dart';
 import 'package:cinetrack/domain/datasources/movies_datasource.dart';
 import 'package:cinetrack/infraestructure/models/movieDb/moviedb_response.dart';
@@ -10,7 +11,10 @@ class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_key': Environment.movieDbKey, 'language': "es-MX"},
+      queryParameters: {
+        'api_key': Environment.movieDbKey,
+        'language': LocaleProvider.movieDbLanguageCode,
+      },
     ),
   );
 

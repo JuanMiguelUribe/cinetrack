@@ -3,6 +3,7 @@ import 'package:cinetrack/domain/datasources/actors_datasource.dart';
 import 'package:cinetrack/domain/entities/actor.dart';
 import 'package:cinetrack/infraestructure/mappers/actor_mapper.dart';
 import 'package:cinetrack/infraestructure/models/movieDb/ActorsTv_response.dart';
+import 'package:cinetrack/presentation/providers/providers.dart';
 import 'package:dio/dio.dart';
 
 import '../models/movieDb/credits_response.dart';
@@ -11,7 +12,10 @@ class ActorMoviedbDatasource extends ActorsDatasource {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_key': Environment.movieDbKey, 'language': "es-MX"},
+      queryParameters: {
+        'api_key': Environment.movieDbKey,
+        'language': LocaleProvider.movieDbLanguageCode,
+      },
     ),
   );
   @override

@@ -3,6 +3,7 @@ import 'package:cinetrack/domain/entities/tv_show_details.dart';
 import 'package:cinetrack/domain/entities/tv_shows.dart';
 import 'package:cinetrack/infraestructure/models/movieDb/tvshow_details_response.dart';
 import 'package:cinetrack/infraestructure/models/movieDb/tvshowdb_response.dart';
+import 'package:cinetrack/presentation/providers/providers.dart';
 import 'package:dio/dio.dart';
 import 'package:cinetrack/config/constants/environment.dart';
 import '../mappers/tvshow_mapper.dart';
@@ -11,7 +12,10 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_key': Environment.movieDbKey, 'language': "es-MX"},
+      queryParameters: {
+        'api_key': Environment.movieDbKey,
+        'language': LocaleProvider.movieDbLanguageCode,
+      },
     ),
   );
 
