@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:cinetrack/l10n/app_localizations.dart';
 import 'package:cinetrack/presentation/providers/movies/movie_details_provider.dart';
 import 'package:cinetrack/presentation/providers/providers.dart';
 import 'package:cinetrack/presentation/widgets/widgets.dart';
@@ -40,7 +41,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
     if (movie == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Cargando...')),
+        appBar: AppBar(
+          title: Text("${AppLocalizations.of(context)!.loading} ..."),
+        ),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -128,7 +131,7 @@ class _MovieDetails extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
-            "Cast",
+            AppLocalizations.of(context)!.cast,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,
@@ -257,7 +260,7 @@ class _CustomSliverAppBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                "${DateFormat('d MMMM y', 'en').format(movie.releaseDate)} • ${movie.genreIds.join(', ')}",
+                "${DateFormat('d MMMM y').format(movie.releaseDate)} • ${movie.genreIds.join(', ')}",
                 style: TextStyle(
                   fontSize: 10,
                   color: Theme.of(context).colorScheme.onSurface,

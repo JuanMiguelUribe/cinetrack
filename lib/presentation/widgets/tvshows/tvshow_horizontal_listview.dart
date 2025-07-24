@@ -4,7 +4,6 @@ import 'package:cinetrack/config/theme/app_text_styles.dart';
 import 'package:cinetrack/domain/entities/tv_shows.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class TvShowHorizontalListView extends StatefulWidget {

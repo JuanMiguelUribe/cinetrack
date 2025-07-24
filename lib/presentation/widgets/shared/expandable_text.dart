@@ -1,3 +1,4 @@
+import 'package:cinetrack/l10n/app_localizations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,9 @@ class _ExpandableTextState extends State<ExpandableText> {
             if (hasLink && !showAll) const TextSpan(text: '... '),
             if (hasLink)
               TextSpan(
-                text: isExpanded ? ' Ver menos' : ' Ver más',
+                text: isExpanded
+                    ? AppLocalizations.of(context)!.showLess
+                    : AppLocalizations.of(context)!.showMore,
                 style:
                     widget.linkStyle ??
                     TextStyle(

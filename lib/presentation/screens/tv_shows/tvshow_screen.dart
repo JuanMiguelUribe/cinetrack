@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinetrack/domain/entities/tv_show_details.dart';
+import 'package:cinetrack/l10n/app_localizations.dart';
 import 'package:cinetrack/presentation/providers/actors/actors_by_tvshow_provider.dart';
 import 'package:cinetrack/presentation/providers/tvshows/tvshows_details_provider.dart';
 import 'package:cinetrack/presentation/widgets/widgets.dart';
@@ -41,7 +42,9 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
     )[widget.tvshowID];
     if (tvshow == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Cargando...')),
+        appBar: AppBar(
+          title: Text('${AppLocalizations.of(context)!.loading}...'),
+        ),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -131,7 +134,7 @@ class _TvShowDetails extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
-            "Cast",
+            AppLocalizations.of(context)!.cast,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,
@@ -261,7 +264,7 @@ class _CustomSliverAppBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                "${DateFormat('d MMMM y', 'en').format(tvshow.firstAirDate)} • ${tvshow.genres.join(', ')}",
+                "${DateFormat('d MMMM y').format(tvshow.firstAirDate)} • ${tvshow.genres.join(', ')}",
                 style: TextStyle(
                   fontSize: 10,
                   color: Theme.of(context).colorScheme.onSurface,
