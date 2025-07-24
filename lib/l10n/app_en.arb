@@ -1,0 +1,24 @@
+{
+  "@@locale": "en",
+  "appTitle": "MovieDex",
+  "watchNow": "Watch Now",
+  "popular": "Popular",
+  "topRated": "Top Rated",
+  "nowPlaying": "Now Playing",
+  "coomingSoon": "Cooming Soon",
+  "airingToday": "Airing Today",
+  "onTheAir": "On The Air",
+  "movies": "Movies",
+  "tvshows": "Tv Shows",
+  "always": "Always",
+  "homeNav": "Home",
+ "categoriasNav": "Categories",
+  "favsNav": "Favorites",
+  "loading": "Loading",
+  "showMore": "Show More",
+  "showLess": "Show Less",
+  "cast": "Cast"
+}
+
+
+
