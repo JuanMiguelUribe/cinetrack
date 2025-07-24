@@ -17,6 +17,14 @@ final appRouter = GoRouter(
             return MovieScreen(movieId: movieId);
           },
         ),
+        GoRoute(
+          path: "tvshow/:id",
+          name: TvShowScreen.name,
+          builder: (context, state) {
+            final tvshowId = state.pathParameters['id'] ?? "no-id";
+            return TvShowScreen(tvshowID: tvshowId);
+          },
+        ),
       ],
     ),
   ],
