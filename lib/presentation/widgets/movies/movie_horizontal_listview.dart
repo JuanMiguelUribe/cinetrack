@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinetrack/config/helpers/human_formats.dart';
+import 'package:cinetrack/config/theme/app_text_styles.dart';
 import 'package:cinetrack/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -91,8 +92,8 @@ class _Slide extends StatelessWidget {
           children: [
             //*IMAGEN
             SizedBox(
-              width: 150,
-              height: 225,
+              width: 130,
+              height: 200,
               child: ClipRRect(
                 borderRadius: BorderRadiusGeometry.circular(20),
                 child: Image.network(
@@ -120,7 +121,7 @@ class _Slide extends StatelessWidget {
 
             //*TITULO
             SizedBox(
-              width: 150,
+              width: 130,
               child: Text(
                 movie.title,
                 maxLines: 2,
@@ -129,7 +130,7 @@ class _Slide extends StatelessWidget {
             ),
             //*Rating
             SizedBox(
-              width: 150,
+              width: 130,
               child: Row(
                 children: [
                   Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
@@ -163,21 +164,14 @@ class _Title extends StatelessWidget {
   final String? subtitle;
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     return Container(
       margin: const EdgeInsets.only(right: 15, left: 15, top: 10),
       child: Row(
         children: [
           if (title != null)
             Text(
-              title!,
-              style: GoogleFonts.robotoFlex(
-                fontSize: 20,
-                color: colors.onSurface,
-                fontWeight: FontWeight.normal,
-                // background:
-                // Puedes probar: 'Cinzel', 'Bebas Neue', 'Playfair Display', etc.
-              ),
+              title!.toUpperCase(),
+              style: AppTextStyles.sectionTitle(context),
             ),
           Spacer(),
           if (subtitle != null)

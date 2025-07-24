@@ -1,32 +1,32 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
-import 'package:cinetrack/presentation/providers/movies/movie_details_provider.dart';
-import 'package:cinetrack/presentation/providers/providers.dart';
+import 'package:cinetrack/domain/entities/tv_show_details.dart';
+import 'package:cinetrack/presentation/providers/actors/actors_by_tvshow_provider.dart';
+import 'package:cinetrack/presentation/providers/tvshows/tvshows_details_provider.dart';
 import 'package:cinetrack/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class MovieScreen extends ConsumerStatefulWidget {
-  final String movieId;
-  static const name = "movie-screen";
-  const MovieScreen({super.key, required this.movieId});
+class TvShowScreen extends ConsumerStatefulWidget {
+  static const name = "tvshow-screen";
+  final String tvshowID;
+
+  const TvShowScreen({super.key, required this.tvshowID});
 
   @override
-  MovieScreenState createState() => MovieScreenState();
+  TvShowScreenState createState() => TvShowScreenState();
 }
 
-class MovieScreenState extends ConsumerState<MovieScreen> {
+class TvShowScreenState extends ConsumerState<TvShowScreen> {
   @override
   void initState() {
     super.initState();
 
     ref
-        .read(movieInfoProvider.notifier)
-        .loadMovie(widget.movieId); // Cargar la película al iniciar
-    ref
-        .read(actorsByMovieProvider.notifier)
-        .loadActors(widget.movieId); // Cargar la película al iniciar
+        .read(tvshowsInfoProvider.notifier)
+        .loadMovie(widget.tvshowID); // Cargar la película al iniciar
+    // Cargar la película al iniciar
+    ref.read(actorsByTvShowProvider.notifier).loadActors(widget.tvshowID);
   }
 
   @override
@@ -36,9 +36,10 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
-
-    if (movie == null) {
+    final TvShowDetails? tvshow = ref.watch(
+      tvshowsInfoProvider,
+    )[widget.tvshowID];
+    if (tvshow == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Cargando...')),
         body: const Center(child: CircularProgressIndicator()),
@@ -48,10 +49,10 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
-          _CustomSliverAppBar(movie: movie),
+          _CustomSliverAppBar(tvshow: tvshow),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => _MovieDetails(movie: movie),
+              (context, index) => _TvShowDetails(tvshow: tvshow),
               childCount: 1,
             ),
           ),
@@ -61,9 +62,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
-class _MovieDetails extends StatelessWidget {
-  final Movie movie;
-  const _MovieDetails({required this.movie});
+class _TvShowDetails extends StatelessWidget {
+  final TvShowDetails tvshow;
+  const _TvShowDetails({required this.tvshow});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class _MovieDetails extends StatelessWidget {
       children: [
         SizedBox(height: 3),
 
-        if (movie.adult)
+        if (tvshow.adult)
           Center(
             child: Positioned(
               top: 8,
@@ -94,14 +95,14 @@ class _MovieDetails extends StatelessWidget {
             ),
           ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Center(
-                  child: AnimatedRatingCircle(rating: movie.voteAverage),
+                  child: AnimatedRatingCircle(rating: tvshow.voteAverage),
                 ),
               ),
               const SizedBox(width: 3),
@@ -110,8 +111,8 @@ class _MovieDetails extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
 
                   child: ExpandableText(
-                    text: (movie.overview.trim().isNotEmpty)
-                        ? movie.overview
+                    text: (tvshow.overview.trim().isNotEmpty)
+                        ? tvshow.overview
                         : "No description found",
 
                     wordLimit: 30,
@@ -125,6 +126,8 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
+        Text(tvshow.id.toString()),
+
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
@@ -139,23 +142,23 @@ class _MovieDetails extends StatelessWidget {
         ),
         SizedBox(height: 5),
 
-        _ActorsByMovie(movieId: movie.id.toString()),
+        _ActorsByMovie(tvshowId: tvshow.id.toString()),
       ],
     );
   }
 }
 
 class _ActorsByMovie extends ConsumerWidget {
-  final String movieId;
-  const _ActorsByMovie({required this.movieId});
+  final String tvshowId;
+  const _ActorsByMovie({required this.tvshowId});
 
   @override
   Widget build(BuildContext context, ref) {
-    final actorsByMovie = ref.watch(actorsByMovieProvider);
-    if (actorsByMovie[movieId] == null) {
+    final actorsByTvshow = ref.watch(actorsByTvShowProvider);
+    if (actorsByTvshow[tvshowId] == null) {
       return const CircularProgressIndicator(strokeWidth: 2);
     }
-    final actors = actorsByMovie[movieId]!;
+    final actors = actorsByTvshow[tvshowId]!;
 
     return SizedBox(
       height: 300,
@@ -189,7 +192,7 @@ class _ActorsByMovie extends ConsumerWidget {
                     maxLines: 3,
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
                     textAlign: TextAlign.center,
@@ -203,7 +206,7 @@ class _ActorsByMovie extends ConsumerWidget {
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       overflow: TextOverflow.ellipsis,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -220,8 +223,9 @@ class _ActorsByMovie extends ConsumerWidget {
 }
 
 class _CustomSliverAppBar extends StatelessWidget {
-  final Movie movie;
-  const _CustomSliverAppBar({required this.movie});
+  final TvShowDetails tvshow;
+
+  const _CustomSliverAppBar({required this.tvshow});
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +250,7 @@ class _CustomSliverAppBar extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              movie.title,
+              tvshow.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
@@ -257,7 +261,7 @@ class _CustomSliverAppBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                "${DateFormat('d MMMM y', 'en').format(movie.releaseDate)} • ${movie.genreIds.join(', ')}",
+                "${DateFormat('d MMMM y', 'en').format(tvshow.firstAirDate)} • ${tvshow.genres.join(', ')}",
                 style: TextStyle(
                   fontSize: 10,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -268,15 +272,15 @@ class _CustomSliverAppBar extends StatelessWidget {
             ),
           ],
         ),
-        background: _BackgroundStack(movie: movie),
+        background: _BackgroundStack(tvshow: tvshow),
       ),
     );
   }
 }
 
 class _BackgroundStack extends StatelessWidget {
-  final Movie movie;
-  const _BackgroundStack({required this.movie});
+  final TvShowDetails tvshow;
+  const _BackgroundStack({required this.tvshow});
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +294,7 @@ class _BackgroundStack extends StatelessWidget {
       children: [
         SizedBox.expand(
           child: Image.network(
-            movie.posterPath,
+            tvshow.posterPath,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress != null)

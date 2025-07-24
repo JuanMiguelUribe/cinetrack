@@ -86,7 +86,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 // CustomAppbar(),
                 MoviesSlideshow(movies: slideShowMovies, showTitle: true),
 
-                buildSectionDivider("Películas", context),
+                buildSectionDivider("Movies", context),
 
                 _MoviesSectionSlides(
                   nowPlayingMovies: nowPlayingMovies,
@@ -96,7 +96,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   topRatedMovies: topRatedMovies,
                 ),
 
-                buildSectionDivider("Series", context),
+                buildSectionDivider("Tv Shows", context),
 
                 // const SizedBox(height: 150),
                 _SeriesSectionSlides(
@@ -177,28 +177,28 @@ class _MoviesSectionSlides extends StatelessWidget {
         children: [
           MovieHorizontalListView(
             movies: nowPlayingMovies,
-            title: "En Cines",
+            title: "Now Playing",
             subtitle: DateFormat('EEEE, d MMMM', 'es').format(DateTime.now()),
             loadNextPage: () =>
                 ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
           ),
           MovieHorizontalListView(
             movies: upcomingMovies,
-            title: "Proximamente",
+            title: "Cooming Soon",
             subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
             loadNextPage: () =>
                 ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
           ),
           MovieHorizontalListView(
             movies: popularMovies,
-            title: "Populares",
+            title: "Popular",
             subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
             loadNextPage: () =>
                 ref.read(popularMoviesProvider.notifier).loadNextPage(),
           ),
           MovieHorizontalListView(
             movies: topRatedMovies,
-            title: "Mejor Calificadas",
+            title: "Top Rated",
             subtitle: "Siempre",
             loadNextPage: () =>
                 ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
@@ -233,32 +233,33 @@ class _SeriesSectionSlides extends StatelessWidget {
         children: [
           TvShowHorizontalListView(
             tvShows: airingTvShows,
-            title: "Al Aire Hoy",
+            title: "Airing Today",
             subtitle: DateFormat('EEEE, d MMMM', 'es').format(DateTime.now()),
             loadNextPage: () =>
                 ref.read(airingTvShowProvider.notifier).loadNextPage(),
           ),
           TvShowHorizontalListView(
             tvShows: onTheAirTvShows,
-            title: "Esta semana",
+            title: "On Air",
             subtitle: DateFormat('M MMMM', 'es').format(DateTime.now()),
             loadNextPage: () =>
                 ref.read(onTheAirTvShowProvider.notifier).loadNextPage(),
           ),
           TvShowHorizontalListView(
             tvShows: popularTvShows,
-            title: "Populares",
+            title: "Popular",
             subtitle: DateFormat('MMMM', 'es').format(DateTime.now()),
             loadNextPage: () =>
                 ref.read(popularTvShowProvider.notifier).loadNextPage(),
           ),
           TvShowHorizontalListView(
             tvShows: topRatedTvShows,
-            title: "Mejor Calificadas",
+            title: "Top Rated",
             subtitle: "Siempre",
             loadNextPage: () =>
                 ref.read(topRatedTvShowProvider.notifier).loadNextPage(),
           ),
+          SizedBox(height: 100),
         ],
       ),
     );

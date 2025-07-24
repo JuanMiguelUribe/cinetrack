@@ -13,7 +13,7 @@ class MoviesSlideshow extends StatelessWidget {
     super.key,
     required this.movies,
     this.aspectRatio = 14 / 7.5,
-    this.viewportFraction = 0.8,
+    this.viewportFraction = 0.75,
     this.showTitle = true,
   });
 
@@ -27,7 +27,7 @@ class MoviesSlideshow extends StatelessWidget {
         duration: 1000,
         autoplayDelay: 8000,
         viewportFraction: viewportFraction,
-        scale: 0.9,
+        scale: 0.8,
         autoplay: true,
         pagination: SwiperPagination(
           margin: const EdgeInsets.only(top: 0),
@@ -137,17 +137,17 @@ class _GradientAndTitle extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 2.0), // Baja el texto
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: Text(
-              movie.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            // child: Text(
+            //   movie.title,
+            //   maxLines: 2,
+            //   overflow: TextOverflow.ellipsis,
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(
+            //     color: Colors.white,
+            //     fontSize: 12,
+            //     fontWeight: FontWeight.w600,
+            //   ),
+            // ),
           ),
         ),
       ),
