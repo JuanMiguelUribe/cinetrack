@@ -4,6 +4,7 @@ class TvShowsDetails {
   final List<CreatedBy> createdBy;
   final List<dynamic> episodeRunTime;
   final DateTime firstAirDate;
+  final List<Genre> genres;
   final String homepage;
   final int id;
   final bool? inProduction;
@@ -37,6 +38,7 @@ class TvShowsDetails {
     required this.createdBy,
     required this.episodeRunTime,
     required this.firstAirDate,
+    required this.genres,
     required this.homepage,
     required this.id,
     this.inProduction,
@@ -73,6 +75,7 @@ class TvShowsDetails {
     ),
     episodeRunTime: List<dynamic>.from(json["episode_run_time"].map((x) => x)),
     firstAirDate: DateTime.parse(json["first_air_date"]),
+    genres: List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
     homepage: json["homepage"],
     id: json["id"],
     inProduction: json["in_production"],
@@ -116,6 +119,7 @@ class TvShowsDetails {
     "episode_run_time": List<dynamic>.from(episodeRunTime.map((x) => x)),
     "first_air_date":
         "${firstAirDate.year.toString().padLeft(4, '0')}-${firstAirDate.month.toString().padLeft(2, '0')}-${firstAirDate.day.toString().padLeft(2, '0')}",
+    "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
     "homepage": homepage,
     "id": id,
     "in_production": inProduction,
@@ -158,7 +162,7 @@ class CreatedBy {
   final String name;
   final String originalName;
   final int gender;
-  final String profilePath;
+  final String? profilePath;
 
   CreatedBy({
     required this.id,
@@ -166,7 +170,7 @@ class CreatedBy {
     required this.name,
     required this.originalName,
     required this.gender,
-    required this.profilePath,
+    this.profilePath,
   });
 
   factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
@@ -188,6 +192,18 @@ class CreatedBy {
   };
 }
 
+class Genre {
+  final int id;
+  final String name;
+
+  Genre({required this.id, required this.name});
+
+  factory Genre.fromJson(Map<String, dynamic> json) =>
+      Genre(id: json["id"], name: json["name"]);
+
+  Map<String, dynamic> toJson() => {"id": id, "name": name};
+}
+
 class LastEpisodeToAir {
   final int id;
   final String name;
@@ -198,10 +214,10 @@ class LastEpisodeToAir {
   final int episodeNumber;
   final String episodeType;
   final String productionCode;
-  final int runtime;
-  final int seasonNumber;
+  final int? runtime;
+  final int? seasonNumber;
   final int showId;
-  final String stillPath;
+  final String? stillPath;
 
   LastEpisodeToAir({
     required this.id,
@@ -213,8 +229,8 @@ class LastEpisodeToAir {
     required this.episodeNumber,
     required this.episodeType,
     required this.productionCode,
-    required this.runtime,
-    required this.seasonNumber,
+    this.runtime,
+    this.seasonNumber,
     required this.showId,
     required this.stillPath,
   });
@@ -295,40 +311,44 @@ class ProductionCountry {
 }
 
 class Season {
-  final DateTime airDate;
+  final DateTime? airDate;
   final int episodeCount;
   final int id;
   final String name;
   final String overview;
-  final String posterPath;
+  final String? posterPath;
   final int seasonNumber;
   final double voteAverage;
 
   Season({
-    required this.airDate,
+    this.airDate,
     required this.episodeCount,
     required this.id,
     required this.name,
     required this.overview,
-    required this.posterPath,
+    this.posterPath,
     required this.seasonNumber,
     required this.voteAverage,
   });
 
   factory Season.fromJson(Map<String, dynamic> json) => Season(
-    airDate: DateTime.parse(json["air_date"]),
-    episodeCount: json["episode_count"],
+    airDate: json["air_date"] != null && json["air_date"].toString().isNotEmpty
+        ? DateTime.tryParse(json["air_date"])
+        : null,
+    episodeCount: json["episode_count"] ?? 0,
     id: json["id"],
-    name: json["name"],
-    overview: json["overview"],
+    name: json["name"] ?? "Temporada sin nombre",
+    overview: json["overview"] ?? "Sin descripción",
     posterPath: json["poster_path"],
-    seasonNumber: json["season_number"],
-    voteAverage: json["vote_average"]?.toDouble(),
+    seasonNumber: json["season_number"] ?? 0,
+    voteAverage: (json["vote_average"] is int)
+        ? (json["vote_average"] as int).toDouble()
+        : (json["vote_average"] ?? 0.0),
   );
 
   Map<String, dynamic> toJson() => {
     "air_date":
-        "${airDate.year.toString().padLeft(4, '0')}-${airDate.month.toString().padLeft(2, '0')}-${airDate.day.toString().padLeft(2, '0')}",
+        "${airDate?.year.toString().padLeft(4, '0')}-${airDate?.month.toString().padLeft(2, '0')}-${airDate?.day.toString().padLeft(2, '0')}",
     "episode_count": episodeCount,
     "id": id,
     "name": name,

@@ -36,6 +36,7 @@ class TvshowMapper {
       originalLanguage: tvshowdb.originalLanguage,
       originalName: tvshowdb.originalName,
       overview: tvshowdb.overview,
+      genres: tvshowdb.genres.map((e) => e.name).toList(),
       popularity: tvshowdb.popularity,
       posterPath: (tvshowdb.posterPath != "")
           ? "https://image.tmdb.org/t/p/w500${tvshowdb.posterPath}"
