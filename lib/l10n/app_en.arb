@@ -17,7 +17,9 @@
   "loading": "Loading",
   "showMore": "Show More",
   "showLess": "Show Less",
-  "cast": "Cast"
+  "cast": "Cast",
+  "resultsSearch": "No results Found",
+  "unknownDate": "Unknown Date"
 }
 
 

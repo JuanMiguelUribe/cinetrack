@@ -17,5 +17,8 @@
   "loading": "Cargando",
   "showMore": "Ver más",
   "showLess": "Ver menos",
-  "cast": "Reparto"
+  "cast": "Reparto",
+   "resultsSearch": "No se encontraron resultados",
+   "unknownDate": "Fecha Desconocida"
+
 }
