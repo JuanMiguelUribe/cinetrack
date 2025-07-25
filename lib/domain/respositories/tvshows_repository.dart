@@ -8,4 +8,5 @@ abstract class TvShowsDBRepository {
   Future<List<TvShow>> getTvShowsTopRated({int page = 1});
 
   Future<TvShowDetails> getTvShowById(String id);
+  Future<List<TvShow>> searchtvshow(String query);
 }

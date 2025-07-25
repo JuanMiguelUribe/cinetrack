@@ -8,7 +8,8 @@ class TvshowMapper {
   static TvShow tvshowDBtoEntity(TvShowTvShowsDB tvshowdb) {
     return TvShow(
       id: tvshowdb.id,
-      backdropPath: (tvshowdb.backdropPath != "")
+      backdropPath:
+          (tvshowdb.backdropPath != "" && tvshowdb.backdropPath != null)
           ? "https://image.tmdb.org/t/p/w500${tvshowdb.backdropPath}"
           : "https://cdn.displate.com/artwork/270x380/2023-02-03/6b806b90ed460362ce845aec44991468_ee90576e764e6e2dc6be65372d967710.jpg",
       firstAirDate: tvshowdb.firstAirDate,
@@ -18,7 +19,7 @@ class TvshowMapper {
       originalName: tvshowdb.originalName,
       overview: tvshowdb.overview ?? "No overview available",
       popularity: tvshowdb.popularity,
-      posterPath: (tvshowdb.posterPath != "")
+      posterPath: (tvshowdb.posterPath != "" && tvshowdb.posterPath != null)
           ? "https://image.tmdb.org/t/p/w500${tvshowdb.posterPath}"
           : "https://cdn.displate.com/artwork/270x380/2023-02-03/6b806b90ed460362ce845aec44991468_ee90576e764e6e2dc6be65372d967710.jpg",
       voteAverage: tvshowdb.voteAverage,
@@ -29,7 +30,8 @@ class TvshowMapper {
   static TvShowDetails tvshowDetailsToEntity(TvShowsDetails tvshowdb) {
     return TvShowDetails(
       adult: tvshowdb.adult,
-      backdropPath: (tvshowdb.backdropPath != "")
+      backdropPath:
+          (tvshowdb.backdropPath != "" && tvshowdb.backdropPath != null)
           ? "https://image.tmdb.org/t/p/w500${tvshowdb.backdropPath}"
           : "https://cdn.displate.com/artwork/270x380/2023-02-03/6b806b90ed460362ce845aec44991468_ee90576e764e6e2dc6be65372d967710.jpg",
       id: tvshowdb.id,
@@ -38,7 +40,7 @@ class TvshowMapper {
       overview: tvshowdb.overview,
       genres: tvshowdb.genres.map((e) => e.name).toList(),
       popularity: tvshowdb.popularity,
-      posterPath: (tvshowdb.posterPath != "")
+      posterPath: (tvshowdb.posterPath != "" && tvshowdb.posterPath != null)
           ? "https://image.tmdb.org/t/p/w500${tvshowdb.posterPath}"
           : "https://cdn.displate.com/artwork/270x380/2023-02-03/6b806b90ed460362ce845aec44991468_ee90576e764e6e2dc6be65372d967710.jpg",
       firstAirDate: tvshowdb.firstAirDate,

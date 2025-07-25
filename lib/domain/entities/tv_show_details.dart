@@ -4,7 +4,7 @@ class TvShowDetails {
   final bool adult;
   final String? originalName;
   final String overview;
-  final String posterPath;
+  final String? posterPath;
   final String? backdropPath;
   final DateTime firstAirDate;
   final DateTime? lastAirDate;
@@ -28,7 +28,7 @@ class TvShowDetails {
     required this.id,
     required this.name,
     required this.overview,
-    required this.posterPath,
+    this.posterPath,
     this.backdropPath,
     required this.firstAirDate,
     this.lastAirDate,

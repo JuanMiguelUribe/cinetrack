@@ -31,4 +31,11 @@ class MovieRepositoryImple extends MoviesRepository {
   Future<Movie> getMovieById(String id) {
     return datasource.getMovieById(id);
   }
+
+  @override
+  Future<List<Movie>> searchMovies(String query) {
+    // o debugPrint(jsonEncode(results));
+
+    return datasource.searchMovies(query);
+  }
 }

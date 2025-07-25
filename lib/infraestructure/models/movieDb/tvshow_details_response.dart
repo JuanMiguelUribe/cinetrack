@@ -1,6 +1,6 @@
 class TvShowsDetails {
   final bool adult;
-  final String backdropPath;
+  final String? backdropPath;
   final List<CreatedBy> createdBy;
   final List<dynamic> episodeRunTime;
   final DateTime firstAirDate;
@@ -21,7 +21,7 @@ class TvShowsDetails {
   final String originalName;
   final String overview;
   final double popularity;
-  final String posterPath;
+  final String? posterPath;
   final List<Network> productionCompanies;
   final List<ProductionCountry> productionCountries;
   final List<Season> seasons;
@@ -34,7 +34,7 @@ class TvShowsDetails {
 
   TvShowsDetails({
     required this.adult,
-    required this.backdropPath,
+    this.backdropPath,
     required this.createdBy,
     required this.episodeRunTime,
     required this.firstAirDate,
@@ -55,7 +55,7 @@ class TvShowsDetails {
     required this.originalName,
     required this.overview,
     required this.popularity,
-    required this.posterPath,
+    this.posterPath,
     required this.productionCompanies,
     required this.productionCountries,
     required this.seasons,

@@ -31,4 +31,9 @@ class TvshowsDbRepositoryImpl extends TvShowsDBRepository {
   Future<TvShowDetails> getTvShowById(String id) {
     return datasource.getTvShowById(id);
   }
+
+  @override
+  Future<List<TvShow>> searchtvshow(String query) {
+    return datasource.searchtvshow(query);
+  }
 }
