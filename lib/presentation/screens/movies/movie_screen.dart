@@ -102,20 +102,23 @@ class _MovieDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: Center(
-                  child: AnimatedRatingCircle(rating: movie.voteAverage),
+                  child: AnimatedRatingCircle(
+                    rating: movie.voteAverage,
+                    size: 60,
+                  ),
                 ),
               ),
-              const SizedBox(width: 3),
+              const SizedBox(width: 1),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.only(right: 16, left: 8),
 
                   child: ExpandableText(
                     text: (movie.overview.trim().isNotEmpty)
                         ? movie.overview
-                        : "No description found",
+                        : AppLocalizations.of(context)!.resultsSearch,
 
                     wordLimit: 30,
                     style: textStyles.bodyMedium?.copyWith(

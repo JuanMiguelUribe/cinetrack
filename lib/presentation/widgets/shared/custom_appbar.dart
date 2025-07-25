@@ -3,6 +3,7 @@ import 'package:cinetrack/presentation/providers/movies/movies_respository_provi
 import 'package:cinetrack/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppbar extends ConsumerWidget {
@@ -35,7 +36,7 @@ class CustomAppbar extends ConsumerWidget {
                       style: TextStyle(color: colors.onSurface),
                     ),
                     TextSpan(
-                      text: "Dex",
+                      text: "Flex",
                       style: TextStyle(color: colors.primary),
                     ),
                   ],
@@ -46,21 +47,23 @@ class CustomAppbar extends ConsumerWidget {
               IconButton(
                 onPressed: () async {
                   final result = await showSearch(
+                    query: "anta",
                     context: context,
                     delegate: SearchMovieSeriesDelegate(
                       movieRepo: ref.read(movieRepositoryProvider),
                       tvRepo: ref.read(tvshowsRepositoryProvider),
                     ),
                   );
-                  // if (result != null) {
-                  //   // navegar a pantalla de detalle según tipo
-                  //   if (result.type == 'movie') {
-                  //     Navigator.pushNamed(context, '/movie/${result.id}');
-                  //   } else {
-                  //     Navigator.pushNamed(context, '/tv/${result.id}');
-                  //   }
-                  // }
+
+                  if (!context.mounted || result == null) return;
+
+                  if (result.type == 'movie') {
+                    context.push('/movie/${result.id}');
+                  } else {
+                    context.push('/tvshow/${result.id}');
+                  }
                 },
+
                 icon: Icon(Icons.search, color: colors.onSurface),
               ),
             ],

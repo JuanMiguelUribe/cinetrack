@@ -4,13 +4,13 @@
 
 class MovieDetails {
   final bool adult;
-  final String backdropPath;
+  final String? backdropPath;
   final BelongsToCollection? belongsToCollection;
   final int budget;
   final List<Genre> genres;
   final String homepage;
   final int id;
-  final String imdbId;
+  final String? imdbId;
   final List<String> originCountry;
   final String originalLanguage;
   final String originalTitle;
@@ -32,13 +32,13 @@ class MovieDetails {
 
   MovieDetails({
     required this.adult,
-    required this.backdropPath,
+    this.backdropPath,
     required this.belongsToCollection,
     required this.budget,
     required this.genres,
     required this.homepage,
     required this.id,
-    required this.imdbId,
+    this.imdbId,
     required this.originCountry,
     required this.originalLanguage,
     required this.originalTitle,
@@ -69,7 +69,7 @@ class MovieDetails {
     genres: List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
     homepage: json["homepage"],
     id: json["id"],
-    imdbId: json["imdb_id"],
+    imdbId: json["imdb_id"] ?? "",
     originCountry: List<String>.from(json["origin_country"].map((x) => x)),
     originalLanguage: json["original_language"],
     originalTitle: json["original_title"],
@@ -172,6 +172,12 @@ class Genre {
       Genre(id: json["id"], name: json["name"]);
 
   Map<String, dynamic> toJson() => {"id": id, "name": name};
+  static List<Genre> fromJsonList(List<dynamic>? jsonList) {
+    if (jsonList == null || jsonList.isEmpty) {
+      return [Genre(id: 0, name: 'No genre found')];
+    }
+    return jsonList.map((e) => Genre.fromJson(e)).toList();
+  }
 }
 
 class ProductionCompany {

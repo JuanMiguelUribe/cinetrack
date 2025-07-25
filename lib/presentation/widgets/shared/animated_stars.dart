@@ -64,7 +64,7 @@ class _AnimatedRatingCircleState extends State<AnimatedRatingCircle>
   @override
   Widget build(BuildContext context) {
     final size = widget.size;
-    final colors = Theme.of(context).colorScheme;
+    // final colors = Theme.of(context).colorScheme;
     return SizedBox(
       width: size * 2,
       height: size * 2,

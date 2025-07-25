@@ -9,3 +9,4 @@ export "actors/actors_repository_provider.dart";
 export 'tvshows/tvshows_provider.dart';
 export 'tvshows/tvshows_repository_provider.dart';
 export 'language/locale_provider.dart';
+export 'search/search_content_provider.dart';

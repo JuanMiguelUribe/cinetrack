@@ -103,20 +103,22 @@ class _TvShowDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: Center(
-                  child: AnimatedRatingCircle(rating: tvshow.voteAverage),
+                  child: AnimatedRatingCircle(
+                    rating: tvshow.voteAverage,
+                    size: 60,
+                  ),
                 ),
               ),
-              const SizedBox(width: 3),
+              const SizedBox(width: 1),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                  padding: const EdgeInsets.only(right: 16, left: 8),
                   child: ExpandableText(
                     text: (tvshow.overview.trim().isNotEmpty)
                         ? tvshow.overview
-                        : "No description found",
+                        : AppLocalizations.of(context)!.resultsSearch,
 
                     wordLimit: 30,
                     style: textStyles.bodyMedium?.copyWith(
