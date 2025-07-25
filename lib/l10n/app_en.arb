@@ -19,7 +19,9 @@
   "showLess": "Show Less",
   "cast": "Cast",
   "resultsSearch": "No results Found",
-  "unknownDate": "Unknown Date"
+  "unknownDate": "Unknown Date",
+  "movieSearch": "Movie",
+  "tvshowSearch": "Tv Show"
 }
 
 

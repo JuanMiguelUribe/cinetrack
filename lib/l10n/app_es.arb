@@ -19,6 +19,8 @@
   "showLess": "Ver menos",
   "cast": "Reparto",
    "resultsSearch": "No se encontraron resultados",
-   "unknownDate": "Fecha Desconocida"
+   "unknownDate": "Fecha Desconocida",
+    "movieSearch": "Película",
+  "tvshowSearch": "Serie"
 
 }
