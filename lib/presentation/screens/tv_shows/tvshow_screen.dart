@@ -297,7 +297,7 @@ class _BackgroundStack extends StatelessWidget {
       children: [
         SizedBox.expand(
           child: Image.network(
-            tvshow.posterPath,
+            tvshow.posterPath!,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress != null)

@@ -4,7 +4,6 @@ import 'package:cinetrack/config/theme/app_text_styles.dart';
 import 'package:cinetrack/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class MovieHorizontalListView extends StatefulWidget {
@@ -97,7 +96,7 @@ class _Slide extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadiusGeometry.circular(20),
                 child: Image.network(
-                  movie.posterPath,
+                  movie.posterPath!,
                   fit: BoxFit.cover,
                   width: 150,
                   loadingBuilder: (context, child, loadingProgress) {

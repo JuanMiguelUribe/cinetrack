@@ -81,7 +81,7 @@ class _Slide extends StatelessWidget {
                 Positioned.fill(
                   //se llena la imagen
                   child: Image.network(
-                    movie.backdropPath,
+                    movie.backdropPath!,
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress != null) {

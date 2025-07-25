@@ -260,7 +260,7 @@ class _CustomSliverAppBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                "${DateFormat('d MMMM y').format(movie.releaseDate)} • ${movie.genreIds.join(', ')}",
+                "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.genreIds.join(', ')}",
                 style: TextStyle(
                   fontSize: 10,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -293,7 +293,7 @@ class _BackgroundStack extends StatelessWidget {
       children: [
         SizedBox.expand(
           child: Image.network(
-            movie.posterPath,
+            movie.posterPath!,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress != null)
