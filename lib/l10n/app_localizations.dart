@@ -217,6 +217,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown Date'**
   String get unknownDate;
+
+  /// No description provided for @movieSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Movie'**
+  String get movieSearch;
+
+  /// No description provided for @tvshowSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Tv Show'**
+  String get tvshowSearch;
 }
 
 class _AppLocalizationsDelegate

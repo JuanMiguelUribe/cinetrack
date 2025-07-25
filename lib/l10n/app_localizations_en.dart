@@ -67,4 +67,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknownDate => 'Unknown Date';
+
+  @override
+  String get movieSearch => 'Movie';
+
+  @override
+  String get tvshowSearch => 'Tv Show';
 }
