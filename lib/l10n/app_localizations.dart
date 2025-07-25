@@ -205,6 +205,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cast'**
   String get cast;
+
+  /// No description provided for @resultsSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No results Found'**
+  String get resultsSearch;
+
+  /// No description provided for @unknownDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Date'**
+  String get unknownDate;
 }
 
 class _AppLocalizationsDelegate

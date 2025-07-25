@@ -61,4 +61,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cast => 'Reparto';
+
+  @override
+  String get resultsSearch => 'No se encontraron resultados';
+
+  @override
+  String get unknownDate => 'Fecha Desconocida';
 }
