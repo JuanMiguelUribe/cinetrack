@@ -4,21 +4,26 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinetrack/domain/entities/searchbleitem.dart';
 import 'package:cinetrack/infraestructure/repositories/movie_repository_imple.dart';
 import 'package:cinetrack/infraestructure/repositories/tvshows_repository_impl.dart';
+import 'package:cinetrack/presentation/providers/providers.dart';
 
 import 'package:cinetrack/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../config/theme/app_text_styles.dart';
 import '../../l10n/app_localizations.dart';
 
-typedef SearchMoviesCallBack =
-    Future<List<SearchableItem>> Function(String query);
-
 class SearchMovieSeriesDelegate extends SearchDelegate<SearchableItem?> {
   final MovieRepositoryImple movieRepo;
   final TvshowsDbRepositoryImpl tvRepo;
+  final WidgetRef ref;
 
-  SearchMovieSeriesDelegate({required this.movieRepo, required this.tvRepo});
+  SearchMovieSeriesDelegate({
+    required this.movieRepo,
+    required this.tvRepo,
+    required this.ref,
+  });
 
   StreamController<List<SearchableItem>> debouncedContent =
       StreamController.broadcast();
@@ -32,14 +37,21 @@ class SearchMovieSeriesDelegate extends SearchDelegate<SearchableItem?> {
 
   void _onQueryChanged(String query) {
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ref.read(searchQueryProvider.notifier).state = query;
+    });
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
       if (query.isEmpty) {
-        debouncedContent.add([]);
+        if (!debouncedContent.isClosed) {
+          debouncedContent.add([]);
+        }
         return;
       }
 
       final content = await _search(query);
-      debouncedContent.add(content);
+      if (!debouncedContent.isClosed) {
+        debouncedContent.add(content);
+      }
     });
   }
 

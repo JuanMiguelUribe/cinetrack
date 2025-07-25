@@ -46,12 +46,14 @@ class CustomAppbar extends ConsumerWidget {
               Spacer(),
               IconButton(
                 onPressed: () async {
+                  final searchQuery = ref.read(searchQueryProvider);
                   final result = await showSearch(
-                    query: "anta",
+                    query: searchQuery,
                     context: context,
                     delegate: SearchMovieSeriesDelegate(
                       movieRepo: ref.read(movieRepositoryProvider),
                       tvRepo: ref.read(tvshowsRepositoryProvider),
+                      ref: ref,
                     ),
                   );
 
