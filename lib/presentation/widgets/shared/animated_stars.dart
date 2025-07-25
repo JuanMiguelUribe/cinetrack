@@ -3,7 +3,8 @@ import 'dart:math' as math;
 
 class AnimatedRatingCircle extends StatefulWidget {
   final double rating; // de 0 a 10
-  const AnimatedRatingCircle({super.key, required this.rating});
+  final double size;
+  const AnimatedRatingCircle({super.key, required this.rating, this.size = 40});
 
   @override
   State<AnimatedRatingCircle> createState() => _AnimatedRatingCircleState();
@@ -39,59 +40,63 @@ class _AnimatedRatingCircleState extends State<AnimatedRatingCircle>
   Color getGlowColor(double rating) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     if (isDarkMode) {
-      if (rating >= 8) return Colors.greenAccent.shade700;
-      if (rating >= 6) return Colors.deepOrange.shade700;
-      return Colors.redAccent.shade700;
+      if (rating >= 8) return Colors.greenAccent.shade700.withGreen(150);
+      if (rating >= 6) return Colors.orangeAccent.shade400.withGreen(140);
+      return Colors.redAccent.shade700.withRed(140);
+    }
+    if (rating >= 8) return Colors.greenAccent.shade400.withGreen(220);
+    if (rating >= 6) return Colors.orangeAccent.shade400.withGreen(120);
+    return Colors.redAccent.shade400.withRed(200);
+  }
+
+  Color getGlowColorText(double rating) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    if (isDarkMode) {
+      if (rating >= 8) return Colors.greenAccent;
+      if (rating >= 6) return Colors.orangeAccent;
+      return Colors.redAccent;
     }
     if (rating >= 8) return Colors.greenAccent.shade400;
     if (rating >= 6) return Colors.orangeAccent;
-    return Colors.redAccent.shade200;
+    return const Color.fromARGB(255, 255, 51, 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = widget.size;
+    final colors = Theme.of(context).colorScheme;
     return SizedBox(
-      width: size.width * 0.2,
-      height: size.width * 0.2,
+      width: size * 2,
+      height: size * 2,
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, _) {
           return Stack(
             alignment: Alignment.center,
             children: [
-              // Glow Circle Background
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: getGlowColor(widget.rating).withOpacity(0.05),
-                    ),
-                  ],
-                ),
-              ),
               // Animated circular progress
               CustomPaint(
                 size: const Size(100, 100),
-                painter: _CirclePainter(
+                painter: _StarPainter(
                   _animation.value,
                   getGlowColor(widget.rating),
                 ),
               ),
+
               // Floating Rating Text
               Transform.translate(
                 offset: Offset(0, -5 * math.sin(_controller.value * math.pi)),
                 child: Text(
                   '${(widget.rating).toStringAsFixed(1)}',
                   style: TextStyle(
-                    fontSize: size.width * 0.06,
+                    fontSize: size * 0.6,
                     fontWeight: FontWeight.bold,
-                    color: getGlowColor(widget.rating),
+                    color: getGlowColorText(widget.rating),
                     shadows: [
                       Shadow(
-                        color: getGlowColor(widget.rating).withOpacity(0.3),
-                        blurRadius: 10,
+                        color: Colors.black.withOpacity(0.9),
+                        blurRadius: 20,
+                        offset: Offset(0, 0),
                       ),
                     ],
                   ),
@@ -105,50 +110,65 @@ class _AnimatedRatingCircleState extends State<AnimatedRatingCircle>
   }
 }
 
-class _CirclePainter extends CustomPainter {
+class _StarPainter extends CustomPainter {
   final double percent;
   final Color color;
-  _CirclePainter(this.percent, this.color);
+  _StarPainter(this.percent, this.color);
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final strokeWidth = 8.0;
-    final rect = Offset.zero & size;
-    final startAngle = -math.pi / 2;
-    final sweepAngle = 2 * math.pi * percent;
+  Path _createStarPath(Size size, double innerRadiusRatio) {
+    const int numPoints = 5;
+    final double outerRadius = size.width / 2;
+    final double innerRadius = outerRadius * innerRadiusRatio;
+    final center = Offset(size.width / 2, size.height / 2);
+    final path = Path();
 
-    final backgroundPaint = Paint()
-      ..color = Colors.grey.shade800
-      ..strokeWidth = strokeWidth
-      ..style = PaintingStyle.stroke;
-
-    final foregroundPaint = Paint()
-      ..shader = LinearGradient(
-        colors: [color.withOpacity(0.8), color],
-      ).createShader(rect)
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = strokeWidth
-      ..style = PaintingStyle.stroke;
-
-    canvas.drawCircle(
-      size.center(Offset.zero),
-      size.width / 2 - strokeWidth / 2,
-      backgroundPaint,
-    );
-    canvas.drawArc(
-      Rect.fromLTWH(
-        strokeWidth / 2,
-        strokeWidth / 2,
-        size.width - strokeWidth,
-        size.height - strokeWidth,
-      ),
-      startAngle,
-      sweepAngle,
-      false,
-      foregroundPaint,
-    );
+    for (int i = 0; i < numPoints * 2; i++) {
+      final isEven = i % 2 == 0;
+      final angle = (i * math.pi) / numPoints - math.pi / 2;
+      final radius = isEven ? outerRadius : innerRadius;
+      final x = center.dx + radius * math.cos(angle);
+      final y = center.dy + radius * math.sin(angle);
+      if (i == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    }
+    path.close();
+    return path;
   }
 
   @override
-  bool shouldRepaint(_CirclePainter oldDelegate) => true;
+  void paint(Canvas canvas, Size size) {
+    final path = _createStarPath(size, 0.45);
+    final bgPaint = Paint()
+      ..color = Colors.grey.shade800
+      ..style = PaintingStyle.fill;
+
+    final fillShaderRect = Offset.zero & size;
+
+    final fillPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [color.withOpacity(0.2), color.withOpacity(0.8), color],
+        stops: const [0.0, 0.6, 1.0],
+      ).createShader(fillShaderRect)
+      ..style = PaintingStyle.fill;
+
+    // Draw background star
+    canvas.drawPath(path, bgPaint);
+
+    // Clip star to only fill percent of height
+    final filledHeight = size.height * (1 - percent);
+    canvas.save();
+    canvas.clipRect(
+      Rect.fromLTWH(0, filledHeight, size.width, size.height * percent),
+    );
+    canvas.drawPath(path, fillPaint);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(covariant _StarPainter oldDelegate) => true;
 }
