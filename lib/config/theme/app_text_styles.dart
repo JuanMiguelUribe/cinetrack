@@ -36,5 +36,35 @@ class AppTextStyles {
     );
   }
 
+  static TextStyle titleMovieSearch(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.urbanist(
+      fontSize: 17,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w700,
+    );
+  }
+
+  static TextStyle overviewMovieSearch(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.inter(
+      fontSize: 12,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  static TextStyle typeMovieSearch(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.poppins(
+      fontSize: 14,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
   // Puedes seguir agregando más: descripción, botón, etc.
 }
