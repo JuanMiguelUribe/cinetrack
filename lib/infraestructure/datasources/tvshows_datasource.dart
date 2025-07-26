@@ -77,6 +77,7 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
 
   @override
   Future<List<TvShow>> searchtvshow(String query) async {
+    if (query.isEmpty) return [];
     final response = await dio.get(
       "/search/tv",
       queryParameters: {

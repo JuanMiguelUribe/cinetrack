@@ -28,14 +28,18 @@ class SearchMovieSeriesDelegate extends SearchDelegate<SearchableItem?> {
   StreamController<List<SearchableItem>> debouncedContent =
       StreamController.broadcast();
 
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
+
   void cleanStreams() {
     debouncedContent.close();
+    isLoadingStream.close();
   }
 
   //*ESTO SE PUEDE METER EN UNA CLASE
   Timer? _debounceTimer;
 
   void _onQueryChanged(String query) {
+    isLoadingStream.add(true);
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       ref.read(searchQueryProvider.notifier).state = query;
@@ -47,12 +51,29 @@ class SearchMovieSeriesDelegate extends SearchDelegate<SearchableItem?> {
         }
         return;
       }
-
       final content = await _search(query);
       if (!debouncedContent.isClosed) {
         debouncedContent.add(content);
+        isLoadingStream.add(false);
       }
     });
+  }
+
+  Future<List<SearchableItem>> _ensureResultsReady(String query) async {
+    // Esperamos a que el debounce termine, o forzamos una nueva búsqueda
+    if (_debounceTimer?.isActive ?? false) {
+      _debounceTimer?.cancel(); // cancelamos el anterior
+      return await _search(query); // hacemos la búsqueda de inmediato
+    } else {
+      // Si ya hay algo en el stream, lo sacamos
+      try {
+        return await debouncedContent.stream.first.timeout(
+          const Duration(milliseconds: 300),
+        );
+      } catch (_) {
+        return await _search(query); // fallback
+      }
+    }
   }
 
   Future<List<SearchableItem>> _search(String query) async {
@@ -80,24 +101,47 @@ class SearchMovieSeriesDelegate extends SearchDelegate<SearchableItem?> {
         popularity: tv.voteAverage,
       ),
     );
-
     final results = [...movieItems, ...tvItems].toList();
     return results;
+  }
+
+  @override
+  void showResults(BuildContext context) {
+    // No hacemos nada cuando el usuario presiona Enter
+    // Así nunca se llama a buildResults()
   }
 
   @override
   String get searchFieldLabel => "Batman, Stranger Things, Loki...";
   @override
   List<Widget>? buildActions(BuildContext context) => [
-    if (query.isNotEmpty)
-      FadeIn(
-        animate: query.isNotEmpty,
-        duration: const Duration(milliseconds: 200),
-        child: IconButton(
-          icon: const Icon(Icons.clear_outlined),
-          onPressed: () => query = '',
-        ),
-      ),
+    StreamBuilder(
+      initialData: false,
+      stream: isLoadingStream.stream,
+      builder: (context, snapshot) {
+        if (snapshot.data ?? false) {
+          return SpinPerfect(
+            duration: const Duration(seconds: 1),
+            spins: 50,
+            infinite: true,
+            child: IconButton(
+              icon: const Icon(Icons.refresh_rounded),
+              onPressed: () => query = '',
+            ),
+          );
+        }
+        return FadeIn(
+          animate: query.isNotEmpty,
+          duration: const Duration(milliseconds: 200),
+          child: IconButton(
+            icon: const Icon(Icons.clear_outlined),
+            onPressed: () => query = '',
+          ),
+        );
+      },
+    ),
+
+    //
   ];
 
   @override
@@ -111,7 +155,35 @@ class SearchMovieSeriesDelegate extends SearchDelegate<SearchableItem?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text("BuilResults");
+    // Si hay resultados ya cargados, se usan
+    return FutureBuilder<List<SearchableItem>>(
+      future: _ensureResultsReady(query),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final results = snapshot.data!;
+        if (results.isEmpty) {
+          return Center(
+            child: Text(AppLocalizations.of(context)!.resultsSearch),
+          );
+        }
+
+        return ListView.builder(
+          itemCount: results.length,
+          itemBuilder: (context, index) {
+            final item = results[index];
+            return _ContentItem(
+              content: item,
+              onContentSelected: (context, result) {
+                close(context, result);
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -132,7 +204,7 @@ class SearchMovieSeriesDelegate extends SearchDelegate<SearchableItem?> {
           );
         }
 
-        final results = snapshot.data ?? [];
+        final results = snapshot.data!;
 
         return ListView.builder(
           itemCount: results.length,
