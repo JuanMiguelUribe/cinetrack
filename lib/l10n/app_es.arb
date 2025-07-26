@@ -1,0 +1,26 @@
+{
+  "@@locale": "es",
+  "appTitle": "MovieDex",
+  "watchNow": "Ver ahora",
+  "popular": "Populares",
+  "topRated": "Mejor calificadas",
+  "nowPlaying": "En cine",
+  "coomingSoon": "Próximamente",
+  "airingToday": "Al Aire Hoy",
+  "onTheAir": "En el Aire",
+  "movies": "Películas",
+  "tvshows": "Series de Televisión",
+  "always": "Siempre",
+  "homeNav": "Inicio",
+   "categoriasNav": "Categorías",
+  "favsNav": "Favoritos",
+  "loading": "Cargando",
+  "showMore": "Ver más",
+  "showLess": "Ver menos",
+  "cast": "Reparto",
+   "resultsSearch": "No se encontraron resultados",
+   "unknownDate": "Fecha Desconocida",
+    "movieSearch": "Película",
+  "tvshowSearch": "Serie"
+
+}

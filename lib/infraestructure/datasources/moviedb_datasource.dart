@@ -1,3 +1,4 @@
+import 'package:cinetrack/infraestructure/models/movieDb/movie_details.dart';
 import 'package:dio/dio.dart';
 import 'package:cinetrack/domain/datasources/movies_datasource.dart';
 import 'package:cinetrack/infraestructure/models/movieDb/moviedb_response.dart';
@@ -9,7 +10,7 @@ class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_key': Environment.movieDbKey, 'language': "es-MX"},
+      queryParameters: {'api_key': Environment.movieDbKey, 'language': "en"},
     ),
   );
 
@@ -56,6 +57,32 @@ class MoviedbDatasource extends MoviesDatasource {
     final response = await dio.get(
       "/movie/upcoming",
       queryParameters: {'page': page},
+    );
+    return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<Movie> getMovieById(String id) async {
+    final response = await dio.get("/movie/$id");
+    if (response.statusCode != 200) {
+      throw Exception("Error fetching movie details");
+    }
+
+    final movieDetails = MovieDetails.fromJson(response.data);
+    final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
+    return movie;
+  }
+
+  @override
+  Future<List<Movie>> searchMovies(String query) async {
+    if (query.isEmpty) return [];
+    final response = await dio.get(
+      "/search/movie",
+      queryParameters: {
+        'query': query,
+        'api_key': Environment.movieDbKey,
+        'language': "en",
+      },
     );
     return _jsonToMovies(response.data);
   }

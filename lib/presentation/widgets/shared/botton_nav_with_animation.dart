@@ -1,7 +1,9 @@
 import 'dart:ui';
 
-import 'package:cinetrack/infraestructure/models/navigationbar/nav_item_model.dart';
+import 'package:cinetrack/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+
+import '../../../infraestructure/models/navigationbar/section_model.dart';
 
 class BottonNavWithAnimation extends StatefulWidget {
   const BottonNavWithAnimation({super.key});
@@ -10,11 +12,32 @@ class BottonNavWithAnimation extends StatefulWidget {
   State<BottonNavWithAnimation> createState() => _BottonNavWithAnimationState();
 }
 
+List<NavBarItem> getNavItems(BuildContext context) {
+  return [
+    NavBarItem(
+      label: AppLocalizations.of(context)!.homeNav,
+      icon: Icons.home,
+      index: 0,
+    ),
+    NavBarItem(
+      label: AppLocalizations.of(context)!.categoriasNav,
+      icon: Icons.category_sharp,
+      index: 1,
+    ),
+    NavBarItem(
+      label: AppLocalizations.of(context)!.favsNav,
+      icon: Icons.favorite_rounded,
+      index: 2,
+    ),
+  ];
+}
+
 class _BottonNavWithAnimationState extends State<BottonNavWithAnimation> {
   int selectedNavIndex = 0;
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final items = getNavItems(context);
 
     return SafeArea(
       bottom: true,
@@ -42,7 +65,7 @@ class _BottonNavWithAnimationState extends State<BottonNavWithAnimation> {
                 ),
                 child: Row(
                   children: List.generate(
-                    navItems.length,
+                    items.length,
                     (index) => Expanded(
                       child: GestureDetector(
                         onTap: () {
@@ -60,7 +83,7 @@ class _BottonNavWithAnimationState extends State<BottonNavWithAnimation> {
                             Opacity(
                               opacity: selectedNavIndex == index ? 1 : 0.5,
                               child: Icon(
-                                navItems[index].icon,
+                                items[index].icon,
                                 color: selectedNavIndex == index
                                     ? colors.inversePrimary
                                     : colors.surface,
@@ -70,7 +93,7 @@ class _BottonNavWithAnimationState extends State<BottonNavWithAnimation> {
                             Opacity(
                               opacity: selectedNavIndex == index ? 1 : 0.5,
                               child: Text(
-                                navItems[index].label,
+                                items[index].label,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: selectedNavIndex == index

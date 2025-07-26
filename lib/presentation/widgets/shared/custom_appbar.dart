@@ -1,11 +1,16 @@
+import 'package:cinetrack/presentation/delegates/search_movie_series_delegate.dart';
+import 'package:cinetrack/presentation/providers/movies/movies_respository_provider.dart';
+import 'package:cinetrack/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomAppbar extends StatelessWidget {
+class CustomAppbar extends ConsumerWidget {
   const CustomAppbar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     final colors = Theme.of(context).colorScheme;
     return SafeArea(
       bottom: false,
@@ -17,26 +22,50 @@ class CustomAppbar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
-              Icon(
-                Icons.local_movies_outlined,
-                color: colors.primary,
-                size: 30,
-              ),
               const SizedBox(width: 10),
-              Spacer(),
-              Text(
-                "CineTrack",
-                style: GoogleFonts.robotoFlex(
-                  fontSize: 32,
-                  color: colors.onSurface,
-                  fontWeight: FontWeight.bold,
-                  // background:
-                  // Puedes probar: 'Cinzel', 'Bebas Neue', 'Playfair Display', etc.
+
+              RichText(
+                text: TextSpan(
+                  style: GoogleFonts.robotoFlex(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "Movie",
+                      style: TextStyle(color: colors.onSurface),
+                    ),
+                    TextSpan(
+                      text: "Flex",
+                      style: TextStyle(color: colors.primary),
+                    ),
+                  ],
                 ),
               ),
+
               Spacer(),
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final searchQuery = ref.read(searchQueryProvider);
+                  final result = await showSearch(
+                    query: searchQuery,
+                    context: context,
+                    delegate: SearchMovieSeriesDelegate(
+                      movieRepo: ref.read(movieRepositoryProvider),
+                      tvRepo: ref.read(tvshowsRepositoryProvider),
+                      ref: ref,
+                    ),
+                  );
+
+                  if (!context.mounted || result == null) return;
+
+                  if (result.type == 'movie') {
+                    context.push('/movie/${result.id}');
+                  } else {
+                    context.push('/tvshow/${result.id}');
+                  }
+                },
+
                 icon: Icon(Icons.search, color: colors.onSurface),
               ),
             ],
