@@ -203,7 +203,7 @@ abstract class AppLocalizations {
   /// No description provided for @cast.
   ///
   /// In en, this message translates to:
-  /// **'Cast / Crew'**
+  /// **'Cast'**
   String get cast;
 
   /// No description provided for @resultsSearch.
