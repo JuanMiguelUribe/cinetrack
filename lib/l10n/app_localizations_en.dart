@@ -60,7 +60,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showLess => 'Show Less';
 
   @override
-  String get cast => 'Cast';
+  String get cast => 'Cast / Crew';
 
   @override
   String get resultsSearch => 'No results Found';
