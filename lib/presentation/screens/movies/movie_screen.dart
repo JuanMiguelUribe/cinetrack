@@ -76,7 +76,32 @@ class _MovieDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 3),
+        SizedBox(height: 0),
+        Center(
+          child: Text(
+            movie.title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30,
+              color: colors.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Text(
+              "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.genreIds.join(', ')}",
+              style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
+          ),
+        ),
 
         if (movie.adult)
           Center(
@@ -178,18 +203,18 @@ class _ActorsByMovie extends ConsumerWidget {
               children: [
                 FadeInRight(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(15),
                     child: Image.network(
                       actor.profilePath ?? '',
-                      height: 80,
-                      width: 70,
+                      height: 150,
+                      width: 100,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
                 SizedBox(
-                  width: 70,
+                  width: 100,
                   child: Text(
                     actor.name,
                     maxLines: 3,
@@ -203,7 +228,7 @@ class _ActorsByMovie extends ConsumerWidget {
                 ),
                 const SizedBox(height: 0),
                 SizedBox(
-                  width: 70,
+                  width: 100,
                   child: Text(
                     actor.character ?? 'Not Found',
                     maxLines: 2,
@@ -236,42 +261,50 @@ class _CustomSliverAppBar extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
       backgroundColor: Colors.black,
-      expandedHeight: size.height * 0.58,
+      expandedHeight: size.height * 0.5,
       foregroundColor: Colors.white,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+      actions: [
+        IconButton(
+          onPressed: () {
+            //TODO: realizar el toggle
+          },
+          icon: Icon(Icons.favorite_border_rounded),
         ),
+      ],
+      leading: LeadingRoundedIconButton(
+        iconSize: 18,
+        paddingSize: 8,
+        icon: Icons.arrow_back_ios_new_rounded,
+        onPressed: () => Navigator.pop(context),
       ),
+
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(vertical: 2),
         centerTitle: true,
         title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              movie.title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
-                color: colors.onSurface,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.genreIds.join(', ')}",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-              ),
-            ),
+            // Text(
+            //   movie.title,
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(
+            //     fontSize: 20,
+            //     color: colors.onSurface,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15),
+            //   child: Text(
+            //     "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.genreIds.join(', ')}",
+            //     style: TextStyle(
+            //       fontSize: 10,
+            //       color: Theme.of(context).colorScheme.onSurface,
+            //     ),
+            //     textAlign: TextAlign.center,
+            //     maxLines: 2,
+            //   ),
+            // ),
           ],
         ),
         background: _BackgroundStack(movie: movie),
@@ -290,8 +323,8 @@ class _BackgroundStack extends StatelessWidget {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final gradientColors = isDarkMode
-        ? [Colors.transparent, colors.surface.withOpacity(0.91), colors.surface]
-        : [Colors.transparent, colors.surface.withOpacity(0.5), colors.surface];
+        ? [Colors.transparent, colors.surface]
+        : [Colors.transparent, colors.surface];
     return Stack(
       children: [
         SizedBox.expand(
@@ -313,24 +346,24 @@ class _BackgroundStack extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                stops: const [0.7, 0.85, 1.0],
+                stops: const [0.7, 1.0],
                 colors: gradientColors,
               ),
             ),
           ),
         ),
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
+        // SizedBox.expand(
+        //   child: DecoratedBox(
+        //     decoration: BoxDecoration(
+        //       gradient: LinearGradient(
+        //         begin: Alignment.topLeft,
 
-                stops: const [0.0, 0.2],
-                colors: [colors.surface, Colors.transparent],
-              ),
-            ),
-          ),
-        ),
+        //         stops: const [0.0, 0.2],
+        //         colors: [colors.surface, Colors.transparent],
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

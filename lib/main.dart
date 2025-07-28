@@ -25,14 +25,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme(selectedColor: 0, isDarkMode: true).getTheme(),
+      theme: AppTheme(selectedColor: 0, isDarkMode: false).getTheme(),
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: const Locale('es'),
+      locale: const Locale('en'),
       supportedLocales: [
         Locale('en'), // English
         Locale('es'), // Spanish
