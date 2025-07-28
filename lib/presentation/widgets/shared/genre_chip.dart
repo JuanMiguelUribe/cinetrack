@@ -13,7 +13,7 @@ class GenreChip extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12 * size, vertical: 6 * size),
       margin: EdgeInsets.symmetric(horizontal: 4 * size, vertical: 4 * size),
       decoration: BoxDecoration(
-        color: colors.secondaryContainer.withOpacity(
+        color: colors.onSecondaryContainer.withOpacity(
           0.2,
         ), // fondo oscuro semi-transparente
         borderRadius: BorderRadius.circular(20 * size), // bordes ovalados
