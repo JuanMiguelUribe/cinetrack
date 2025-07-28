@@ -1,3 +1,4 @@
+import 'package:cinetrack/domain/entities/movie_details.dart';
 import 'package:cinetrack/infraestructure/models/movieDb/movie_details.dart';
 import 'package:dio/dio.dart';
 import 'package:cinetrack/domain/datasources/movies_datasource.dart';
@@ -62,14 +63,18 @@ class MoviedbDatasource extends MoviesDatasource {
   }
 
   @override
-  Future<Movie> getMovieById(String id) async {
+  Future<MovieDetails> getMovieById(String id) async {
     final response = await dio.get("/movie/$id");
     if (response.statusCode != 200) {
       throw Exception("Error fetching movie details");
     }
 
-    final movieDetails = MovieDetails.fromJson(response.data);
-    final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
+    final movieDetailsFromApi = MovieDetailsResponse.fromJson(
+      response.data,
+    ); // <- usar el modelo
+    final MovieDetails movie = MovieMapper.movieDetailsToEntity(
+      movieDetailsFromApi,
+    );
     return movie;
   }
 

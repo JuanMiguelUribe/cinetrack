@@ -1,5 +1,6 @@
 import 'package:cinetrack/domain/datasources/movies_datasource.dart';
 import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:cinetrack/domain/entities/movie_details.dart';
 import 'package:cinetrack/domain/respositories/movies_repository.dart';
 
 class MovieRepositoryImple extends MoviesRepository {
@@ -28,7 +29,7 @@ class MovieRepositoryImple extends MoviesRepository {
   }
 
   @override
-  Future<Movie> getMovieById(String id) {
+  Future<MovieDetails> getMovieById(String id) {
     return datasource.getMovieById(id);
   }
 
