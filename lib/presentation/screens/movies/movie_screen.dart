@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:cinetrack/domain/entities/movie_details.dart';
 import 'package:cinetrack/l10n/app_localizations.dart';
 import 'package:cinetrack/presentation/providers/movies/movie_details_provider.dart';
 import 'package:cinetrack/presentation/providers/providers.dart';
@@ -37,7 +37,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
+    final MovieDetails? movie = ref.watch(movieInfoProvider)[widget.movieId];
 
     if (movie == null) {
       return Scaffold(
@@ -65,7 +65,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 }
 
 class _MovieDetails extends StatelessWidget {
-  final Movie movie;
+  final MovieDetails movie;
   const _MovieDetails({required this.movie});
 
   @override
@@ -76,34 +76,17 @@ class _MovieDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 0),
+        SizedBox(height: 3),
         Center(
-          child: Text(
-            movie.title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30,
-              color: colors.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.genreIds.join(', ')}",
-              style: TextStyle(
-                fontSize: 15,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-            ),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: movie.genres
+                .map((genre) => GenreChip(label: genre, size: 1.2))
+                .toList(),
           ),
         ),
 
-        if (movie.adult)
+        if (movie.adult ?? false)
           Center(
             child: Positioned(
               top: 8,
@@ -251,7 +234,7 @@ class _ActorsByMovie extends ConsumerWidget {
 }
 
 class _CustomSliverAppBar extends StatelessWidget {
-  final Movie movie;
+  final MovieDetails movie;
   const _CustomSliverAppBar({required this.movie});
 
   @override
@@ -261,7 +244,7 @@ class _CustomSliverAppBar extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
       backgroundColor: Colors.black,
-      expandedHeight: size.height * 0.5,
+      expandedHeight: size.height * 0.58,
       foregroundColor: Colors.white,
       actions: [
         IconButton(
@@ -279,32 +262,33 @@ class _CustomSliverAppBar extends StatelessWidget {
       ),
 
       flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
         titlePadding: const EdgeInsets.symmetric(vertical: 2),
         centerTitle: true,
         title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Text(
-            //   movie.title,
-            //   textAlign: TextAlign.center,
-            //   style: TextStyle(
-            //     fontSize: 20,
-            //     color: colors.onSurface,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 15),
-            //   child: Text(
-            //     "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.genreIds.join(', ')}",
-            //     style: TextStyle(
-            //       fontSize: 10,
-            //       color: Theme.of(context).colorScheme.onSurface,
-            //     ),
-            //     textAlign: TextAlign.center,
-            //     maxLines: 2,
-            //   ),
-            // ),
+            Text(
+              movie.title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                color: colors.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.runtime! ~/ 60}h ${movie.runtime! % 60} min ",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+              ),
+            ),
           ],
         ),
         background: _BackgroundStack(movie: movie),
@@ -314,7 +298,7 @@ class _CustomSliverAppBar extends StatelessWidget {
 }
 
 class _BackgroundStack extends StatelessWidget {
-  final Movie movie;
+  final MovieDetails movie;
   const _BackgroundStack({required this.movie});
 
   @override
@@ -323,8 +307,8 @@ class _BackgroundStack extends StatelessWidget {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final gradientColors = isDarkMode
-        ? [Colors.transparent, colors.surface]
-        : [Colors.transparent, colors.surface];
+        ? [Colors.transparent, colors.surface.withOpacity(0.91), colors.surface]
+        : [Colors.transparent, colors.surface.withOpacity(0.5), colors.surface];
     return Stack(
       children: [
         SizedBox.expand(
@@ -346,7 +330,7 @@ class _BackgroundStack extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                stops: const [0.7, 1.0],
+                stops: const [0.7, 0.85, 1.0],
                 colors: gradientColors,
               ),
             ),
