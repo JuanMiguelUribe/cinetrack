@@ -183,15 +183,15 @@ class _ActorsByMovie extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(30),
                     child: Image.network(
                       actor.profilePath ?? '',
-                      height: 80,
-                      width: 70,
+                      height: 150,
+                      width: 100,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
                 SizedBox(
-                  width: 70,
+                  width: 100,
                   child: Text(
                     actor.name,
                     maxLines: 3,
@@ -205,7 +205,7 @@ class _ActorsByMovie extends ConsumerWidget {
                 ),
                 const SizedBox(height: 0),
                 SizedBox(
-                  width: 70,
+                  width: 100,
                   child: Text(
                     actor.character ?? 'Not Found',
                     maxLines: 2,
@@ -241,12 +241,19 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.58,
       foregroundColor: Colors.white,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+      actions: [
+        IconButton(
+          onPressed: () {
+            //TODO: realizar el toggle
+          },
+          icon: Icon(Icons.favorite_border_rounded),
         ),
+      ],
+      leading: LeadingRoundedIconButton(
+        iconSize: 18,
+        paddingSize: 8,
+        icon: Icons.arrow_back_ios_new_rounded,
+        onPressed: () => Navigator.pop(context),
       ),
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(vertical: 2),
@@ -322,18 +329,18 @@ class _BackgroundStack extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
+        // SizedBox.expand(
+        //   child: DecoratedBox(
+        //     decoration: BoxDecoration(
+        //       gradient: LinearGradient(
+        //         begin: Alignment.topLeft,
 
-                stops: const [0.0, 0.2],
-                colors: [colors.surface, Colors.transparent],
-              ),
-            ),
-          ),
-        ),
+        //         stops: const [0.0, 0.2],
+        //         colors: [colors.surface, Colors.transparent],
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
