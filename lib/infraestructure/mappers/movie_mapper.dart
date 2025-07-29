@@ -1,8 +1,8 @@
-import 'package:cinetrack/domain/entities/movie.dart';
-import 'package:cinetrack/domain/entities/movie_details.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/movie_details.dart'
+import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/infraestructure/models/movieDb/movie_details.dart'
     hide Genre, ProductionCompany, ProductionCountry, SpokenLanguage;
-import 'package:cinetrack/infraestructure/models/movieDb/movie_moviedb.dart';
+import 'package:movieflex/infraestructure/models/movieDb/movie_moviedb.dart';
 
 class MovieMapper {
   static Movie movieDBtoEntity(MovieMovieDB moviedb) => Movie(

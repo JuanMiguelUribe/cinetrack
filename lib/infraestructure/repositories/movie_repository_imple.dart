@@ -1,7 +1,7 @@
-import 'package:cinetrack/domain/datasources/movies_datasource.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
-import 'package:cinetrack/domain/entities/movie_details.dart';
-import 'package:cinetrack/domain/respositories/movies_repository.dart';
+import 'package:movieflex/domain/datasources/movies_datasource.dart';
+import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/domain/respositories/movies_repository.dart';
 
 class MovieRepositoryImple extends MoviesRepository {
   final MoviesDatasource datasource;

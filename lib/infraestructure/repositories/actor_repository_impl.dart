@@ -1,5 +1,5 @@
-import 'package:cinetrack/domain/entities/actor.dart';
-import 'package:cinetrack/domain/respositories/actors_repository.dart';
+import 'package:movieflex/domain/entities/actor.dart';
+import 'package:movieflex/domain/respositories/actors_repository.dart';
 
 import '../../domain/datasources/actors_datasource.dart';
 

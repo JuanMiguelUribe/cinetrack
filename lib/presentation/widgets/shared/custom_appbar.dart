@@ -1,6 +1,6 @@
-import 'package:cinetrack/presentation/delegates/search_movie_series_delegate.dart';
-import 'package:cinetrack/presentation/providers/movies/movies_respository_provider.dart';
-import 'package:cinetrack/presentation/providers/providers.dart';
+import 'package:movieflex/presentation/delegates/search_movie_series_delegate.dart';
+import 'package:movieflex/presentation/providers/movies/movies_respository_provider.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
-import 'package:cinetrack/domain/entities/tv_shows.dart';
-import 'package:cinetrack/presentation/providers/providers.dart';
-import 'package:cinetrack/presentation/widgets/widgets.dart';
+import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/domain/entities/tv_shows.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
+import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';

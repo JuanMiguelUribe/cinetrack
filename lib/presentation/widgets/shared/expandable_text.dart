@@ -1,4 +1,4 @@
-import 'package:cinetrack/l10n/app_localizations.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,11 @@
-import 'package:cinetrack/domain/entities/movie_details.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/movie_details.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/infraestructure/models/movieDb/movie_details.dart';
 import 'package:dio/dio.dart';
-import 'package:cinetrack/domain/datasources/movies_datasource.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/moviedb_response.dart';
-import 'package:cinetrack/infraestructure/mappers/movie_mapper.dart';
-import 'package:cinetrack/config/constants/environment.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:movieflex/domain/datasources/movies_datasource.dart';
+import 'package:movieflex/infraestructure/models/movieDb/moviedb_response.dart';
+import 'package:movieflex/infraestructure/mappers/movie_mapper.dart';
+import 'package:movieflex/config/constants/environment.dart';
+import 'package:movieflex/domain/entities/movie.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(

@@ -1,5 +1,5 @@
-import 'package:cinetrack/presentation/screens/screens.dart';
-import 'package:cinetrack/presentation/views/home_views/views.dart';
+import 'package:movieflex/presentation/screens/screens.dart';
+import 'package:movieflex/presentation/views/home_views/views.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(

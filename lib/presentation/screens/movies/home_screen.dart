@@ -1,4 +1,4 @@
-import 'package:cinetrack/presentation/widgets/shared/botton_nav_with_animation.dart';
+import 'package:movieflex/presentation/widgets/shared/botton_nav_with_animation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

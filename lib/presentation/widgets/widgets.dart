@@ -1,12 +1,12 @@
-export 'package:cinetrack/presentation/widgets/shared/genre_chip.dart';
+export 'package:movieflex/presentation/widgets/shared/genre_chip.dart';
 
-export 'package:cinetrack/presentation/widgets/shared/leading_rounded_icon_button.dart';
+export 'package:movieflex/presentation/widgets/shared/leading_rounded_icon_button.dart';
 
-export 'package:cinetrack/presentation/widgets/tvshows/tvshow_horizontal_listview.dart';
+export 'package:movieflex/presentation/widgets/tvshows/tvshow_horizontal_listview.dart';
 
-export 'package:cinetrack/presentation/widgets/shared/expandable_text.dart';
+export 'package:movieflex/presentation/widgets/shared/expandable_text.dart';
 
-export 'package:cinetrack/presentation/widgets/shared/animated_stars.dart';
+export 'package:movieflex/presentation/widgets/shared/animated_stars.dart';
 
 export 'shared/full_screen_loader.dart';
 

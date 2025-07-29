@@ -1,8 +1,8 @@
-import 'package:cinetrack/config/constants/environment.dart';
-import 'package:cinetrack/domain/datasources/actors_datasource.dart';
-import 'package:cinetrack/domain/entities/actor.dart';
-import 'package:cinetrack/infraestructure/mappers/actor_mapper.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/ActorsTv_response.dart';
+import 'package:movieflex/config/constants/environment.dart';
+import 'package:movieflex/domain/datasources/actors_datasource.dart';
+import 'package:movieflex/domain/entities/actor.dart';
+import 'package:movieflex/infraestructure/mappers/actor_mapper.dart';
+import 'package:movieflex/infraestructure/models/movieDb/ActorsTv_response.dart';
 import 'package:dio/dio.dart';
 
 import '../models/movieDb/credits_response.dart';

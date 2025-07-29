@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/l10n/app_localizations.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/domain/entities/tv_show_details.dart';
-import 'package:cinetrack/l10n/app_localizations.dart';
-import 'package:cinetrack/presentation/providers/actors/actors_by_tvshow_provider.dart';
-import 'package:cinetrack/presentation/providers/tvshows/tvshows_details_provider.dart';
-import 'package:cinetrack/presentation/widgets/widgets.dart';
+import 'package:movieflex/domain/entities/tv_show_details.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
+import 'package:movieflex/presentation/providers/actors/actors_by_tvshow_provider.dart';
+import 'package:movieflex/presentation/providers/tvshows/tvshows_details_provider.dart';
+import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';

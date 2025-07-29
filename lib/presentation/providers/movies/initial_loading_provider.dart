@@ -1,4 +1,4 @@
-import 'package:cinetrack/presentation/providers/providers.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final initialLoadingProvider = Provider<bool>((ref) {

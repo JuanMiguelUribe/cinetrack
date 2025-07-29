@@ -1,4 +1,4 @@
-import 'package:cinetrack/infraestructure/models/movieDb/movie_moviedb.dart';
+import 'package:movieflex/infraestructure/models/movieDb/movie_moviedb.dart';
 
 class MovieDbResponse {
   final Dates? dates;

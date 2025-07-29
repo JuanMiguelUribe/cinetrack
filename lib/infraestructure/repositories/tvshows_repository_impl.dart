@@ -1,7 +1,7 @@
-import 'package:cinetrack/domain/datasources/tvshows_datasources.dart';
-import 'package:cinetrack/domain/entities/tv_show_details.dart';
-import 'package:cinetrack/domain/entities/tv_shows.dart';
-import 'package:cinetrack/domain/respositories/tvshows_repository.dart';
+import 'package:movieflex/domain/datasources/tvshows_datasources.dart';
+import 'package:movieflex/domain/entities/tv_show_details.dart';
+import 'package:movieflex/domain/entities/tv_shows.dart';
+import 'package:movieflex/domain/respositories/tvshows_repository.dart';
 
 class TvshowsDbRepositoryImpl extends TvShowsDBRepository {
   final TvShowsDBDatasource datasource;

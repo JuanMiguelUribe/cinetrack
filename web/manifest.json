@@ -1,6 +1,6 @@
 {
-    "name": "cinetrack",
-    "short_name": "cinetrack",
+    "name": "movieflex",
+    "short_name": "movieflex",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

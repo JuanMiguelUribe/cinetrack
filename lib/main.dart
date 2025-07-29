@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cinetrack/config/router/app_router.dart';
+import 'package:movieflex/config/router/app_router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:cinetrack/config/theme/app_theme.dart';
+import 'package:movieflex/config/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cinetrack/infraestructure/models/navigationbar/section_model.dart';
+import 'package:movieflex/infraestructure/models/navigationbar/section_model.dart';
 
 final List<NavBarItem> navItems = [
   NavBarItem(label: 'Home', icon: Icons.home, index: 0),

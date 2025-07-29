@@ -1,5 +1,5 @@
-import 'package:cinetrack/domain/entities/movie_details.dart';
-import 'package:cinetrack/presentation/providers/providers.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final movieInfoProvider =

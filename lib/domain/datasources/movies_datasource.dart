@@ -1,5 +1,5 @@
-import 'package:cinetrack/domain/entities/movie.dart';
-import 'package:cinetrack/domain/entities/movie_details.dart';
+import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
 
 abstract class MoviesDatasource {
   Future<List<Movie>> getNowPlaying({int page = 1});

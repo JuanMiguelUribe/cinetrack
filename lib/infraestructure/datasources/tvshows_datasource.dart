@@ -1,10 +1,10 @@
-import 'package:cinetrack/domain/datasources/tvshows_datasources.dart';
-import 'package:cinetrack/domain/entities/tv_show_details.dart';
-import 'package:cinetrack/domain/entities/tv_shows.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/tvshow_details_response.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/tvshowdb_response.dart';
+import 'package:movieflex/domain/datasources/tvshows_datasources.dart';
+import 'package:movieflex/domain/entities/tv_show_details.dart';
+import 'package:movieflex/domain/entities/tv_shows.dart';
+import 'package:movieflex/infraestructure/models/movieDb/tvshow_details_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/tvshowdb_response.dart';
 import 'package:dio/dio.dart';
-import 'package:cinetrack/config/constants/environment.dart';
+import 'package:movieflex/config/constants/environment.dart';
 import '../mappers/tvshow_mapper.dart';
 
 class TvshowsDBDatasource extends TvShowsDBDatasource {

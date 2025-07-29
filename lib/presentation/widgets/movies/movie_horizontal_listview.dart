@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/config/helpers/human_formats.dart';
-import 'package:cinetrack/config/theme/app_text_styles.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:movieflex/config/helpers/human_formats.dart';
+import 'package:movieflex/config/theme/app_text_styles.dart';
+import 'package:movieflex/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
