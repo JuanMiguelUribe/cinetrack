@@ -16,7 +16,7 @@ class TvShowStorageNotifier extends StateNotifier<Map<int, TvShow>> {
   final LocalStorageRepository localStorageRepository;
   TvShowStorageNotifier({required this.localStorageRepository}) : super({});
 
-  Future<void> loadNextPage() async {
+  Future<List<TvShow>> loadNextPage() async {
     final tvShows = await localStorageRepository.loadFavoriteTvShows(
       offset: page * 10,
     );
@@ -29,5 +29,6 @@ class TvShowStorageNotifier extends StateNotifier<Map<int, TvShow>> {
     }
 
     state = {...state, ...tempMap};
+    return tvShows;
   }
 }
