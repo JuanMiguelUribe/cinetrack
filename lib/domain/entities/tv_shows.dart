@@ -1,4 +1,10 @@
+import 'package:isar/isar.dart';
+part 'tv_shows.g.dart';
+
+@collection
 class TvShow {
+  Id? isarId;
+
   final int id;
   final String name;
   final String? overview;
