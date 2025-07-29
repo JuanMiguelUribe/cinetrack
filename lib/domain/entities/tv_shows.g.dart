@@ -32,16 +32,8 @@ const TvShowSchema = CollectionSchema(
       name: r'genreIds',
       type: IsarType.longList,
     ),
-    r'id': PropertySchema(
-      id: 3,
-      name: r'id',
-      type: IsarType.long,
-    ),
-    r'name': PropertySchema(
-      id: 4,
-      name: r'name',
-      type: IsarType.string,
-    ),
+    r'id': PropertySchema(id: 3, name: r'id', type: IsarType.long),
+    r'name': PropertySchema(id: 4, name: r'name', type: IsarType.string),
     r'originalLanguage': PropertySchema(
       id: 5,
       name: r'originalLanguage',
@@ -76,7 +68,7 @@ const TvShowSchema = CollectionSchema(
       id: 11,
       name: r'voteCount',
       type: IsarType.long,
-    )
+    ),
   },
   estimateSize: _tvShowEstimateSize,
   serialize: _tvShowSerialize,
@@ -136,7 +128,7 @@ void _tvShowSerialize(
 ) {
   writer.writeString(offsets[0], object.backdropPath);
   writer.writeDateTime(offsets[1], object.firstAirDate);
-  writer.writeLongList(offsets[2], object.genreIds);
+  writer.writeStringList(offsets[2], object.genreIds);
   writer.writeLong(offsets[3], object.id);
   writer.writeString(offsets[4], object.name);
   writer.writeString(offsets[5], object.originalLanguage);
@@ -157,7 +149,7 @@ TvShow _tvShowDeserialize(
   final object = TvShow(
     backdropPath: reader.readString(offsets[0]),
     firstAirDate: reader.readDateTimeOrNull(offsets[1]),
-    genreIds: reader.readLongList(offsets[2]) ?? [],
+    genreIds: reader.readStringList(offsets[2]) ?? [],
     id: reader.readLong(offsets[3]),
     name: reader.readString(offsets[4]),
     originalLanguage: reader.readStringOrNull(offsets[5]),
@@ -231,10 +223,9 @@ extension TvShowQueryWhereSort on QueryBuilder<TvShow, TvShow, QWhere> {
 extension TvShowQueryWhere on QueryBuilder<TvShow, TvShow, QWhereClause> {
   QueryBuilder<TvShow, TvShow, QAfterWhereClause> isarIdEqualTo(Id isarId) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: isarId,
-        upper: isarId,
-      ));
+      return query.addWhereClause(
+        IdWhereClause.between(lower: isarId, upper: isarId),
+      );
     });
   }
 
@@ -260,8 +251,10 @@ extension TvShowQueryWhere on QueryBuilder<TvShow, TvShow, QWhereClause> {
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QAfterWhereClause> isarIdGreaterThan(Id isarId,
-      {bool include = false}) {
+  QueryBuilder<TvShow, TvShow, QAfterWhereClause> isarIdGreaterThan(
+    Id isarId, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: isarId, includeLower: include),
@@ -269,8 +262,10 @@ extension TvShowQueryWhere on QueryBuilder<TvShow, TvShow, QWhereClause> {
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QAfterWhereClause> isarIdLessThan(Id isarId,
-      {bool include = false}) {
+  QueryBuilder<TvShow, TvShow, QAfterWhereClause> isarIdLessThan(
+    Id isarId, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: isarId, includeUpper: include),
@@ -285,12 +280,14 @@ extension TvShowQueryWhere on QueryBuilder<TvShow, TvShow, QWhereClause> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerIsarId,
-        includeLower: includeLower,
-        upper: upperIsarId,
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IdWhereClause.between(
+          lower: lowerIsarId,
+          includeLower: includeLower,
+          upper: upperIsarId,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -301,11 +298,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'backdropPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'backdropPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -315,12 +314,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'backdropPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'backdropPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -330,12 +331,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'backdropPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'backdropPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -347,14 +350,16 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'backdropPath',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'backdropPath',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -363,11 +368,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'backdropPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'backdropPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -376,79 +383,85 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'backdropPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'backdropPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> backdropPathContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'backdropPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'backdropPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> backdropPathMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'backdropPath',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'backdropPath',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> backdropPathIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'backdropPath',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'backdropPath', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> backdropPathIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'backdropPath',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'backdropPath', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> firstAirDateIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'firstAirDate',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'firstAirDate'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> firstAirDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'firstAirDate',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'firstAirDate'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> firstAirDateEqualTo(
-      DateTime? value) {
+    DateTime? value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'firstAirDate',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'firstAirDate', value: value),
+      );
     });
   }
 
@@ -457,11 +470,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'firstAirDate',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'firstAirDate',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -470,11 +485,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'firstAirDate',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'firstAirDate',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -485,37 +502,38 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'firstAirDate',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'firstAirDate',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> genreIdsElementEqualTo(
-      int value) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'genreIds',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'genreIds', value: value),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition>
-      genreIdsElementGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  genreIdsElementGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'genreIds',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'genreIds',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -524,11 +542,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'genreIds',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'genreIds',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -539,50 +559,35 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'genreIds',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'genreIds',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> genreIdsLengthEqualTo(
-      int length) {
+    int length,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'genreIds',
-        length,
-        true,
-        length,
-        true,
-      );
+      return query.listLength(r'genreIds', length, true, length, true);
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> genreIdsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'genreIds',
-        0,
-        true,
-        0,
-        true,
-      );
+      return query.listLength(r'genreIds', 0, true, 0, true);
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> genreIdsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'genreIds',
-        0,
-        false,
-        999999,
-        true,
-      );
+      return query.listLength(r'genreIds', 0, false, 999999, true);
     });
   }
 
@@ -591,13 +596,7 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'genreIds',
-        0,
-        true,
-        length,
-        include,
-      );
+      return query.listLength(r'genreIds', 0, true, length, include);
     });
   }
 
@@ -606,13 +605,7 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'genreIds',
-        length,
-        include,
-        999999,
-        true,
-      );
+      return query.listLength(r'genreIds', length, include, 999999, true);
     });
   }
 
@@ -635,10 +628,9 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> idEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'id', value: value),
+      );
     });
   }
 
@@ -647,11 +639,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -660,11 +654,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -675,38 +671,39 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'id',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> isarIdIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isarId',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'isarId'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> isarIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isarId',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'isarId'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> isarIdEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isarId',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'isarId', value: value),
+      );
     });
   }
 
@@ -715,11 +712,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'isarId',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'isarId',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -728,11 +727,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'isarId',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'isarId',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -743,13 +744,15 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'isarId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'isarId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
@@ -758,11 +761,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -772,12 +777,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -787,12 +794,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -804,14 +813,16 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'name',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -820,11 +831,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -833,69 +846,76 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QAfterFilterCondition> nameContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<TvShow, TvShow, QAfterFilterCondition> nameContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> nameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'name',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'name', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'name', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalLanguageIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'originalLanguage',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'originalLanguage'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition>
-      originalLanguageIsNotNull() {
+  originalLanguageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'originalLanguage',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'originalLanguage'),
+      );
     });
   }
 
@@ -904,27 +924,31 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'originalLanguage',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'originalLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition>
-      originalLanguageGreaterThan(
+  originalLanguageGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'originalLanguage',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'originalLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -934,12 +958,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'originalLanguage',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'originalLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -951,28 +977,29 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'originalLanguage',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'originalLanguage',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition>
-      originalLanguageStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  originalLanguageStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'originalLanguage',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'originalLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -981,71 +1008,77 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'originalLanguage',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'originalLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalLanguageContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'originalLanguage',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'originalLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalLanguageMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'originalLanguage',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'originalLanguage',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition>
-      originalLanguageIsEmpty() {
+  originalLanguageIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'originalLanguage',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'originalLanguage', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition>
-      originalLanguageIsNotEmpty() {
+  originalLanguageIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'originalLanguage',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'originalLanguage', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalNameIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'originalName',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'originalName'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalNameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'originalName',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'originalName'),
+      );
     });
   }
 
@@ -1054,11 +1087,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'originalName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'originalName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1068,12 +1103,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'originalName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'originalName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1083,12 +1120,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'originalName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'originalName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1100,14 +1139,16 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'originalName',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'originalName',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1116,11 +1157,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'originalName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'originalName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1129,69 +1172,75 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'originalName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'originalName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalNameContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'originalName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'originalName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalNameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'originalName',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'originalName',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'originalName',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'originalName', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> originalNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'originalName',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'originalName', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> overviewIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'overview',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'overview'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> overviewIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'overview',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'overview'),
+      );
     });
   }
 
@@ -1200,11 +1249,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'overview',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'overview',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1214,12 +1265,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'overview',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'overview',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1229,12 +1282,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'overview',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'overview',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1246,14 +1301,16 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'overview',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'overview',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1262,11 +1319,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'overview',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'overview',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1275,53 +1334,59 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'overview',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'overview',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> overviewContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'overview',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'overview',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> overviewMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'overview',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'overview',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> overviewIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'overview',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'overview', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> overviewIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'overview',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'overview', value: ''),
+      );
     });
   }
 
@@ -1330,11 +1395,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'popularity',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'popularity',
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
@@ -1344,12 +1411,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'popularity',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'popularity',
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
@@ -1359,12 +1428,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'popularity',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'popularity',
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
@@ -1376,30 +1447,32 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'popularity',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'popularity',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> posterPathIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'posterPath',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'posterPath'),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> posterPathIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'posterPath',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'posterPath'),
+      );
     });
   }
 
@@ -1408,11 +1481,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'posterPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'posterPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1422,12 +1497,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'posterPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'posterPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1437,12 +1514,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'posterPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'posterPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1454,14 +1533,16 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'posterPath',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'posterPath',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1470,11 +1551,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'posterPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'posterPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1483,53 +1566,59 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'posterPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'posterPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> posterPathContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'posterPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'posterPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> posterPathMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'posterPath',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'posterPath',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> posterPathIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'posterPath',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'posterPath', value: ''),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> posterPathIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'posterPath',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'posterPath', value: ''),
+      );
     });
   }
 
@@ -1538,11 +1627,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'voteAverage',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'voteAverage',
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
@@ -1552,12 +1643,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'voteAverage',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'voteAverage',
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
@@ -1567,12 +1660,14 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'voteAverage',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'voteAverage',
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
@@ -1584,24 +1679,26 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'voteAverage',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'voteAverage',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
   QueryBuilder<TvShow, TvShow, QAfterFilterCondition> voteCountEqualTo(
-      int value) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'voteCount',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'voteCount', value: value),
+      );
     });
   }
 
@@ -1610,11 +1707,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'voteCount',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'voteCount',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -1623,11 +1722,13 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'voteCount',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'voteCount',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -1638,13 +1739,15 @@ extension TvShowQueryFilter on QueryBuilder<TvShow, TvShow, QFilterCondition> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'voteCount',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'voteCount',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -1934,8 +2037,9 @@ extension TvShowQuerySortThenBy on QueryBuilder<TvShow, TvShow, QSortThenBy> {
 }
 
 extension TvShowQueryWhereDistinct on QueryBuilder<TvShow, TvShow, QDistinct> {
-  QueryBuilder<TvShow, TvShow, QDistinct> distinctByBackdropPath(
-      {bool caseSensitive = true}) {
+  QueryBuilder<TvShow, TvShow, QDistinct> distinctByBackdropPath({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'backdropPath', caseSensitive: caseSensitive);
     });
@@ -1959,30 +2063,36 @@ extension TvShowQueryWhereDistinct on QueryBuilder<TvShow, TvShow, QDistinct> {
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QDistinct> distinctByName(
-      {bool caseSensitive = true}) {
+  QueryBuilder<TvShow, TvShow, QDistinct> distinctByName({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QDistinct> distinctByOriginalLanguage(
-      {bool caseSensitive = true}) {
+  QueryBuilder<TvShow, TvShow, QDistinct> distinctByOriginalLanguage({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'originalLanguage',
-          caseSensitive: caseSensitive);
+      return query.addDistinctBy(
+        r'originalLanguage',
+        caseSensitive: caseSensitive,
+      );
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QDistinct> distinctByOriginalName(
-      {bool caseSensitive = true}) {
+  QueryBuilder<TvShow, TvShow, QDistinct> distinctByOriginalName({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'originalName', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QDistinct> distinctByOverview(
-      {bool caseSensitive = true}) {
+  QueryBuilder<TvShow, TvShow, QDistinct> distinctByOverview({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'overview', caseSensitive: caseSensitive);
     });
@@ -1994,8 +2104,9 @@ extension TvShowQueryWhereDistinct on QueryBuilder<TvShow, TvShow, QDistinct> {
     });
   }
 
-  QueryBuilder<TvShow, TvShow, QDistinct> distinctByPosterPath(
-      {bool caseSensitive = true}) {
+  QueryBuilder<TvShow, TvShow, QDistinct> distinctByPosterPath({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'posterPath', caseSensitive: caseSensitive);
     });

@@ -12,7 +12,7 @@ class TvShow {
   final String backdropPath;
   final double voteAverage;
   final DateTime? firstAirDate;
-  final List<int> genreIds;
+  final List<String> genreIds;
   final double popularity;
   final int voteCount;
   final String? originalLanguage;
