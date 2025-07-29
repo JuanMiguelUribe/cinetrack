@@ -239,10 +239,15 @@ class _ActorsByMovie extends ConsumerWidget {
 
 class _CustomSliverAppBar extends ConsumerWidget {
   final MovieDetails movie;
+
   const _CustomSliverAppBar({required this.movie});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isFavoriteFuture = ref.watch(
+      isFavoriteProvider((type: 'movie', id: movie.id)),
+    );
+
     final colors = Theme.of(context).colorScheme;
 
     final size = MediaQuery.of(context).size;
@@ -252,13 +257,20 @@ class _CustomSliverAppBar extends ConsumerWidget {
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () {
+          onPressed: () async {
             final movie = this.movie.fromMovieDetailsToMovieEntity();
-            ref
-                .watch(localStorageRepositoryProvider)
+            await ref
+                .read(localStorageRepositoryProvider)
                 .toggleFavoriteMovie(movie);
+            ref.invalidate(isFavoriteProvider((type: 'movie', id: movie.id)));
           },
-          icon: Icon(Icons.favorite_border_rounded),
+          icon: isFavoriteFuture.when(
+            loading: () => CircularProgressIndicator(strokeWidth: 2),
+            data: (isFavorite) => isFavorite
+                ? Icon(Icons.favorite_rounded, color: Colors.red)
+                : const Icon(Icons.favorite_border_rounded),
+            error: (_, _) => throw UnimplementedError(),
+          ),
         ),
       ],
       leading: LeadingRoundedIconButton(

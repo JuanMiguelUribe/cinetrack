@@ -5,3 +5,14 @@ import 'package:movieflex/infraestructure/repositories/local_storage_repository_
 final localStorageRepositoryProvider = Provider((ref) {
   return LocalStorageRepositoryImpl(IsarDatasource());
 });
+
+final isFavoriteProvider = FutureProvider.family
+    .autoDispose<bool, ({String type, int id})>((ref, data) async {
+      final repo = ref.read(localStorageRepositoryProvider);
+
+      if (data.type == 'movie') {
+        return await repo.isMovieFavorite(data.id);
+      } else {
+        return await repo.isTvShowFavorite(data.id);
+      }
+    });

@@ -245,6 +245,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
+    final isFavoriteFuture = ref.watch(
+      isFavoriteProvider((type: 'tvshow', id: tvshow.id)),
+    );
 
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
@@ -253,13 +256,20 @@ class _CustomSliverAppBar extends ConsumerWidget {
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () {
+          onPressed: () async {
             final tvshow = this.tvshow.fromTvShowDetailsToTvShowEntity();
-            ref
-                .watch(localStorageRepositoryProvider)
+            await ref
+                .read(localStorageRepositoryProvider)
                 .toggleFavoriteTvShow(tvshow);
+            ref.invalidate(isFavoriteProvider((type: 'tvshow', id: tvshow.id)));
           },
-          icon: Icon(Icons.favorite_border_rounded),
+          icon: isFavoriteFuture.when(
+            loading: () => CircularProgressIndicator(strokeWidth: 2),
+            data: (isFavorite) => isFavorite
+                ? Icon(Icons.favorite_rounded, color: Colors.red)
+                : const Icon(Icons.favorite_border_rounded),
+            error: (_, _) => throw UnimplementedError(),
+          ),
         ),
       ],
       leading: LeadingRoundedIconButton(
