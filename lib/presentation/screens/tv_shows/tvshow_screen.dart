@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:movieflex/domain/entities/tv_show_details.dart';
+import 'package:movieflex/infraestructure/mappers/tvshow_details_to_tvshow_mapper.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/actors/actors_by_tvshow_provider.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:movieflex/presentation/providers/tvshows/tvshows_details_provider.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -235,13 +237,13 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
   final TvShowDetails tvshow;
 
   const _CustomSliverAppBar({required this.tvshow});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
 
     final size = MediaQuery.of(context).size;
@@ -252,7 +254,10 @@ class _CustomSliverAppBar extends StatelessWidget {
       actions: [
         IconButton(
           onPressed: () {
-            //TODO: realizar el toggle
+            final tvshow = this.tvshow.fromTvShowDetailsToTvShowEntity();
+            ref
+                .watch(localStorageRepositoryProvider)
+                .toggleFavoriteTvShow(tvshow);
           },
           icon: Icon(Icons.favorite_border_rounded),
         ),

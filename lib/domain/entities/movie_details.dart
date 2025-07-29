@@ -3,27 +3,27 @@ class MovieDetails {
   final String title;
   final String originalTitle;
   final String overview;
-  final String? tagline; // ⛔️ puede venir nulo o vacío
+  final String? tagline;
   final bool? adult;
-  final String? backdropPath; // ⛔️ puede venir nulo
-  final String? posterPath; // ⛔️ puede venir nulo
-  final DateTime? releaseDate; // ⛔️ puede venir nulo
-  final int? runtime; // ⛔️ puede venir nulo
+  final String? backdropPath;
+  final String? posterPath;
+  final DateTime? releaseDate;
+  final int? runtime;
   final double voteAverage;
   final int voteCount;
   final double popularity;
   final String originalLanguage;
   final List<String> originCountry;
   final List<String> genres;
-  final String? homepage; // ⛔️ puede venir nulo o vacío
+  final String? homepage;
   final int budget;
   final int revenue;
   final bool? video;
   final String status;
-  final String? imdbId; // ⛔️ puede venir nulo o vacío
+  final String? imdbId;
 
   // Relaciones
-  final CollectionInfo? belongsToCollection; // ⛔️ puede venir nulo
+  final CollectionInfo? belongsToCollection;
   final List<String> productionCompanies;
   final List<String> productionCountries;
   final List<String> spokenLanguages;

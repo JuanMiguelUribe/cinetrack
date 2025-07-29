@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/infraestructure/mappers/movie_details_to_movie_mapper.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/movies/movie_details_provider.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
@@ -236,12 +237,12 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
   final MovieDetails movie;
   const _CustomSliverAppBar({required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
 
     final size = MediaQuery.of(context).size;
@@ -252,7 +253,10 @@ class _CustomSliverAppBar extends StatelessWidget {
       actions: [
         IconButton(
           onPressed: () {
-            //TODO: realizar el toggle
+            final movie = this.movie.fromMovieDetailsToMovieEntity();
+            ref
+                .watch(localStorageRepositoryProvider)
+                .toggleFavoriteMovie(movie);
           },
           icon: Icon(Icons.favorite_border_rounded),
         ),
