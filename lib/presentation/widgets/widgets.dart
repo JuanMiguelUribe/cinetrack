@@ -1,6 +1,6 @@
 export 'package:cinetrack/presentation/widgets/shared/genre_chip.dart';
 
-export 'package:cinetrack/presentation/widgets/shared/rounded_icon_button.dart';
+export 'package:cinetrack/presentation/widgets/shared/leading_rounded_icon_button.dart';
 
 export 'package:cinetrack/presentation/widgets/tvshows/tvshow_horizontal_listview.dart';
 

@@ -77,6 +77,7 @@ class _MovieDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 3),
+
         Center(
           child: Wrap(
             alignment: WrapAlignment.center,
@@ -85,6 +86,7 @@ class _MovieDetails extends StatelessWidget {
                 .toList(),
           ),
         ),
+        SizedBox(height: 3),
 
         if (movie.adult ?? false)
           Center(
@@ -105,7 +107,7 @@ class _MovieDetails extends StatelessWidget {
             ),
           ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 16),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -131,6 +133,7 @@ class _MovieDetails extends StatelessWidget {
                     wordLimit: 30,
                     style: textStyles.bodyMedium?.copyWith(
                       color: colors.onSurface,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -256,8 +259,8 @@ class _CustomSliverAppBar extends StatelessWidget {
       ],
       leading: LeadingRoundedIconButton(
         iconSize: 18,
-        paddingSize: 8,
-        icon: Icons.arrow_back_ios_new_rounded,
+        paddingSize: 12,
+        icon: Icons.close,
         onPressed: () => Navigator.pop(context),
       ),
 
@@ -279,14 +282,26 @@ class _CustomSliverAppBar extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} • ${movie.runtime! ~/ 60}h ${movie.runtime! % 60} min ",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Theme.of(context).colorScheme.onSurface,
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 12),
+                  children: [
+                    TextSpan(
+                      text:
+                          "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate} •",
+                      style: TextStyle(color: colors.onSurface),
+                    ),
+                    TextSpan(
+                      text:
+                          " ${movie.runtime! ~/ 60}h ${movie.runtime! % 60}min ",
+                      style: TextStyle(
+                        color: colors.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
               ),
             ),
           ],
@@ -324,31 +339,51 @@ class _BackgroundStack extends StatelessWidget {
           ),
         ),
 
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.7, 0.85, 1.0],
-                colors: gradientColors,
-              ),
-            ),
+        _CustomGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: const [0.7, 0.85, 1.0],
+          colors: gradientColors,
+        ),
+
+        _CustomGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+
+          stops: const [0.0, 0.2],
+          colors: [Colors.black45, Colors.transparent],
+        ),
+      ],
+    );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<double> stops;
+  final List<Color> colors;
+  const _CustomGradient({
+    required this.begin,
+    required this.end,
+    required this.stops,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: begin,
+            end: end,
+
+            stops: stops,
+            colors: colors,
           ),
         ),
-        // SizedBox.expand(
-        //   child: DecoratedBox(
-        //     decoration: BoxDecoration(
-        //       gradient: LinearGradient(
-        //         begin: Alignment.topLeft,
-
-        //         stops: const [0.0, 0.2],
-        //         colors: [colors.surface, Colors.transparent],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
+      ),
     );
   }
 }

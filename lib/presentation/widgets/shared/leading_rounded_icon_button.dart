@@ -15,15 +15,16 @@ class LeadingRoundedIconButton extends StatelessWidget {
     this.iconSize = 20,
     this.paddingSize = 6,
     this.iconColor = Colors.white,
-    this.backgroundColor = Colors.black45,
+    this.backgroundColor = Colors.black54,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(paddingSize),
-      child: ClipOval(
+      child: ClipPath(
         child: Material(
+          borderRadius: BorderRadius.circular(8),
           color: backgroundColor,
           child: InkWell(
             onTap: onPressed,

@@ -78,7 +78,15 @@ class _TvShowDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 3),
-
+        Center(
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: tvshow.genres
+                .map((genre) => GenreChip(label: genre, size: 1.2))
+                .toList(),
+          ),
+        ),
+        SizedBox(height: 3),
         if (tvshow.adult)
           Center(
             child: Positioned(
@@ -131,8 +139,8 @@ class _TvShowDetails extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
-        Text(tvshow.id.toString()),
 
+        // Text(tvshow.id.toString()),
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
@@ -251,11 +259,12 @@ class _CustomSliverAppBar extends StatelessWidget {
       ],
       leading: LeadingRoundedIconButton(
         iconSize: 18,
-        paddingSize: 8,
-        icon: Icons.arrow_back_ios_new_rounded,
+        paddingSize: 12,
+        icon: Icons.close,
         onPressed: () => Navigator.pop(context),
       ),
       flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
         titlePadding: const EdgeInsets.symmetric(vertical: 2),
         centerTitle: true,
         title: Column(
@@ -272,14 +281,26 @@ class _CustomSliverAppBar extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                "${DateFormat('d MMMM y').format(tvshow.firstAirDate)} • ${tvshow.genres.join(', ')}",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Theme.of(context).colorScheme.onSurface,
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 12),
+                  children: [
+                    TextSpan(
+                      text:
+                          "${tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate} •",
+                      style: TextStyle(color: colors.onSurface),
+                    ),
+                    TextSpan(
+                      text:
+                          "  ${tvshow.numberOfSeasons} Season${tvshow.numberOfSeasons == 1 ? "" : "s"}",
+                      style: TextStyle(
+                        color: colors.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
               ),
             ),
           ],
@@ -316,32 +337,51 @@ class _BackgroundStack extends StatelessWidget {
             },
           ),
         ),
+        _CustomGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: const [0.7, 0.85, 1.0],
+          colors: gradientColors,
+        ),
 
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.7, 0.85, 1.0],
-                colors: gradientColors,
-              ),
-            ),
+        _CustomGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+
+          stops: const [0.0, 0.2],
+          colors: [Colors.black45, Colors.transparent],
+        ),
+      ],
+    );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<double> stops;
+  final List<Color> colors;
+  const _CustomGradient({
+    this.begin = Alignment.center,
+    this.end = Alignment.bottomCenter,
+    required this.stops,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: begin,
+            end: end,
+
+            stops: stops,
+            colors: colors,
           ),
         ),
-        // SizedBox.expand(
-        //   child: DecoratedBox(
-        //     decoration: BoxDecoration(
-        //       gradient: LinearGradient(
-        //         begin: Alignment.topLeft,
-
-        //         stops: const [0.0, 0.2],
-        //         colors: [colors.surface, Colors.transparent],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
+      ),
     );
   }
 }
