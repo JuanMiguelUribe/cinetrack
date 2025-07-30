@@ -1,6 +1,7 @@
 import 'package:movieflex/domain/datasources/movies_datasource.dart';
 import 'package:movieflex/domain/entities/movie.dart';
 import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/domain/entities/video_movie.dart';
 import 'package:movieflex/domain/respositories/movies_repository.dart';
 
 class MovieRepositoryImple extends MoviesRepository {
@@ -38,5 +39,10 @@ class MovieRepositoryImple extends MoviesRepository {
     // o debugPrint(jsonEncode(results));
 
     return datasource.searchMovies(query);
+  }
+
+  @override
+  Future<List<VideoMovie>> getYoutubeVideosById(int movieId) {
+    return datasource.getYoutubeVideosById(movieId);
   }
 }

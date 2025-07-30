@@ -1,4 +1,6 @@
 import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/domain/entities/video_movie.dart';
+import 'package:movieflex/infraestructure/mappers/video_movie_mapper.dart';
 import 'package:movieflex/infraestructure/models/movieDb/movie_details.dart';
 import 'package:dio/dio.dart';
 import 'package:movieflex/domain/datasources/movies_datasource.dart';
@@ -6,6 +8,7 @@ import 'package:movieflex/infraestructure/models/movieDb/moviedb_response.dart';
 import 'package:movieflex/infraestructure/mappers/movie_mapper.dart';
 import 'package:movieflex/config/constants/environment.dart';
 import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/infraestructure/models/movieDb/moviedb_videos.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
@@ -90,5 +93,20 @@ class MoviedbDatasource extends MoviesDatasource {
       },
     );
     return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<VideoMovie>> getYoutubeVideosById(int movieId) async {
+    final response = await dio.get('/movie/$movieId/videos');
+    final moviedbVideosReponse = MoviedbVideosResponse.fromJson(response.data);
+    final videos = <VideoMovie>[];
+    for (final moviedbVideo in moviedbVideosReponse.results) {
+      if (moviedbVideo.site == 'YouTube') {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+
+    return videos;
   }
 }
