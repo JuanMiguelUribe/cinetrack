@@ -258,9 +258,10 @@ class _CustomSliverAppBar extends ConsumerWidget {
         IconButton(
           onPressed: () async {
             final tvshow = this.tvshow.fromTvShowDetailsToTvShowEntity();
-            await ref
-                .read(localStorageRepositoryProvider)
-                .toggleFavoriteTvShow(tvshow);
+            await
+            //     .read(localStorageRepositoryProvider)
+            //     .toggleFavoriteTvShow(tvshow);
+            ref.read(favoriteTvShowProvider.notifier).toggleFavorite(tvshow);
             ref.invalidate(isFavoriteProvider((type: 'tvshow', id: tvshow.id)));
           },
           icon: isFavoriteFuture.when(
