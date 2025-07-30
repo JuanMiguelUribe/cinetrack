@@ -73,4 +73,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tvshowSearch => 'Tv Show';
+
+  @override
+  String get myFavoriteMovies => 'Favorites Movies';
+
+  @override
+  String get myFavoriteTvshows => 'Favorites TV Shows';
+
+  @override
+  String get startTheSearch => 'Start Exploring';
+
+  @override
+  String get exploreMoreMovies => 'Explore More Movies';
+
+  @override
+  String get exploreMoreTvShows => 'Explore More TV Shows';
+
+  @override
+  String get favoriteMovieNotAddedMessage =>
+      'Start adding your favorite movies!';
+
+  @override
+  String get favoriteTvShowNotAddedMessage =>
+      'Add some TV shows to your favorites to see them here.';
 }

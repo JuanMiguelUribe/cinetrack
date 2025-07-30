@@ -229,6 +229,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tv Show'**
   String get tvshowSearch;
+
+  /// No description provided for @myFavoriteMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites Movies'**
+  String get myFavoriteMovies;
+
+  /// No description provided for @myFavoriteTvshows.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites TV Shows'**
+  String get myFavoriteTvshows;
+
+  /// No description provided for @startTheSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Exploring'**
+  String get startTheSearch;
+
+  /// No description provided for @exploreMoreMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore More Movies'**
+  String get exploreMoreMovies;
+
+  /// No description provided for @exploreMoreTvShows.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore More TV Shows'**
+  String get exploreMoreTvShows;
+
+  /// No description provided for @favoriteMovieNotAddedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Start adding your favorite movies!'**
+  String get favoriteMovieNotAddedMessage;
+
+  /// No description provided for @favoriteTvShowNotAddedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add some TV shows to your favorites to see them here.'**
+  String get favoriteTvShowNotAddedMessage;
 }
 
 class _AppLocalizationsDelegate
