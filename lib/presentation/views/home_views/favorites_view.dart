@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
@@ -19,6 +20,8 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   final _tvShowsKey = GlobalKey();
 
   bool isLastPage = false;
+  bool isMoviesEmpty = false;
+  bool isTvShowEmpty = false;
   bool isLoading = false;
   int movieLimit = 4;
   int tvLimit = 4;
@@ -44,7 +47,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
         .loadNextPage();
     isLoading = false;
 
-    if (movies.length < 4 && tvshows.length < 4) {
+    if (movies.length < 10 && tvshows.length < 10) {
       isLastPage = true;
     }
   }
@@ -52,7 +55,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   void _scrollToBottom() {
     Future.delayed(Duration(milliseconds: 100), () {
       _scrollController.animateTo(
-        _scrollController.position.pixels + 100,
+        _scrollController.position.pixels + 150,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
@@ -79,6 +82,17 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     final favoriteMovies = ref.watch(favoriteMoviesProvider).values.toList();
     final favoriteTvShows = ref.watch(favoriteTvShowProvider).values.toList();
 
+    if (favoriteMovies.isEmpty) {
+      isMoviesEmpty = true;
+    } else {
+      isMoviesEmpty = false;
+    }
+    if (favoriteTvShows.isEmpty) {
+      isTvShowEmpty = true;
+    } else {
+      isTvShowEmpty = false;
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         controller: _scrollController,
@@ -87,11 +101,12 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
             children: [
               MasonrySection(
                 key: _moviesKey,
-                title: "My Movies",
+                title: AppLocalizations.of(context)!.myFavoriteMovies,
                 movies: favoriteMovies,
                 itemsToShow: movieLimit,
                 showSeeMore: movieLimit < favoriteMovies.length,
                 showSeeLess: movieLimit >= favoriteMovies.length,
+                type: "movie",
                 onSeeMore: () {
                   setState(() {
                     movieLimit += 4;
@@ -104,10 +119,13 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
                   });
                   _backToPosition(_moviesKey);
                 },
+                isContentEmpty: isMoviesEmpty,
               ),
               MasonrySection(
                 key: _tvShowsKey,
-                title: "My TV Shows",
+                title: AppLocalizations.of(context)!.myFavoriteTvshows,
+                type: "tvshow",
+                isContentEmpty: isTvShowEmpty,
                 movies: favoriteTvShows
                     .map(
                       (tv) => Movie(

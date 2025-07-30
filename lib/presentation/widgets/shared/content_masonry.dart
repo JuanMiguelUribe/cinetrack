@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
+
+import '../../../config/theme/app_text_styles.dart';
 
 class MasonrySection extends StatelessWidget {
   final String title;
@@ -11,8 +15,10 @@ class MasonrySection extends StatelessWidget {
   final VoidCallback onSeeMore;
   final bool showSeeLess;
   final VoidCallback? onSeeLess;
+  final String type;
+  final bool? isContentEmpty;
 
-  MasonrySection({
+  const MasonrySection({
     super.key,
     required this.title,
     required this.movies,
@@ -21,6 +27,8 @@ class MasonrySection extends StatelessWidget {
     required this.onSeeMore,
     this.showSeeLess = false,
     this.onSeeLess,
+    required this.type,
+    this.isContentEmpty = false,
   });
 
   @override
@@ -34,41 +42,69 @@ class MasonrySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-          ),
+          _buildSectionDivider(title, context),
 
-          const SizedBox(height: 15),
+          isContentEmpty == true
+              ? _NoFavoriteContentAdded(type: type)
+              : const SizedBox(height: 15),
 
-          MasonryGridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 15,
-            crossAxisSpacing: 20,
-            itemCount: displayedMovies.length,
-            itemBuilder: (context, index) {
-              return ContentPosterLink(movie: displayedMovies[index]);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+
+            child: MasonryGridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              mainAxisSpacing: 15,
+              crossAxisSpacing: 20,
+              itemCount: displayedMovies.length,
+              itemBuilder: (context, index) {
+                if (index == 1) {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 30),
+                      ContentPosterLink(
+                        movie: displayedMovies[index],
+                        type: type,
+                      ),
+                    ],
+                  );
+                }
+                return ContentPosterLink(
+                  movie: displayedMovies[index],
+                  type: type,
+                );
+              },
+            ),
           ),
 
           const SizedBox(height: 20),
 
-          if (showSeeMore)
+          if (isContentEmpty!)
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  context.go('/_shell/0/'); // Esto te lleva al HomeView
+                },
+                child: Text(
+                  type == 'movie'
+                      ? AppLocalizations.of(context)!.exploreMoreMovies
+                      : AppLocalizations.of(context)!.exploreMoreTvShows,
+                ),
+              ),
+            )
+          else if (showSeeMore)
             Center(
               child: ElevatedButton(
                 onPressed: onSeeMore,
-                child: const Text("Ver más"),
+                child: Text(AppLocalizations.of(context)!.showMore),
               ),
             )
           else if (showSeeLess && onSeeLess != null)
             Center(
               child: TextButton(
                 onPressed: onSeeLess,
-                child: const Text("Ver menos"),
+                child: Text(AppLocalizations.of(context)!.showLess),
               ),
             ),
 
@@ -77,4 +113,84 @@ class MasonrySection extends StatelessWidget {
       ),
     );
   }
+}
+
+class _NoFavoriteContentAdded extends StatelessWidget {
+  final String type;
+
+  const _NoFavoriteContentAdded({required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Container(
+        height: 150,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: colors.surfaceContainer,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.favorite_outline_sharp,
+                color: colors.primary,
+                size: 40,
+              ),
+              SizedBox(height: 5),
+              Text(
+                "Ohh no!!",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: colors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    type == "movie"
+                        ? AppLocalizations.of(
+                            context,
+                          )!.favoriteMovieNotAddedMessage
+                        : AppLocalizations.of(
+                            context,
+                          )!.favoriteTvShowNotAddedMessage,
+                    style: TextStyle(fontSize: 15, color: colors.onSurface),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _buildSectionDivider(String title, BuildContext context) {
+  final colors = Theme.of(context).colorScheme;
+
+  return Padding(
+    padding: const EdgeInsets.only(top: 20),
+    child: Row(
+      children: [
+        const SizedBox(width: 10),
+
+        Text(title, style: AppTextStyles.titleFavorites(context)),
+
+        Expanded(
+          child: Divider(color: colors.primary, thickness: 1, indent: 10),
+        ),
+        const SizedBox(width: 10),
+      ],
+    ),
+  );
 }

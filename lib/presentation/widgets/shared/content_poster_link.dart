@@ -5,16 +5,17 @@ import 'package:movieflex/domain/entities/movie.dart';
 
 class ContentPosterLink extends StatelessWidget {
   final Movie movie;
-  const ContentPosterLink({super.key, required this.movie});
+  final String type;
+  const ContentPosterLink({super.key, required this.movie, required this.type});
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    return GestureDetector(
-      onTap: () => context.push('/movie/${movie.id}'),
-      child: ClipRRect(
-        borderRadius: BorderRadiusGeometry.circular(15),
-        child: FadeIn(
+    return FadeInUp(
+      child: GestureDetector(
+        onTap: () => context.push('/$type/${movie.id}'),
+        child: ClipRRect(
+          borderRadius: BorderRadiusGeometry.circular(15),
           child: Container(
             decoration: BoxDecoration(
               color: colors.onSurface.withOpacity(0.2),
@@ -48,10 +49,10 @@ class _GradientAndTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    // final colors = Theme.of(context).colorScheme;
     return Container(
       height: 60, // <-- altura fija o adaptable según lo que necesites
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.bottomCenter,
@@ -62,7 +63,7 @@ class _GradientAndTitle extends StatelessWidget {
       alignment: Alignment.bottomRight,
       child: Text(
         movie.title,
-        style: TextStyle(color: colors.surface, fontWeight: FontWeight.w500),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
