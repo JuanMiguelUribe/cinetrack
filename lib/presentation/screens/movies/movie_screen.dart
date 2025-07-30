@@ -78,7 +78,7 @@ class _MovieDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 3),
-
+        //*generos
         Center(
           child: Wrap(
             alignment: WrapAlignment.center,
@@ -88,7 +88,7 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
         SizedBox(height: 3),
-
+        //*Evaluador para peliculas +18
         if (movie.adult ?? false)
           Center(
             child: Positioned(
@@ -107,42 +107,14 @@ class _MovieDetails extends StatelessWidget {
               ),
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Center(
-                  child: AnimatedRatingCircle(
-                    rating: movie.voteAverage,
-                    size: 60,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 1),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 8),
-
-                  child: ExpandableText(
-                    text: (movie.overview.trim().isNotEmpty)
-                        ? movie.overview
-                        : AppLocalizations.of(context)!.resultsSearch,
-
-                    wordLimit: 30,
-                    style: textStyles.bodyMedium?.copyWith(
-                      color: colors.onSurface,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        //*Estrella rating y el overview de la pelicula
+        _RatingAndOverview(
+          movie: movie,
+          textStyles: textStyles,
+          colors: colors,
         ),
         SizedBox(height: 5),
+        //*titulo cast
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
@@ -156,9 +128,57 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
-
+        //*Actores de la pelicula
         _ActorsByMovie(movieId: movie.id.toString()),
       ],
+    );
+  }
+}
+
+class _RatingAndOverview extends StatelessWidget {
+  const _RatingAndOverview({
+    required this.movie,
+    required this.textStyles,
+    required this.colors,
+  });
+
+  final MovieDetails movie;
+  final TextTheme textStyles;
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Center(
+              child: AnimatedRatingCircle(rating: movie.voteAverage, size: 60),
+            ),
+          ),
+          const SizedBox(width: 1),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16, left: 8),
+
+              child: ExpandableText(
+                text: (movie.overview.trim().isNotEmpty)
+                    ? movie.overview
+                    : AppLocalizations.of(context)!.resultsSearch,
+
+                wordLimit: 30,
+                style: textStyles.bodyMedium?.copyWith(
+                  color: colors.onSurface,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
