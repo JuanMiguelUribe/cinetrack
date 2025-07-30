@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movieflex/domain/entities/movie.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
+import 'package:movieflex/presentation/providers/bottom_nav/bottom_nav_provider.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../config/theme/app_text_styles.dart';
 
-class MasonrySection extends StatelessWidget {
+class MasonrySection extends ConsumerWidget {
   final String title;
   final List<Movie> movies;
   final int itemsToShow;
@@ -32,7 +34,7 @@ class MasonrySection extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final displayedMovies = movies
         .take(itemsToShow)
         .toList(); // Solo muestra los items necesarios
@@ -84,7 +86,8 @@ class MasonrySection extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  context.go('/_shell/0/'); // Esto te lleva al HomeView
+                  ref.read(navBarIndexProvider.notifier).state = 0;
+                  GoRouter.of(context).go('/');
                 },
                 child: Text(
                   type == 'movie'
@@ -104,7 +107,11 @@ class MasonrySection extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: onSeeLess,
-                child: Text(AppLocalizations.of(context)!.showLess),
+                child: Text(
+                  movies.length > 4
+                      ? AppLocalizations.of(context)!.showLess
+                      : "",
+                ),
               ),
             ),
 
