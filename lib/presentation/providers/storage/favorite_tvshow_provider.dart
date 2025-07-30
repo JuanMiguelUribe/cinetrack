@@ -19,16 +19,28 @@ class TvShowStorageNotifier extends StateNotifier<Map<int, TvShow>> {
   Future<List<TvShow>> loadNextPage() async {
     final tvShows = await localStorageRepository.loadFavoriteTvShows(
       offset: page * 10,
+      limit: 20,
     );
     page++;
 
     final tempMap = <int, TvShow>{};
-
     for (final show in tvShows) {
       tempMap[show.id] = show;
     }
 
     state = {...state, ...tempMap};
     return tvShows;
+  }
+
+  Future<void> toggleFavorite(TvShow tvshow) async {
+    await localStorageRepository.toggleFavoriteTvShow(tvshow);
+    final bool isTvshowInFavorites = state[tvshow.id] != null;
+
+    if (isTvshowInFavorites) {
+      state.remove(tvshow.id);
+      state = {...state};
+    } else {
+      state = {...state, tvshow.id: tvshow};
+    }
   }
 }
