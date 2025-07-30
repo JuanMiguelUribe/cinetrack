@@ -96,6 +96,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     return Scaffold(
       body: SingleChildScrollView(
         controller: _scrollController,
+        physics: ClampingScrollPhysics(),
         child: SafeArea(
           child: Column(
             children: [
