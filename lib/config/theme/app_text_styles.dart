@@ -66,5 +66,15 @@ class AppTextStyles {
     );
   }
 
+  static TextStyle titleFavorites(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.roboto(
+      fontSize: 28,
+      color: colors.primary,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
   // Puedes seguir agregando más: descripción, botón, etc.
 }
