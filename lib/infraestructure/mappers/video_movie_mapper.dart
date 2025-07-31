@@ -8,5 +8,7 @@ class VideoMapper {
     name: moviedbVideo.name,
     youtubeKey: moviedbVideo.key,
     publishedAt: moviedbVideo.publishedAt,
+    site: moviedbVideo.site,
+    type: moviedbVideo.type ?? "CLIP",
   );
 }
