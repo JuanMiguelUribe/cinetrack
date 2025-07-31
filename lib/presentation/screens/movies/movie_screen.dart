@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:movieflex/domain/entities/movie_details.dart';
 import 'package:movieflex/infraestructure/mappers/movie_details_to_movie_mapper.dart';
@@ -5,8 +6,8 @@ import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/movies/movie_details_provider.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:intl/intl.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
@@ -39,6 +40,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   @override
   Widget build(BuildContext context) {
     final MovieDetails? movie = ref.watch(movieInfoProvider)[widget.movieId];
+    final colors = Theme.of(context).colorScheme;
 
     if (movie == null) {
       return Scaffold(
@@ -49,6 +51,14 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       );
     }
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => showTrailerDialog(context, movie.id),
+        icon: const Icon(Icons.play_arrow, color: Colors.white),
+        label: Text('Ver Trailer', style: TextStyle(color: Colors.white)),
+        backgroundColor: colors.onPrimaryFixedVariant,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
@@ -130,6 +140,8 @@ class _MovieDetails extends StatelessWidget {
         SizedBox(height: 5),
         //*Actores de la pelicula
         _ActorsByMovie(movieId: movie.id.toString()),
+        //*Videos de la Pelicula
+        // VideosFromMovie(movieId: movie.id),
       ],
     );
   }
