@@ -42,6 +42,8 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
     final TvShowDetails? tvshow = ref.watch(
       tvshowsInfoProvider,
     )[widget.tvshowID];
+    final colors = Theme.of(context).colorScheme;
+
     if (tvshow == null) {
       return Scaffold(
         appBar: AppBar(
@@ -51,6 +53,16 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
       );
     }
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => showTrailerDialog(context, tvshow.id),
+        icon: const Icon(Icons.play_arrow, color: Colors.white),
+        label: Text(
+          AppLocalizations.of(context)!.watchTrailer,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: colors.onPrimaryFixedVariant,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
