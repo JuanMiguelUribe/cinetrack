@@ -36,7 +36,7 @@ class _VideosList extends StatelessWidget {
 
     //* Nada que mostrar
     if (trailerVideos.isEmpty) {
-      return const SizedBox();
+      return const SizedBox(child: Text("Not Video Founded"));
     }
 
     return Column(
