@@ -28,7 +28,8 @@
    "exploreMoreMovies": "Explore More Movies",
 "exploreMoreTvShows": "Explore More TV Shows",
   "favoriteMovieNotAddedMessage" : "Start adding your favorite movies!",
-  "favoriteTvShowNotAddedMessage" : "Add some TV shows to your favorites to see them here."
+  "favoriteTvShowNotAddedMessage" : "Add some TV shows to your favorites to see them here.",
+  "Watch Trailer" : "Watch Trailer"
 
 }
 
