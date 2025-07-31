@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/movie_details.dart';
 import 'package:movieflex/infraestructure/mappers/movie_details_to_movie_mapper.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
@@ -120,6 +121,9 @@ class _MovieDetails extends StatelessWidget {
               ),
             ),
           ),
+        // //*DIVISOR DE SECCIÓN,
+        // _buildSectionDivider("", context),
+
         //*Estrella rating y el overview de la pelicula
         _RatingAndOverview(
           movie: movie,
@@ -127,20 +131,19 @@ class _MovieDetails extends StatelessWidget {
           colors: colors,
         ),
         SizedBox(height: 5),
+        //*DIVISOR DE SECCIÓN,
+        _buildSectionDivider("", context),
         //*titulo cast
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
             AppLocalizations.of(context)!.cast,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              color: colors.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTextStyles.titlesForDetailScreen(context),
           ),
         ),
         SizedBox(height: 5),
+
         //*Actores de la pelicula
         _ActorsByMovie(movieId: movie.id.toString()),
 
@@ -167,7 +170,7 @@ class _RatingAndOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 16),
+      padding: const EdgeInsets.only(left: 6, right: 6, bottom: 5, top: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -177,10 +180,10 @@ class _RatingAndOverview extends StatelessWidget {
               child: AnimatedRatingCircle(rating: movie.voteAverage, size: 60),
             ),
           ),
-          const SizedBox(width: 1),
+          // const SizedBox(width: 1),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(right: 16, left: 8),
+              padding: const EdgeInsets.only(right: 20, left: 8),
 
               child: ExpandableText(
                 text: (movie.overview.trim().isNotEmpty)
@@ -243,11 +246,7 @@ class _ActorsByMovie extends ConsumerWidget {
                   child: Text(
                     actor.name,
                     maxLines: 3,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                    style: AppTextStyles.actorName(context),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -257,12 +256,7 @@ class _ActorsByMovie extends ConsumerWidget {
                   child: Text(
                     actor.character ?? 'Not Found',
                     maxLines: 2,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      overflow: TextOverflow.ellipsis,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                    style: AppTextStyles.characterName(context),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -442,4 +436,28 @@ class _CustomGradient extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildSectionDivider(String title, BuildContext context) {
+  final colors = Theme.of(context).colorScheme;
+
+  return Padding(
+    padding: const EdgeInsets.only(top: 0, left: 20, right: 20),
+    child: Row(
+      children: [
+        const SizedBox(width: 10),
+
+        Text(title, style: AppTextStyles.titleFavorites(context)),
+
+        Expanded(
+          child: Divider(
+            color: colors.primary.withAlpha(150),
+            thickness: 0.8,
+            indent: 5,
+          ),
+        ),
+        const SizedBox(width: 10),
+      ],
+    ),
+  );
 }
