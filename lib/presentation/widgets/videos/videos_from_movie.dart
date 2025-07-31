@@ -42,13 +42,11 @@ class _VideosList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //* Aunque tengo varios videos, sólo quiero mostrar el primero
         _YouTubeVideoPlayer(
           youtubeId: trailerVideos.first.youtubeKey,
           name: trailerVideos.first.name,
           type: trailerVideos.first.type,
         ),
-        // Text(trailerVideos.first.type),
 
         //* Si se desean mostrar todos los videos
         // ...videos.map(
