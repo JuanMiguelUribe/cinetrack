@@ -54,10 +54,13 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showTrailerDialog(context, movie.id),
         icon: const Icon(Icons.play_arrow, color: Colors.white),
-        label: Text('Ver Trailer', style: TextStyle(color: Colors.white)),
+        label: Text(
+          AppLocalizations.of(context)!.watchTrailer,
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: colors.onPrimaryFixedVariant,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
