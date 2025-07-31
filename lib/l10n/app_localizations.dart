@@ -277,6 +277,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Watch Trailer'**
   String get watchTrailer;
+
+  /// No description provided for @relatedVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Videos'**
+  String get relatedVideos;
 }
 
 class _AppLocalizationsDelegate

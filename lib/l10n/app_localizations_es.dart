@@ -99,4 +99,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get watchTrailer => 'Ver Trailer';
+
+  @override
+  String get relatedVideos => 'Videos Relacionados ';
 }
