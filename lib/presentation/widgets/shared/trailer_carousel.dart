@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -18,7 +19,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
   int _currentPage = 0;
 
   void _nextPage(int total) {
-    if (_currentPage < total - 1) {
+    if (_currentPage < total - 1 && _currentPage < 19) {
       _currentPage++;
       _pageController.animateToPage(
         _currentPage,
@@ -47,8 +48,30 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
     return asyncVideos.when(
       data: (videos) {
         // final trailers = videos.where((v) => v.type == 'Trailer').toList();
+        final limitedVideos = videos.take(20).toList();
 
-        if (videos.isEmpty) return const Text('No hay trailers disponibles');
+        if (videos.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.grey),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Center(
+                      child: Text(AppLocalizations.of(context)!.resultsSearch),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+
+        //*If por si solo hay un video, no mostar los botones
         if (videos.length <= 1) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -75,13 +98,9 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                AppLocalizations.of(context)!.cast,
+                AppLocalizations.of(context)!.relatedVideos,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: colors.onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyles.titlesForDetailScreen(context),
               ),
             ),
             SizedBox(height: 5),
@@ -94,10 +113,10 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                   // width: 2,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: videos.length,
+                    itemCount: limitedVideos.length,
                     onPageChanged: (i) => setState(() => _currentPage = i),
                     itemBuilder: (context, index) {
-                      final video = videos[index];
+                      final video = limitedVideos[index];
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -120,7 +139,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                   ),
                 ),
 
-                // 🔽 Botón izquierdo
+                //*Botón izquierdo
                 _currentPage != 0
                     ? Positioned(
                         left: 0,
@@ -136,26 +155,28 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                       )
                     : SizedBox(),
 
-                // 🔼 Botón derecho
-                Positioned(
-                  right: 0,
-                  child: IconButton(
-                    onPressed: () => _nextPage(videos.length),
-                    icon: const Icon(Icons.arrow_forward_ios_rounded),
-                    color: colors.primary,
-                    // style: IconButton.styleFrom(
-                    //   backgroundColor: Colors.black.withOpacity(0.5),
-                    //   shape: const CircleBorder(),
-                    // ),
-                  ),
-                ),
+                //* Botón derecho
+                _currentPage != 19
+                    ? Positioned(
+                        right: 0,
+                        child: IconButton(
+                          onPressed: () => _nextPage(videos.length),
+                          icon: const Icon(Icons.arrow_forward_ios_rounded),
+                          color: colors.primary,
+                          // style: IconButton.styleFrom(
+                          //   backgroundColor: Colors.black.withOpacity(0.5),
+                          //   shape: const CircleBorder(),
+                          // ),
+                        ),
+                      )
+                    : SizedBox(),
               ],
             ),
 
             const SizedBox(height: 8),
             Center(
               child: Text(
-                '${_currentPage + 1}/${videos.length}',
+                '${_currentPage + 1}/${limitedVideos.length}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.grey,
