@@ -10,7 +10,7 @@ class GenreChip extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12 * size, vertical: 6 * size),
+      padding: EdgeInsets.symmetric(horizontal: 10 * size, vertical: 5 * size),
       margin: EdgeInsets.symmetric(horizontal: 4 * size, vertical: 4 * size),
       decoration: BoxDecoration(
         color: colors.primary.withOpacity(
@@ -24,7 +24,7 @@ class GenreChip extends StatelessWidget {
         style: TextStyle(
           color: colors.onSurface,
           fontWeight: FontWeight.w500,
-          fontSize: 11 * size,
+          fontSize: 10 * size,
         ),
       ),
     );
