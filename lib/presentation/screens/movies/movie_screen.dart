@@ -143,8 +143,11 @@ class _MovieDetails extends StatelessWidget {
         SizedBox(height: 5),
         //*Actores de la pelicula
         _ActorsByMovie(movieId: movie.id.toString()),
+
         //*Videos de la Pelicula
+        TrailerCarousel(movieId: movie.id),
         // VideosFromMovie(movieId: movie.id),
+        SizedBox(height: 100),
       ],
     );
   }
@@ -242,10 +245,10 @@ class _ActorsByMovie extends ConsumerWidget {
                     maxLines: 3,
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                   ),
                 ),
                 const SizedBox(height: 0),
@@ -256,11 +259,11 @@ class _ActorsByMovie extends ConsumerWidget {
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                       overflow: TextOverflow.ellipsis,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ],
@@ -346,7 +349,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
                     ),
                     TextSpan(
                       text:
-                          " ${movie.runtime! ~/ 60}h ${movie.runtime! % 60}min ",
+                          " ${movie.runtime! ~/ 60}h ${movie.runtime! % 60}m ",
                       style: TextStyle(
                         color: colors.primary,
                         fontWeight: FontWeight.bold,
