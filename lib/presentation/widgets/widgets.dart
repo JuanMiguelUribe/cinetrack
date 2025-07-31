@@ -27,3 +27,5 @@ export 'shared/content_masonry.dart';
 export 'shared/content_poster_link.dart';
 
 export 'dialog/show_trailer_dialog.dart';
+
+export 'shared/build_section_divider.dart';
