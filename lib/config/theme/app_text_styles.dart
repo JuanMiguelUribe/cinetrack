@@ -19,9 +19,9 @@ class AppTextStyles {
     final colors = Theme.of(context).colorScheme;
 
     return GoogleFonts.robotoFlex(
-      fontSize: 14,
+      fontSize: 12,
       color: colors.onSurface,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w500,
     );
   }
 
@@ -30,9 +30,9 @@ class AppTextStyles {
     final colors = Theme.of(context).colorScheme;
 
     return GoogleFonts.robotoFlex(
-      fontSize: 12,
-      color: colors.onSurface.withOpacity(0.7),
-      fontWeight: FontWeight.w400,
+      fontSize: 13,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w900,
     );
   }
 
@@ -73,6 +73,16 @@ class AppTextStyles {
       fontSize: 28,
       color: colors.primary,
       fontWeight: FontWeight.bold,
+    );
+  }
+
+  static TextStyle titlesForDetailScreen(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.roboto(
+      fontSize: 25,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w400,
     );
   }
 
