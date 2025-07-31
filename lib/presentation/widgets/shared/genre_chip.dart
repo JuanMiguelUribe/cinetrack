@@ -13,17 +13,18 @@ class GenreChip extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12 * size, vertical: 6 * size),
       margin: EdgeInsets.symmetric(horizontal: 4 * size, vertical: 4 * size),
       decoration: BoxDecoration(
-        color: colors.onSecondaryContainer.withOpacity(
-          0.2,
+        color: colors.primary.withOpacity(
+          0.5,
         ), // fondo oscuro semi-transparente
-        borderRadius: BorderRadius.circular(20 * size), // bordes ovalados
+        borderRadius: BorderRadius.circular(20 * size),
+        // bordes ovalados
       ),
       child: Text(
         '#$label',
         style: TextStyle(
           color: colors.onSurface,
           fontWeight: FontWeight.w500,
-          fontSize: 10 * size,
+          fontSize: 11 * size,
         ),
       ),
     );
