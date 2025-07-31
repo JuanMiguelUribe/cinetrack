@@ -33,6 +33,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     super.dispose();
   }
 
