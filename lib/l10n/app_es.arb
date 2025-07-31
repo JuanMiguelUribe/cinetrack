@@ -25,11 +25,13 @@
   "myFavoriteMovies": "Películas Favoritas",
   "myFavoriteTvshows": "Series Favoritas",
   "startTheSearch": "Empezar a buscar",
-   "exploreMoreMovies": "Explorar más Películas",
-"exploreMoreTvShows": "Explorar más Series",
-
+  "exploreMoreMovies": "Explorar más Películas",
+  "exploreMoreTvShows": "Explorar más Series",
   "favoriteMovieNotAddedMessage" : "Parece que no tienes peliculas favoritas...",
   "favoriteTvShowNotAddedMessage" : "Jmmm, agrega tus series favoritas para verlas aqui!!",
-"watchTrailer" : "Ver Trailer"
+  "watchTrailer" : "Ver Trailer",
+  "RelatedVideos": "Videos Relacionados "
+
+
 
 }
