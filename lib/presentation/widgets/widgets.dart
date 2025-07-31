@@ -1,3 +1,5 @@
+export 'package:movieflex/presentation/widgets/shared/trailer_carousel.dart';
+
 export 'package:movieflex/presentation/widgets/videos/videos_from_movie.dart';
 
 export 'package:movieflex/presentation/widgets/shared/genre_chip.dart';
