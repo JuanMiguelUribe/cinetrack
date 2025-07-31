@@ -96,4 +96,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get favoriteTvShowNotAddedMessage =>
       'Add some TV shows to your favorites to see them here.';
+
+  @override
+  String get watchTrailer => 'Watch Trailer';
 }

@@ -271,6 +271,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add some TV shows to your favorites to see them here.'**
   String get favoriteTvShowNotAddedMessage;
+
+  /// No description provided for @watchTrailer.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch Trailer'**
+  String get watchTrailer;
 }
 
 class _AppLocalizationsDelegate
