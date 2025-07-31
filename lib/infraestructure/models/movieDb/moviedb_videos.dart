@@ -26,7 +26,7 @@ class Result {
     required this.key,
     required this.site,
     required this.size,
-    required this.type,
+    this.type,
     required this.official,
     required this.publishedAt,
     required this.id,
@@ -38,7 +38,7 @@ class Result {
   final String key;
   final String site;
   final int size;
-  final String type;
+  final String? type;
   final bool official;
   final DateTime publishedAt;
   final String id;
@@ -50,7 +50,7 @@ class Result {
     key: json["key"],
     site: json["site"],
     size: json["size"],
-    type: json["type"],
+    type: json["type"] ?? "CLIP",
     official: json["official"],
     publishedAt: DateTime.parse(json["published_at"]),
     id: json["id"],
