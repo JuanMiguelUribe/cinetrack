@@ -1,3 +1,5 @@
+export 'package:movieflex/presentation/widgets/videos/videos_from_movie.dart';
+
 export 'package:movieflex/presentation/widgets/shared/genre_chip.dart';
 
 export 'package:movieflex/presentation/widgets/shared/leading_rounded_icon_button.dart';
@@ -21,3 +23,5 @@ export 'shared/custom_appbar.dart';
 export 'shared/content_masonry.dart';
 
 export 'shared/content_poster_link.dart';
+
+export 'dialog/show_trailer_dialog.dart';
