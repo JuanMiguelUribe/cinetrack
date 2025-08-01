@@ -5,6 +5,7 @@ extension MovieDetailsMapper on MovieDetails {
   Movie fromMovieDetailsToMovieEntity() {
     return Movie(
       id: id,
+
       title: title,
       overview: overview,
       posterPath: posterPath,
