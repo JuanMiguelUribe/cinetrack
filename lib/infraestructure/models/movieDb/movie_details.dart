@@ -65,7 +65,7 @@ class MovieDetailsResponse {
         budget: json["budget"] ?? 0,
         genres: List<String>.from((json["genres"] ?? []).map((x) => x["name"])),
 
-        homepage: json["homepage"],
+        homepage: json["homepage"] ?? "",
         id: json["id"] ?? 0,
         imdbId: json["imdb_id"],
         originCountry: List<String>.from(
@@ -90,7 +90,7 @@ class MovieDetailsResponse {
           (json["spoken_languages"] ?? []).map((x) => x["name"]),
         ),
         status: json["status"] ?? '',
-        tagline: json["tagline"],
+        tagline: json["tagline"] ?? "No tagline Founded",
         title: json["title"] ?? '',
         video: json["video"] ?? false,
         voteAverage: (json["vote_average"] ?? 0).toDouble(),
