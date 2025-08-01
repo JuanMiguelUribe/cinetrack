@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
+import 'package:movieflex/domain/entities/video_movie.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
-import 'package:movieflex/presentation/providers/providers.dart';
+import 'package:movieflex/presentation/providers/movies/video_movie_provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TrailerCarousel extends ConsumerStatefulWidget {
   final int movieId;
-
-  const TrailerCarousel({super.key, required this.movieId});
+  final MediaType type;
+  const TrailerCarousel({super.key, required this.movieId, required this.type});
 
   @override
   ConsumerState<TrailerCarousel> createState() => _TrailerCarouselState();
@@ -42,7 +43,9 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    final asyncVideos = ref.watch(videosFromMovieProvider(widget.movieId));
+    final asyncVideos = ref.watch(
+      videosProvider((id: widget.movieId, type: widget.type)),
+    );
     final colors = Theme.of(context).colorScheme;
 
     return asyncVideos.when(
@@ -51,45 +54,12 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
         final limitedVideos = videos.take(20).toList();
 
         if (videos.isEmpty) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.grey),
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Center(
-                      child: Text(AppLocalizations.of(context)!.resultsSearch),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
+          return _ResultIfVIdeosAreEmpty();
         }
 
         //*If por si solo hay un video, no mostar los botones
         if (videos.length <= 1) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: _YouTubeVideoPlayer(
-                    youtubeId: videos.first.youtubeKey,
-                    name: videos.first.name,
-                    type: videos.first.type,
-                  ),
-                ),
-              ),
-            ),
-          );
+          return _WidgetForOnlyOneVideo(videos: videos);
         }
 
         return Column(
@@ -156,7 +126,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                     : SizedBox(),
 
                 //* Botón derecho
-                _currentPage != 19
+                _currentPage != videos.length - 1
                     ? Positioned(
                         right: 0,
                         child: IconButton(
@@ -192,6 +162,86 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
   }
 }
 
+class _WidgetForOnlyOneVideo extends StatelessWidget {
+  final List<VideoMovie> videos;
+  const _WidgetForOnlyOneVideo({required this.videos});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            AppLocalizations.of(context)!.relatedVideos,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.titlesForDetailScreen(context),
+          ),
+        ),
+        SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: _YouTubeVideoPlayer(
+                  youtubeId: videos.first.youtubeKey,
+                  name: videos.first.name,
+                  type: videos.first.type,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ResultIfVIdeosAreEmpty extends StatelessWidget {
+  const _ResultIfVIdeosAreEmpty();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            AppLocalizations.of(context)!.relatedVideos,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.titlesForDetailScreen(context),
+          ),
+        ),
+        SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.grey),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Center(
+                    child: Text(AppLocalizations.of(context)!.resultsSearch),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _YouTubeVideoPlayer extends StatefulWidget {
   final String youtubeId;
   final String name;
@@ -204,7 +254,7 @@ class _YouTubeVideoPlayer extends StatefulWidget {
   });
 
   @override
-  State<_YouTubeVideoPlayer> createState() => _YouTubeVideoPlayerState();
+  _YouTubeVideoPlayerState createState() => _YouTubeVideoPlayerState();
 }
 
 class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
