@@ -53,7 +53,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showTrailerDialog(context, movie.id),
+        onPressed: () => showTrailerDialog(context, movie.id, MediaType.movie),
         icon: const Icon(Icons.play_arrow, color: Colors.white),
         label: Text(
           AppLocalizations.of(context)!.watchTrailer,
@@ -121,6 +121,7 @@ class _MovieDetails extends StatelessWidget {
               ),
             ),
           ),
+
         // //*DIVISOR DE SECCIÓN,
         // _buildSectionDivider("", context),
 
@@ -130,9 +131,15 @@ class _MovieDetails extends StatelessWidget {
           textStyles: textStyles,
           colors: colors,
         ),
+        Container(
+          child: Row(children: []),
+        ), //*PONER UN CUADRO QUE SE DESPLIGUE O UNO QUE SE DESLICE PARA MOSTRAR MAS DETALLES
+
         SizedBox(height: 5),
+
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
+
         //*titulo cast
         Padding(
           padding: const EdgeInsets.only(left: 16),
@@ -148,7 +155,7 @@ class _MovieDetails extends StatelessWidget {
         _ActorsByMovie(movieId: movie.id.toString()),
 
         //*Videos de la Pelicula
-        TrailerCarousel(movieId: movie.id),
+        TrailerCarousel(movieId: movie.id, type: MediaType.movie),
         // VideosFromMovie(movieId: movie.id),
         SizedBox(height: 100),
       ],
@@ -170,35 +177,72 @@ class _RatingAndOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 6, right: 6, bottom: 5, top: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Center(
-              child: AnimatedRatingCircle(rating: movie.voteAverage, size: 60),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Container(
+        //*Decoracion Contenedor del Rating y Overview
+        decoration: BoxDecoration(
+          color: colors.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 6),
             ),
-          ),
-          // const SizedBox(width: 1),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20, left: 8),
+          ],
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
 
-              child: ExpandableText(
-                text: (movie.overview.trim().isNotEmpty)
-                    ? movie.overview
-                    : AppLocalizations.of(context)!.resultsSearch,
+          children: [
+            //* ⭐ Rating Star
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
 
-                wordLimit: 30,
-                style: textStyles.bodyMedium?.copyWith(
-                  color: colors.onSurface,
-                  fontWeight: FontWeight.w400,
-                ),
+                children: [
+                  AnimatedRatingCircle(rating: movie.voteAverage, size: 50),
+                  Text(
+                    AppLocalizations.of(context)!.ratingTitle,
+                    style: textStyles.titleMedium?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+
+            //* 📝 Overview text
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.overviewTitle,
+                    style: textStyles.titleMedium?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 0),
+                  ExpandableText(
+                    text: (movie.overview.trim().isNotEmpty)
+                        ? movie.overview
+                        : AppLocalizations.of(context)!.resultsSearch,
+                    wordLimit: 30,
+                    style: textStyles.bodyMedium?.copyWith(
+                      color: colors.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -216,54 +260,57 @@ class _ActorsByMovie extends ConsumerWidget {
     }
     final actors = actorsByMovie[movieId]!;
 
-    return SizedBox(
-      height: 300,
+    return Padding(
+      padding: const EdgeInsets.only(left: 8),
+      child: SizedBox(
+        height: 300,
 
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: actors.length,
-        itemBuilder: (context, index) {
-          final actor = actors[index];
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FadeInRight(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.network(
-                      actor.profilePath ?? '',
-                      height: 150,
-                      width: 100,
-                      fit: BoxFit.cover,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: actors.length,
+          itemBuilder: (context, index) {
+            final actor = actors[index];
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FadeInRight(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
+                        actor.profilePath ?? '',
+                        height: 150,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                SizedBox(
-                  width: 100,
-                  child: Text(
-                    actor.name,
-                    maxLines: 3,
-                    style: AppTextStyles.actorName(context),
-                    textAlign: TextAlign.left,
+                  const SizedBox(height: 5),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      actor.name,
+                      maxLines: 3,
+                      style: AppTextStyles.actorName(context),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 0),
-                SizedBox(
-                  width: 100,
-                  child: Text(
-                    actor.character ?? 'Not Found',
-                    maxLines: 2,
-                    style: AppTextStyles.characterName(context),
-                    textAlign: TextAlign.left,
+                  const SizedBox(height: 0),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      actor.character ?? 'Not Found',
+                      maxLines: 2,
+                      style: AppTextStyles.characterName(context),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
