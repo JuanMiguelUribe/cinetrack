@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:movieflex/config/helpers/human_formats.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/movie_details.dart';
 import 'package:movieflex/infraestructure/mappers/movie_details_to_movie_mapper.dart';
@@ -10,6 +11,8 @@ import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:intl/intl.dart';
+
+import '../../../config/helpers/url_helper.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   final String movieId;
@@ -131,11 +134,8 @@ class _MovieDetails extends StatelessWidget {
           textStyles: textStyles,
           colors: colors,
         ),
-        Container(
-          child: Row(children: []),
-        ), //*PONER UN CUADRO QUE SE DESPLIGUE O UNO QUE SE DESLICE PARA MOSTRAR MAS DETALLES
 
-        SizedBox(height: 5),
+        // SizedBox(height: 5),
 
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
@@ -163,7 +163,7 @@ class _MovieDetails extends StatelessWidget {
   }
 }
 
-class _RatingAndOverview extends StatelessWidget {
+class _RatingAndOverview extends StatefulWidget {
   const _RatingAndOverview({
     required this.movie,
     required this.textStyles,
@@ -175,77 +175,233 @@ class _RatingAndOverview extends StatelessWidget {
   final ColorScheme colors;
 
   @override
+  State<_RatingAndOverview> createState() => _RatingAndOverviewState();
+}
+
+class _RatingAndOverviewState extends State<_RatingAndOverview> {
+  bool isExpanded = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Container(
-        //*Decoracion Contenedor del Rating y Overview
-        decoration: BoxDecoration(
-          color: colors.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 6),
+    final colors = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          child: Container(
+            //*Decoracion Contenedor del Rating y Overview
+            decoration: BoxDecoration(
+              color: widget.colors.surfaceContainerHigh,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 6),
+                ),
+              ],
             ),
-          ],
-        ),
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
 
-          children: [
-            //* ⭐ Rating Star
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //* ⭐ Rating Star
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
 
-                children: [
-                  AnimatedRatingCircle(rating: movie.voteAverage, size: 50),
-                  Text(
-                    AppLocalizations.of(context)!.ratingTitle,
-                    style: textStyles.titleMedium?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    children: [
+                      AnimatedRatingCircle(
+                        rating: widget.movie.voteAverage,
+                        size: 50,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.ratingTitle,
+                        style: widget.textStyles.titleMedium?.copyWith(
+                          color: widget.colors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+
+                //* 📝 Overview text
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.overviewTitle,
+                        style: widget.textStyles.titleMedium?.copyWith(
+                          color: widget.colors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 0),
+                      ExpandableText(
+                        text: (widget.movie.overview.trim().isNotEmpty)
+                            ? widget.movie.overview
+                            : AppLocalizations.of(context)!.resultsSearch,
+                        wordLimit: 30,
+                        style: widget.textStyles.bodyMedium?.copyWith(
+                          color: widget.colors.onSurface,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 5),
+
+        AnimatedOpacity(
+          opacity: isExpanded ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 500),
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 1000),
+            reverseDuration: const Duration(milliseconds: 1000),
+            curve: Curves.fastLinearToSlowEaseIn,
+
+            alignment: Alignment.topCenter,
+            child: isExpanded
+                ? Padding(
+                    padding: const EdgeInsets.only(
+                      left: 40,
+                      right: 40,
+                      bottom: 12,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: widget.colors.surfaceContainerHigh,
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_title,
+                            widget.movie.originalTitle,
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_release,
+                            "${widget.movie.releaseDate != null ? DateFormat('d MMMM y').format(widget.movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate}",
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_tagline,
+                            widget.movie.tagline!,
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_language,
+                            widget.movie.originalLanguage.toUpperCase(),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_budget,
+                            HumanFormats.humanExtentNumber(
+                              widget.movie.budget.toDouble(),
+                            ),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_revenue,
+                            HumanFormats.humanExtentNumber(
+                              widget.movie.revenue.toDouble(),
+                            ),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_runtime,
+                            "${widget.movie.runtime} min",
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(
+                              context,
+                            )!.details_production_companies,
+                            widget.movie.productionCompanies.join(", "),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(
+                              context,
+                            )!.details_production_countries,
+                            widget.movie.productionCountries.join(", "),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_language,
+                            widget.movie.spokenLanguages.join(", "),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+
+        GestureDetector(
+          onTap: () => setState(() => isExpanded = !isExpanded),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              isExpanded ? 'Hide Details' : 'View More Details',
+              style: textStyles.bodyLarge?.copyWith(
+                color: colors.primary.withAlpha(170),
+                fontWeight: FontWeight.bold,
               ),
             ),
-
-            //* 📝 Overview text
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.overviewTitle,
-                    style: textStyles.titleMedium?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 0),
-                  ExpandableText(
-                    text: (movie.overview.trim().isNotEmpty)
-                        ? movie.overview
-                        : AppLocalizations.of(context)!.resultsSearch,
-                    wordLimit: 30,
-                    style: textStyles.bodyMedium?.copyWith(
-                      color: colors.onSurface,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
+}
+
+Widget buildDetailItem(BuildContext context, String title, String value) {
+  final color = Theme.of(context).colorScheme.onSurface;
+  final textStyle = Theme.of(context).textTheme.bodyMedium;
+
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 4),
+    child: RichText(
+      maxLines: 2,
+      text: TextSpan(
+        style: textStyle?.copyWith(color: color),
+        children: [
+          TextSpan(
+            text: "$title: ",
+            style: textStyle?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(text: value),
+        ],
+      ),
+    ),
+  );
 }
 
 class _ActorsByMovie extends ConsumerWidget {
@@ -500,6 +656,7 @@ Widget _buildSectionDivider(String title, BuildContext context) {
           child: Divider(
             color: colors.primary.withAlpha(150),
             thickness: 0.8,
+            height: 0,
             indent: 5,
           ),
         ),
