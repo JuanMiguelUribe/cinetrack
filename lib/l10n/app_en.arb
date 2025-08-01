@@ -30,7 +30,12 @@
   "favoriteMovieNotAddedMessage" : "Start adding your favorite movies!",
   "favoriteTvShowNotAddedMessage" : "Add some TV shows to your favorites to see them here.",
   "watchTrailer" : "Watch Trailer",
-  "relatedVideos": "Related Videos"
+  "relatedVideos": "Related Videos",
+  "noTrailerFound": "No Trailer Found",
+  "overviewTitle": "Overview",
+  "ratingTitle": "Rating"
+
+
 }
 
 

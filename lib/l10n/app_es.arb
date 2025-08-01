@@ -30,7 +30,10 @@
   "favoriteMovieNotAddedMessage" : "Parece que no tienes peliculas favoritas...",
   "favoriteTvShowNotAddedMessage" : "Jmmm, agrega tus series favoritas para verlas aqui!!",
   "watchTrailer" : "Ver Trailer",
-  "relatedVideos": "Videos Relacionados "
+  "relatedVideos": "Videos Relacionados",
+  "noTrailerFound": "No se encontro ningun trailer",
+  "overviewTitle": "Descripción General",
+  "ratingTitle": "Calificación"
 
 
 

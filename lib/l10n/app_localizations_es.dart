@@ -101,5 +101,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get watchTrailer => 'Ver Trailer';
 
   @override
-  String get relatedVideos => 'Videos Relacionados ';
+  String get relatedVideos => 'Videos Relacionados';
+
+  @override
+  String get noTrailerFound => 'No se encontro ningun trailer';
+
+  @override
+  String get overviewTitle => 'Descripción General';
+
+  @override
+  String get ratingTitle => 'Calificación';
 }

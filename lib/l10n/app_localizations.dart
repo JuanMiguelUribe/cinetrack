@@ -283,6 +283,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Related Videos'**
   String get relatedVideos;
+
+  /// No description provided for @noTrailerFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Trailer Found'**
+  String get noTrailerFound;
+
+  /// No description provided for @overviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overviewTitle;
+
+  /// No description provided for @ratingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get ratingTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -102,4 +102,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get relatedVideos => 'Related Videos';
+
+  @override
+  String get noTrailerFound => 'No Trailer Found';
+
+  @override
+  String get overviewTitle => 'Overview';
+
+  @override
+  String get ratingTitle => 'Rating';
 }
