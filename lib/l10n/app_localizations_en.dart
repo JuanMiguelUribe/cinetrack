@@ -110,5 +110,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overviewTitle => 'Overview';
 
   @override
-  String get ratingTitle => 'Rating';
+  String get ratingTitle => 'TMDB Rating';
+
+  @override
+  String get details_title => 'Original Title';
+
+  @override
+  String get details_release => 'Release';
+
+  @override
+  String get details_language => 'Original Language';
+
+  @override
+  String get details_budget => 'Budget';
+
+  @override
+  String get details_revenue => 'Revenue';
+
+  @override
+  String get details_runtime => 'Runtime';
+
+  @override
+  String get details_tagline => 'Tagline';
+
+  @override
+  String get details_homepage => 'Home Page';
+
+  @override
+  String get details_production_companies => 'Production Companies';
+
+  @override
+  String get details_production_countries => 'Production Countries';
+
+  @override
+  String get details_spoken_languages => 'Spoken Languages';
+
+  @override
+  String get details_hide => 'Hide Details';
+
+  @override
+  String get show_more_details => 'View More Details';
 }
