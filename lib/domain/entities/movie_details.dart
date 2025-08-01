@@ -33,7 +33,7 @@ class MovieDetails {
     required this.title,
     required this.originalTitle,
     required this.overview,
-    required this.tagline,
+    this.tagline,
     this.adult,
     required this.backdropPath,
     required this.posterPath,
