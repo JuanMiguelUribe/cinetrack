@@ -226,6 +226,7 @@ class _ResultIfVIdeosAreEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final colors = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -245,7 +246,9 @@ class _ResultIfVIdeosAreEmpty extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                decoration: BoxDecoration(color: Colors.grey),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 226, 226, 226).withAlpha(10),
+                ),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   child: Center(
