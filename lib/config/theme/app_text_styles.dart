@@ -81,7 +81,7 @@ class AppTextStyles {
 
     return GoogleFonts.roboto(
       fontSize: 25,
-      color: colors.onSurface,
+      color: colors.primary,
       fontWeight: FontWeight.w400,
     );
   }
