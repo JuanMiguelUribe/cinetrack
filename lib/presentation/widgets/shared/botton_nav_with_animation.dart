@@ -1,17 +1,19 @@
 import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 
 import '../../../infraestructure/models/navigationbar/section_model.dart';
 
-class BottonNavWithAnimation extends StatefulWidget {
+class BottonNavWithAnimation extends ConsumerStatefulWidget {
   const BottonNavWithAnimation({super.key});
 
   @override
-  State<BottonNavWithAnimation> createState() => _BottonNavWithAnimationState();
+  BottonNavWithAnimationState createState() => BottonNavWithAnimationState();
 }
 
 List<NavBarItem> getNavItems(BuildContext context) {
@@ -34,16 +36,19 @@ List<NavBarItem> getNavItems(BuildContext context) {
   ];
 }
 
-class _BottonNavWithAnimationState extends State<BottonNavWithAnimation> {
-  int selectedNavIndex = 0;
-
+class BottonNavWithAnimationState
+    extends ConsumerState<BottonNavWithAnimation> {
   void onItemTapped(BuildContext context, int index) {
-    switch (index) {
+    final currentIndex = ref.watch(navBarIndexProvider);
+    ref.read(navBarIndexProvider.notifier).state = index;
+
+    switch (currentIndex) {
       case 0:
         context.go("/");
+
         break;
       case 1:
-        context.go("/");
+        context.go("/categories");
         break;
       case 2:
         context.go("/favorites");
@@ -53,6 +58,8 @@ class _BottonNavWithAnimationState extends State<BottonNavWithAnimation> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedNavIndex = ref.watch(navBarIndexProvider);
+
     final colors = Theme.of(context).colorScheme;
     final items = getNavItems(context);
 
@@ -88,9 +95,8 @@ class _BottonNavWithAnimationState extends State<BottonNavWithAnimation> {
                       (index) => Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            setState(() {
-                              selectedNavIndex = index;
-                            });
+                            ref.read(navBarIndexProvider.notifier).state =
+                                index;
                             onItemTapped(context, index);
                           },
                           child: Column(

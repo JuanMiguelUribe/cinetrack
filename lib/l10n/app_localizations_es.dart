@@ -73,4 +73,42 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tvshowSearch => 'Serie';
+
+  @override
+  String get myFavoriteMovies => 'Películas Favoritas';
+
+  @override
+  String get myFavoriteTvshows => 'Series Favoritas';
+
+  @override
+  String get startTheSearch => 'Empezar a buscar';
+
+  @override
+  String get exploreMoreMovies => 'Explorar más Películas';
+
+  @override
+  String get exploreMoreTvShows => 'Explorar más Series';
+
+  @override
+  String get favoriteMovieNotAddedMessage =>
+      'Parece que no tienes peliculas favoritas...';
+
+  @override
+  String get favoriteTvShowNotAddedMessage =>
+      'Jmmm, agrega tus series favoritas para verlas aqui!!';
+
+  @override
+  String get watchTrailer => 'Ver Trailer';
+
+  @override
+  String get relatedVideos => 'Videos Relacionados';
+
+  @override
+  String get noTrailerFound => 'No se encontro ningun trailer';
+
+  @override
+  String get overviewTitle => 'Descripción General';
+
+  @override
+  String get ratingTitle => 'Calificación';
 }

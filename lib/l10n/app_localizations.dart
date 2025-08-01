@@ -229,6 +229,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tv Show'**
   String get tvshowSearch;
+
+  /// No description provided for @myFavoriteMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites Movies'**
+  String get myFavoriteMovies;
+
+  /// No description provided for @myFavoriteTvshows.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites TV Shows'**
+  String get myFavoriteTvshows;
+
+  /// No description provided for @startTheSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Exploring'**
+  String get startTheSearch;
+
+  /// No description provided for @exploreMoreMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore More Movies'**
+  String get exploreMoreMovies;
+
+  /// No description provided for @exploreMoreTvShows.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore More TV Shows'**
+  String get exploreMoreTvShows;
+
+  /// No description provided for @favoriteMovieNotAddedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Start adding your favorite movies!'**
+  String get favoriteMovieNotAddedMessage;
+
+  /// No description provided for @favoriteTvShowNotAddedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add some TV shows to your favorites to see them here.'**
+  String get favoriteTvShowNotAddedMessage;
+
+  /// No description provided for @watchTrailer.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch Trailer'**
+  String get watchTrailer;
+
+  /// No description provided for @relatedVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Videos'**
+  String get relatedVideos;
+
+  /// No description provided for @noTrailerFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Trailer Found'**
+  String get noTrailerFound;
+
+  /// No description provided for @overviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overviewTitle;
+
+  /// No description provided for @ratingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get ratingTitle;
 }
 
 class _AppLocalizationsDelegate

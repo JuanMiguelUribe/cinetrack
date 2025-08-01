@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/domain/entities/searchbleitem.dart';
-import 'package:cinetrack/infraestructure/repositories/movie_repository_imple.dart';
-import 'package:cinetrack/infraestructure/repositories/tvshows_repository_impl.dart';
-import 'package:cinetrack/presentation/providers/providers.dart';
+import 'package:movieflex/domain/entities/searchbleitem.dart';
+import 'package:movieflex/infraestructure/repositories/movie_repository_imple.dart';
+import 'package:movieflex/infraestructure/repositories/tvshows_repository_impl.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 
-import 'package:cinetrack/presentation/widgets/widgets.dart';
+import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

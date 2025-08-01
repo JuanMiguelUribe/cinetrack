@@ -1,10 +1,14 @@
-import 'package:cinetrack/infraestructure/models/movieDb/movie_details.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/domain/entities/video_movie.dart';
+import 'package:movieflex/infraestructure/mappers/video_movie_mapper.dart';
+import 'package:movieflex/infraestructure/models/movieDb/movie_details.dart';
 import 'package:dio/dio.dart';
-import 'package:cinetrack/domain/datasources/movies_datasource.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/moviedb_response.dart';
-import 'package:cinetrack/infraestructure/mappers/movie_mapper.dart';
-import 'package:cinetrack/config/constants/environment.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:movieflex/domain/datasources/movies_datasource.dart';
+import 'package:movieflex/infraestructure/models/movieDb/moviedb_response.dart';
+import 'package:movieflex/infraestructure/mappers/movie_mapper.dart';
+import 'package:movieflex/config/constants/environment.dart';
+import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/infraestructure/models/movieDb/moviedb_videos.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
@@ -62,14 +66,18 @@ class MoviedbDatasource extends MoviesDatasource {
   }
 
   @override
-  Future<Movie> getMovieById(String id) async {
+  Future<MovieDetails> getMovieById(String id) async {
     final response = await dio.get("/movie/$id");
     if (response.statusCode != 200) {
       throw Exception("Error fetching movie details");
     }
 
-    final movieDetails = MovieDetails.fromJson(response.data);
-    final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
+    final movieDetailsFromApi = MovieDetailsResponse.fromJson(
+      response.data,
+    ); // <- usar el modelo
+    final MovieDetails movie = MovieMapper.movieDetailsToEntity(
+      movieDetailsFromApi,
+    );
     return movie;
   }
 
@@ -85,5 +93,35 @@ class MoviedbDatasource extends MoviesDatasource {
       },
     );
     return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<VideoMovie>> getYoutubeVideosById(int movieId) async {
+    final response = await dio.get('/movie/$movieId/videos');
+    final moviedbVideosReponse = MoviedbVideosResponse.fromJson(response.data);
+    final videos = <VideoMovie>[];
+    for (final moviedbVideo in moviedbVideosReponse.results) {
+      if (moviedbVideo.site == 'YouTube') {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+
+    return videos;
+  }
+
+  @override
+  Future<List<VideoMovie>> getYoutubeVideosByIdTvShow(int tvshowId) async {
+    final response = await dio.get('/tv/$tvshowId/videos');
+    final moviedbVideosReponse = MoviedbVideosResponse.fromJson(response.data);
+    final videos = <VideoMovie>[];
+    for (final moviedbVideo in moviedbVideosReponse.results) {
+      if (moviedbVideo.site == 'YouTube') {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+
+    return videos;
   }
 }

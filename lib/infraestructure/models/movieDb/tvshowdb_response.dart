@@ -32,7 +32,7 @@ class TvShowsResponse {
 class TvShowTvShowsDB {
   final bool adult;
   final String? backdropPath;
-  final List<int> genreIds;
+  final List<String> genreIds;
   final int id;
   final String originalName;
   final String? overview;
@@ -62,7 +62,9 @@ class TvShowTvShowsDB {
       TvShowTvShowsDB(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+        genreIds: List<String>.from(
+          (json["genres"] ?? []).map((x) => x["name"]),
+        ),
         id: json["id"],
         originalName: json["original_name"],
         overview: json["overview"],

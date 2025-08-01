@@ -6,7 +6,7 @@ class TvShowDetails {
   final String overview;
   final String? posterPath;
   final String? backdropPath;
-  final DateTime firstAirDate;
+  final DateTime? firstAirDate;
   final DateTime? lastAirDate;
   final double? popularity;
   final bool? inProduction;
@@ -30,7 +30,7 @@ class TvShowDetails {
     required this.overview,
     this.posterPath,
     this.backdropPath,
-    required this.firstAirDate,
+    this.firstAirDate,
     this.lastAirDate,
     this.inProduction,
     required this.originalLanguage,

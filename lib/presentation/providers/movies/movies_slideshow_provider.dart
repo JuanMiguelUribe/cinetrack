@@ -1,4 +1,4 @@
-import 'package:cinetrack/domain/entities/movie.dart';
+import 'package:movieflex/domain/entities/movie.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'movies_providers.dart';

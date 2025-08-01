@@ -1,9 +1,12 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cinetrack/domain/entities/tv_show_details.dart';
-import 'package:cinetrack/l10n/app_localizations.dart';
-import 'package:cinetrack/presentation/providers/actors/actors_by_tvshow_provider.dart';
-import 'package:cinetrack/presentation/providers/tvshows/tvshows_details_provider.dart';
-import 'package:cinetrack/presentation/widgets/widgets.dart';
+import 'package:movieflex/config/theme/app_text_styles.dart';
+import 'package:movieflex/domain/entities/tv_show_details.dart';
+import 'package:movieflex/infraestructure/mappers/tvshow_details_to_tvshow_mapper.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
+import 'package:movieflex/presentation/providers/actors/actors_by_tvshow_provider.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
+import 'package:movieflex/presentation/providers/tvshows/tvshows_details_provider.dart';
+import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -40,6 +43,8 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
     final TvShowDetails? tvshow = ref.watch(
       tvshowsInfoProvider,
     )[widget.tvshowID];
+    final colors = Theme.of(context).colorScheme;
+
     if (tvshow == null) {
       return Scaffold(
         appBar: AppBar(
@@ -49,6 +54,16 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
       );
     }
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => showTrailerDialog(context, tvshow.id, MediaType.tv),
+        icon: const Icon(Icons.play_arrow, color: Colors.white),
+        label: Text(
+          AppLocalizations.of(context)!.watchTrailer,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: colors.onPrimaryFixedVariant,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
@@ -78,7 +93,15 @@ class _TvShowDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 3),
-
+        Center(
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: tvshow.genres
+                .map((genre) => GenreChip(label: genre, size: 1.2))
+                .toList(),
+          ),
+        ),
+        SizedBox(height: 3),
         if (tvshow.adult)
           Center(
             child: Positioned(
@@ -97,42 +120,22 @@ class _TvShowDetails extends StatelessWidget {
               ),
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Center(
-                  child: AnimatedRatingCircle(
-                    rating: tvshow.voteAverage,
-                    size: 60,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 1),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 8),
-                  child: ExpandableText(
-                    text: (tvshow.overview.trim().isNotEmpty)
-                        ? tvshow.overview
-                        : AppLocalizations.of(context)!.resultsSearch,
 
-                    wordLimit: 30,
-                    style: textStyles.bodyMedium?.copyWith(
-                      color: colors.onSurface,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        //*Rating y overview de la serie
+        _RatingAndOverview(
+          tvshow: tvshow,
+          textStyles: textStyles,
+          colors: colors,
         ),
-        SizedBox(height: 5),
+
         Text(tvshow.id.toString()),
 
+        SizedBox(height: 5),
+        //*DIVISOR DE SECCIÓN,
+        _buildSectionDivider("", context),
+
+        // Text(tvshow.id.toString()),
+        //*Titulo del Cast
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
@@ -147,8 +150,99 @@ class _TvShowDetails extends StatelessWidget {
         ),
         SizedBox(height: 5),
 
+        //*Actores de la pelicula
         _ActorsByMovie(tvshowId: tvshow.id.toString()),
+
+        //*Videos de la Pelicula
+        TrailerCarousel(movieId: tvshow.id, type: MediaType.tv),
+        // VideosFromMovie(movieId: movie.id),
+        SizedBox(height: 100),
       ],
+    );
+  }
+}
+
+class _RatingAndOverview extends StatelessWidget {
+  const _RatingAndOverview({
+    required this.tvshow,
+    required this.textStyles,
+    required this.colors,
+  });
+
+  final TvShowDetails tvshow;
+  final TextTheme textStyles;
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Container(
+        //*Decoracion Contenedor del Rating y Overview
+        decoration: BoxDecoration(
+          color: colors.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          children: [
+            //* ⭐ Rating Star
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: [
+                  AnimatedRatingCircle(rating: tvshow.voteAverage, size: 50),
+                  Text(
+                    AppLocalizations.of(context)!.ratingTitle,
+                    style: textStyles.titleMedium?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            //* 📝 Overview text
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.overviewTitle,
+                    style: textStyles.titleMedium?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 0),
+                  ExpandableText(
+                    text: (tvshow.overview.trim().isNotEmpty)
+                        ? tvshow.overview
+                        : AppLocalizations.of(context)!.resultsSearch,
+                    wordLimit: 30,
+                    style: textStyles.bodyMedium?.copyWith(
+                      color: colors.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -195,12 +289,8 @@ class _ActorsByMovie extends ConsumerWidget {
                   child: Text(
                     actor.name,
                     maxLines: 3,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                    textAlign: TextAlign.center,
+                    style: AppTextStyles.actorName(context),
+                    textAlign: TextAlign.left,
                   ),
                 ),
                 const SizedBox(height: 0),
@@ -209,13 +299,8 @@ class _ActorsByMovie extends ConsumerWidget {
                   child: Text(
                     actor.character ?? 'Not Found',
                     maxLines: 2,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      overflow: TextOverflow.ellipsis,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                    textAlign: TextAlign.center,
+                    style: AppTextStyles.characterName(context),
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ],
@@ -227,14 +312,17 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
   final TvShowDetails tvshow;
 
   const _CustomSliverAppBar({required this.tvshow});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
+    final isFavoriteFuture = ref.watch(
+      isFavoriteProvider((type: 'tvshow', id: tvshow.id)),
+    );
 
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
@@ -243,19 +331,31 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () {
-            //TODO: realizar el toggle
+          onPressed: () async {
+            final tvshow = this.tvshow.fromTvShowDetailsToTvShowEntity();
+            await
+            //     .read(localStorageRepositoryProvider)
+            //     .toggleFavoriteTvShow(tvshow);
+            ref.read(favoriteTvShowProvider.notifier).toggleFavorite(tvshow);
+            ref.invalidate(isFavoriteProvider((type: 'tvshow', id: tvshow.id)));
           },
-          icon: Icon(Icons.favorite_border_rounded),
+          icon: isFavoriteFuture.when(
+            loading: () => CircularProgressIndicator(strokeWidth: 2),
+            data: (isFavorite) => isFavorite
+                ? Icon(Icons.favorite_rounded, color: Colors.red)
+                : const Icon(Icons.favorite_border_rounded),
+            error: (_, _) => throw UnimplementedError(),
+          ),
         ),
       ],
       leading: LeadingRoundedIconButton(
         iconSize: 18,
-        paddingSize: 8,
-        icon: Icons.arrow_back_ios_new_rounded,
+        paddingSize: 12,
+        icon: Icons.close,
         onPressed: () => Navigator.pop(context),
       ),
       flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
         titlePadding: const EdgeInsets.symmetric(vertical: 2),
         centerTitle: true,
         title: Column(
@@ -272,14 +372,26 @@ class _CustomSliverAppBar extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                "${DateFormat('d MMMM y').format(tvshow.firstAirDate)} • ${tvshow.genres.join(', ')}",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Theme.of(context).colorScheme.onSurface,
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 12),
+                  children: [
+                    TextSpan(
+                      text:
+                          "${tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate} •",
+                      style: TextStyle(color: colors.onSurface),
+                    ),
+                    TextSpan(
+                      text:
+                          "  ${tvshow.numberOfSeasons} Season${tvshow.numberOfSeasons == 1 ? "" : "s"}",
+                      style: TextStyle(
+                        color: colors.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
               ),
             ),
           ],
@@ -316,32 +428,75 @@ class _BackgroundStack extends StatelessWidget {
             },
           ),
         ),
-
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.7, 0.85, 1.0],
-                colors: gradientColors,
-              ),
-            ),
-          ),
+        _CustomGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: const [0.7, 0.85, 1.0],
+          colors: gradientColors,
         ),
-        // SizedBox.expand(
-        //   child: DecoratedBox(
-        //     decoration: BoxDecoration(
-        //       gradient: LinearGradient(
-        //         begin: Alignment.topLeft,
 
-        //         stops: const [0.0, 0.2],
-        //         colors: [colors.surface, Colors.transparent],
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        _CustomGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+
+          stops: const [0.0, 0.2],
+          colors: [Colors.black45, Colors.transparent],
+        ),
       ],
     );
   }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<double> stops;
+  final List<Color> colors;
+  const _CustomGradient({
+    this.begin = Alignment.center,
+    this.end = Alignment.bottomCenter,
+    required this.stops,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: begin,
+            end: end,
+
+            stops: stops,
+            colors: colors,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _buildSectionDivider(String title, BuildContext context) {
+  final colors = Theme.of(context).colorScheme;
+
+  return Padding(
+    padding: const EdgeInsets.only(top: 0, left: 20, right: 20),
+    child: Row(
+      children: [
+        const SizedBox(width: 10),
+
+        Text(title, style: AppTextStyles.titleFavorites(context)),
+
+        Expanded(
+          child: Divider(
+            color: colors.primary.withAlpha(150),
+            thickness: 0.8,
+            indent: 5,
+          ),
+        ),
+        const SizedBox(width: 10),
+      ],
+    ),
+  );
 }

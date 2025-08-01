@@ -12,7 +12,7 @@
   "tvshows": "Tv Shows",
   "always": "Always",
   "homeNav": "Home",
- "categoriasNav": "Categories",
+  "categoriasNav": "Categories",
   "favsNav": "Favorites",
   "loading": "Loading",
   "showMore": "Show More",
@@ -21,7 +21,21 @@
   "resultsSearch": "No results Found",
   "unknownDate": "Unknown Date",
   "movieSearch": "Movie",
-  "tvshowSearch": "Tv Show"
+  "tvshowSearch": "Tv Show",
+  "myFavoriteMovies": "Favorites Movies",
+  "myFavoriteTvshows": "Favorites TV Shows",
+  "startTheSearch": "Start Exploring",
+  "exploreMoreMovies": "Explore More Movies",
+  "exploreMoreTvShows": "Explore More TV Shows",
+  "favoriteMovieNotAddedMessage" : "Start adding your favorite movies!",
+  "favoriteTvShowNotAddedMessage" : "Add some TV shows to your favorites to see them here.",
+  "watchTrailer" : "Watch Trailer",
+  "relatedVideos": "Related Videos",
+  "noTrailerFound": "No Trailer Found",
+  "overviewTitle": "Overview",
+  "ratingTitle": "Rating"
+
+
 }
 
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cinetrack/domain/entities/movie.dart';
-import 'package:cinetrack/domain/entities/tv_shows.dart';
-import 'package:cinetrack/presentation/providers/providers.dart';
-import 'package:cinetrack/presentation/widgets/widgets.dart';
+import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/domain/entities/tv_shows.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
+import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -40,7 +40,6 @@ class HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(initialLoadingProvider);
     if (isLoading) return const FullScreenLoader();
-
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final popularMovies = ref.watch(popularMoviesProvider);

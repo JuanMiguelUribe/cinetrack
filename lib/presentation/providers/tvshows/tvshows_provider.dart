@@ -1,5 +1,5 @@
-import 'package:cinetrack/domain/entities/tv_shows.dart';
-import 'package:cinetrack/presentation/providers/tvshows/tvshows_repository_provider.dart';
+import 'package:movieflex/domain/entities/tv_shows.dart';
+import 'package:movieflex/presentation/providers/tvshows/tvshows_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final airingTvShowProvider =

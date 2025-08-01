@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "cinetrack" "\0"
+            VALUE "FileDescription", "movieflex" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "cinetrack" "\0"
+            VALUE "InternalName", "movieflex" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "cinetrack.exe" "\0"
-            VALUE "ProductName", "cinetrack" "\0"
+            VALUE "OriginalFilename", "movieflex.exe" "\0"
+            VALUE "ProductName", "movieflex" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

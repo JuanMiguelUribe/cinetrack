@@ -1,5 +1,5 @@
-import 'package:cinetrack/domain/entities/tv_show_details.dart';
-import 'package:cinetrack/domain/entities/tv_shows.dart';
+import 'package:movieflex/domain/entities/tv_show_details.dart';
+import 'package:movieflex/domain/entities/tv_shows.dart';
 
 abstract class TvShowsDBRepository {
   Future<List<TvShow>> getTvShowsAiring({int page = 1});

@@ -1,6 +1,6 @@
-import 'package:cinetrack/domain/entities/actor.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/ActorsTv_response.dart';
-import 'package:cinetrack/infraestructure/models/movieDb/credits_response.dart';
+import 'package:movieflex/domain/entities/actor.dart';
+import 'package:movieflex/infraestructure/models/movieDb/ActorsTv_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/credits_response.dart';
 
 class ActorMapper {
   static Actor castToEntity(Cast cast) => Actor(

@@ -1,9 +1,9 @@
-import 'package:cinetrack/domain/entities/movie.dart';
-import 'package:cinetrack/presentation/providers/providers.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final movieInfoProvider =
-    StateNotifierProvider<MovieMapNotifier, Map<String, Movie>>((ref) {
+    StateNotifierProvider<MovieMapNotifier, Map<String, MovieDetails>>((ref) {
       final movieRepository = ref.watch(movieRepositoryProvider);
       return MovieMapNotifier(getMovie: movieRepository.getMovieById);
     });
@@ -16,9 +16,9 @@ final movieInfoProvider =
   "505655": "Movie()",
  */
 
-typedef GetMovieCallBack = Future<Movie> Function(String movieId);
+typedef GetMovieCallBack = Future<MovieDetails> Function(String movieId);
 
-class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
+class MovieMapNotifier extends StateNotifier<Map<String, MovieDetails>> {
   final GetMovieCallBack getMovie;
   MovieMapNotifier({required this.getMovie}) : super({});
 

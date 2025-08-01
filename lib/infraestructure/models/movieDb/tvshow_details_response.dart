@@ -80,7 +80,9 @@ class TvShowsDetails {
     id: json["id"],
     inProduction: json["in_production"],
     languages: List<String>.from(json["languages"].map((x) => x)),
-    lastAirDate: DateTime.parse(json["last_air_date"]),
+    lastAirDate: json["last_air_date"] != null
+        ? DateTime.parse(json["last_air_date"])
+        : DateTime(1900),
     lastEpisodeToAir: LastEpisodeToAir.fromJson(json["last_episode_to_air"]),
     name: json["name"],
     nextEpisodeToAir: json["next_episode_to_air"],
