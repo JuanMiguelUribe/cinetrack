@@ -55,7 +55,7 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showTrailerDialog(context, tvshow.id),
+        onPressed: () => showTrailerDialog(context, tvshow.id, MediaType.tv),
         icon: const Icon(Icons.play_arrow, color: Colors.white),
         label: Text(
           AppLocalizations.of(context)!.watchTrailer,
@@ -128,6 +128,8 @@ class _TvShowDetails extends StatelessWidget {
           colors: colors,
         ),
 
+        Text(tvshow.id.toString()),
+
         SizedBox(height: 5),
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
@@ -152,7 +154,7 @@ class _TvShowDetails extends StatelessWidget {
         _ActorsByMovie(tvshowId: tvshow.id.toString()),
 
         //*Videos de la Pelicula
-        TrailerCarousel(movieId: tvshow.id),
+        TrailerCarousel(movieId: tvshow.id, type: MediaType.tv),
         // VideosFromMovie(movieId: movie.id),
         SizedBox(height: 100),
       ],
@@ -174,31 +176,72 @@ class _RatingAndOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Center(
-              child: AnimatedRatingCircle(rating: tvshow.voteAverage, size: 60),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Container(
+        //*Decoracion Contenedor del Rating y Overview
+        decoration: BoxDecoration(
+          color: colors.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 6),
             ),
-          ),
-          const SizedBox(width: 1),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16, left: 8),
-              child: ExpandableText(
-                text: (tvshow.overview.trim().isNotEmpty)
-                    ? tvshow.overview
-                    : AppLocalizations.of(context)!.resultsSearch,
+          ],
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
 
-                wordLimit: 30,
-                style: textStyles.bodyMedium?.copyWith(color: colors.onSurface),
+          children: [
+            //* ⭐ Rating Star
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: [
+                  AnimatedRatingCircle(rating: tvshow.voteAverage, size: 50),
+                  Text(
+                    AppLocalizations.of(context)!.ratingTitle,
+                    style: textStyles.titleMedium?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+
+            //* 📝 Overview text
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.overviewTitle,
+                    style: textStyles.titleMedium?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 0),
+                  ExpandableText(
+                    text: (tvshow.overview.trim().isNotEmpty)
+                        ? tvshow.overview
+                        : AppLocalizations.of(context)!.resultsSearch,
+                    wordLimit: 30,
+                    style: textStyles.bodyMedium?.copyWith(
+                      color: colors.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
