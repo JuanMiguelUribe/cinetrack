@@ -109,4 +109,19 @@ class MoviedbDatasource extends MoviesDatasource {
 
     return videos;
   }
+
+  @override
+  Future<List<VideoMovie>> getYoutubeVideosByIdTvShow(int tvshowId) async {
+    final response = await dio.get('/tv/$tvshowId/videos');
+    final moviedbVideosReponse = MoviedbVideosResponse.fromJson(response.data);
+    final videos = <VideoMovie>[];
+    for (final moviedbVideo in moviedbVideosReponse.results) {
+      if (moviedbVideo.site == 'YouTube') {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+
+    return videos;
+  }
 }
