@@ -52,10 +52,8 @@ class _ExpandableTextState extends State<ExpandableText> {
                 style:
                     widget.linkStyle ??
                     TextStyle(
-                      color: colors.brightness == Brightness.dark
-                          ? Colors.blueAccent.shade200
-                          : Colors.blueAccent.shade700,
-                      fontWeight: FontWeight.w600,
+                      color: colors.primary,
+                      fontWeight: FontWeight.w500,
                     ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
