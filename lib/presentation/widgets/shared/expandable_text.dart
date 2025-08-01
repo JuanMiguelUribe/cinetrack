@@ -43,11 +43,11 @@ class _ExpandableTextState extends State<ExpandableText> {
           style: widget.style ?? DefaultTextStyle.of(context).style,
           children: [
             TextSpan(text: visibleText),
-            if (hasLink && !showAll) const TextSpan(text: '... '),
+            if (hasLink && !showAll) const TextSpan(text: '...  '),
             if (hasLink)
               TextSpan(
                 text: isExpanded
-                    ? AppLocalizations.of(context)!.showLess
+                    ? "  ${AppLocalizations.of(context)!.showLess}"
                     : AppLocalizations.of(context)!.showMore,
                 style:
                     widget.linkStyle ??
