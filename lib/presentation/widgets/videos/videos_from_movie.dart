@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieflex/domain/entities/video_movie.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideosFromMovie extends ConsumerWidget {
   final int movieId;
+  final MediaType type;
 
-  const VideosFromMovie({super.key, required this.movieId});
+  const VideosFromMovie({super.key, required this.movieId, required this.type});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final moviesFromVideo = ref.watch(videosFromMovieProvider(movieId));
+    final moviesFromVideo = ref.watch(
+      videosProvider((id: movieId, type: type)),
+    );
 
     return moviesFromVideo.when(
       data: (videos) => _VideosList(videos: videos),
-      error: (_, _) =>
-          const Center(child: Text('No se pudo cargar películas similares')),
+      error: (_, _) => Center(
+        child: Text(
+          AppLocalizations.of(context)!.noTrailerFound,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
       loading: () =>
           const Center(child: CircularProgressIndicator(strokeWidth: 2)),
     );
@@ -36,7 +44,12 @@ class _VideosList extends StatelessWidget {
 
     //* Nada que mostrar
     if (trailerVideos.isEmpty) {
-      return const SizedBox(child: Text("Not Video Founded"));
+      return SizedBox(
+        child: Text(
+          AppLocalizations.of(context)!.noTrailerFound,
+          style: const TextStyle(color: Colors.white),
+        ),
+      );
     }
 
     return Column(
