@@ -46,7 +46,15 @@
   "details_production_countries": "Production Countries",
   "details_spoken_languages": "Spoken Languages",
   "details_hide": "Hide Details",
-  "show_more_details": "View More Details"
+  "show_more_details": "View More Details",
+  "first_air_episode": "First Episode Air Date",
+  "last_air_episode": "Last Episode Air Date",
+  "status" : "Status",
+  "created_by": "Created By",
+  "in_production": "In Production",
+  "yes_response": "Yes",
+  "no_response": "No"
+  
 
 }
 

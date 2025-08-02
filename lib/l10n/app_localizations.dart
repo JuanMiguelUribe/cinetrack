@@ -379,6 +379,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View More Details'**
   String get show_more_details;
+
+  /// No description provided for @first_air_episode.
+  ///
+  /// In en, this message translates to:
+  /// **'First Episode Air Date'**
+  String get first_air_episode;
+
+  /// No description provided for @last_air_episode.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Episode Air Date'**
+  String get last_air_episode;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @created_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Created By'**
+  String get created_by;
+
+  /// No description provided for @in_production.
+  ///
+  /// In en, this message translates to:
+  /// **'In Production'**
+  String get in_production;
+
+  /// No description provided for @yes_response.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes_response;
+
+  /// No description provided for @no_response.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no_response;
 }
 
 class _AppLocalizationsDelegate

@@ -150,4 +150,25 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get show_more_details => 'Ver Más Detalles';
+
+  @override
+  String get first_air_episode => 'Primer Episodio al Aire';
+
+  @override
+  String get last_air_episode => 'Último Episodio al Aire';
+
+  @override
+  String get status => 'Estado';
+
+  @override
+  String get created_by => 'Creado Por';
+
+  @override
+  String get in_production => 'En Producción';
+
+  @override
+  String get yes_response => 'Si';
+
+  @override
+  String get no_response => 'No';
 }

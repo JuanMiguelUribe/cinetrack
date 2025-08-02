@@ -46,7 +46,14 @@
   "details_production_countries": "Países de producción",
   "details_spoken_languages": "Idiomas hablados",
   "details_hide": "Ocultar detalles",
-  "show_more_details": "Ver Más Detalles"
+  "show_more_details": "Ver Más Detalles",
+   "first_air_episode": "Primer Episodio al Aire",
+  "last_air_episode": "Último Episodio al Aire",
+  "status" : "Estado",
+  "created_by": "Creado Por",
+  "in_production": "En Producción",
+  "yes_response": "Si",
+  "no_response": "No"
 
 
 
