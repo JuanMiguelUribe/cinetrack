@@ -8,7 +8,7 @@ class RecommendationsNotifier extends StateNotifier<List<Movie>> {
 
   int _currentPage = 1;
   bool _isLoading = false;
-  final int movieId;
+  final String movieId;
 
   RecommendationsNotifier({required this.repository, required this.movieId})
     : super([]) {
@@ -23,6 +23,8 @@ class RecommendationsNotifier extends StateNotifier<List<Movie>> {
       movieId,
       page: _currentPage,
     );
+    print('📽️ Recomendaciones recibidas: ${movies.length}');
+
     state = [...state, ...movies];
 
     _currentPage++;
@@ -31,7 +33,7 @@ class RecommendationsNotifier extends StateNotifier<List<Movie>> {
 }
 
 final recommendationsNotifierProvider =
-    StateNotifierProvider.family<RecommendationsNotifier, List<Movie>, int>((
+    StateNotifierProvider.family<RecommendationsNotifier, List<Movie>, String>((
       ref,
       movieId,
     ) {
