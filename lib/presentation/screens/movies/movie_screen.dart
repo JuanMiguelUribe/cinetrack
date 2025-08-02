@@ -12,8 +12,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:intl/intl.dart';
 
-import '../../../config/helpers/url_helper.dart';
-
 class MovieScreen extends ConsumerStatefulWidget {
   final String movieId;
   static const name = "movie-screen";
@@ -298,60 +296,60 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_title,
                             widget.movie.originalTitle,
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_release,
                             "${widget.movie.releaseDate != null ? DateFormat('d MMMM y').format(widget.movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate}",
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_tagline,
                             widget.movie.tagline!,
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_language,
                             widget.movie.originalLanguage.toUpperCase(),
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_budget,
                             HumanFormats.humanExtentNumber(
                               widget.movie.budget.toDouble(),
                             ),
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_revenue,
                             HumanFormats.humanExtentNumber(
                               widget.movie.revenue.toDouble(),
                             ),
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_runtime,
                             "${widget.movie.runtime} min",
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(
                               context,
                             )!.details_production_companies,
                             widget.movie.productionCompanies.join(", "),
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(
                               context,
                             )!.details_production_countries,
                             widget.movie.productionCountries.join(", "),
                           ),
-                          buildDetailItem(
+                          _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_language,
                             widget.movie.spokenLanguages.join(", "),
@@ -363,13 +361,15 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                 : const SizedBox.shrink(),
           ),
         ),
-
+        const SizedBox(height: 8),
         GestureDetector(
           onTap: () => setState(() => isExpanded = !isExpanded),
           child: Align(
             alignment: Alignment.center,
             child: Text(
-              isExpanded ? 'Hide Details' : 'View More Details',
+              isExpanded
+                  ? AppLocalizations.of(context)!.details_hide
+                  : AppLocalizations.of(context)!.show_more_details,
               style: textStyles.bodyLarge?.copyWith(
                 color: colors.primary.withAlpha(170),
                 fontWeight: FontWeight.bold,
@@ -382,7 +382,7 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
   }
 }
 
-Widget buildDetailItem(BuildContext context, String title, String value) {
+Widget _buildDetailItem(BuildContext context, String title, String value) {
   final color = Theme.of(context).colorScheme.onSurface;
   final textStyle = Theme.of(context).textTheme.bodyMedium;
 
