@@ -13,7 +13,7 @@ extension TvShowDetailsMapper on TvShowDetails {
           : "https://www.shutterstock.com/shutterstock/videos/1100631657/thumb/4.jpg?ip=x480",
       voteAverage: voteAverage,
       voteCount: voteCount,
-      popularity: popularity ?? 0,
+      popularity: popularity,
       firstAirDate: firstAirDate,
       genreIds: genres,
       originalLanguage: originalLanguage,
