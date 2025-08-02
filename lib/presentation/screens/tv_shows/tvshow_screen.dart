@@ -128,9 +128,7 @@ class _TvShowDetails extends StatelessWidget {
           colors: colors,
         ),
 
-        Text(tvshow.id.toString()),
-
-        SizedBox(height: 5),
+        // SizedBox(height: 5),
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
 
@@ -162,7 +160,7 @@ class _TvShowDetails extends StatelessWidget {
   }
 }
 
-class _RatingAndOverview extends StatelessWidget {
+class _RatingAndOverview extends StatefulWidget {
   const _RatingAndOverview({
     required this.tvshow,
     required this.textStyles,
@@ -174,77 +172,241 @@ class _RatingAndOverview extends StatelessWidget {
   final ColorScheme colors;
 
   @override
+  State<_RatingAndOverview> createState() => _RatingAndOverviewState();
+}
+
+class _RatingAndOverviewState extends State<_RatingAndOverview> {
+  bool isExpanded = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Container(
-        //*Decoracion Contenedor del Rating y Overview
-        decoration: BoxDecoration(
-          color: colors.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 6),
+    final colors = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          child: Container(
+            //*Decoracion Contenedor del Rating y Overview
+            decoration: BoxDecoration(
+              color: widget.colors.surfaceContainerHigh,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 6),
+                ),
+              ],
             ),
-          ],
-        ),
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
 
-          children: [
-            //* ⭐ Rating Star
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //* ⭐ Rating Star
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
 
-                children: [
-                  AnimatedRatingCircle(rating: tvshow.voteAverage, size: 50),
-                  Text(
-                    AppLocalizations.of(context)!.ratingTitle,
-                    style: textStyles.titleMedium?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    children: [
+                      AnimatedRatingCircle(
+                        rating: widget.tvshow.voteAverage,
+                        size: 50,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.ratingTitle,
+                        style: widget.textStyles.titleMedium?.copyWith(
+                          color: widget.colors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+
+                //* 📝 Overview text
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.overviewTitle,
+                        style: widget.textStyles.titleMedium?.copyWith(
+                          color: widget.colors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 0),
+                      ExpandableText(
+                        text: (widget.tvshow.overview.trim().isNotEmpty)
+                            ? widget.tvshow.overview
+                            : AppLocalizations.of(context)!.resultsSearch,
+                        wordLimit: 30,
+                        style: widget.textStyles.bodyMedium?.copyWith(
+                          color: widget.colors.onSurface,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 5),
+
+        AnimatedOpacity(
+          opacity: isExpanded ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 500),
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 1000),
+            reverseDuration: const Duration(milliseconds: 1000),
+            curve: Curves.fastLinearToSlowEaseIn,
+
+            alignment: Alignment.topCenter,
+            child: isExpanded
+                ? Padding(
+                    padding: const EdgeInsets.only(
+                      left: 40,
+                      right: 40,
+                      bottom: 12,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: widget.colors.surfaceContainerHigh,
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_title,
+                            widget.tvshow.originalName!,
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.first_air_episode,
+                            "${widget.tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(widget.tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate}",
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.last_air_episode,
+                            "${widget.tvshow.lastAirDate != null ? DateFormat('d MMMM y').format(widget.tvshow.lastAirDate!) : AppLocalizations.of(context)!.unknownDate}",
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_tagline,
+                            widget.tvshow.tagline.toString(),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.details_language,
+                            widget.tvshow.originalLanguage.toUpperCase(),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.status,
+                            widget.tvshow.status,
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.created_by,
+                            widget.tvshow.createdBy.join(", "),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(context)!.in_production,
+                            widget.tvshow.inProduction.toString() == "true"
+                                ? AppLocalizations.of(context)!.yes_response
+                                : AppLocalizations.of(context)!.no_response,
+                          ),
+
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(
+                              context,
+                            )!.details_production_companies,
+                            widget.tvshow.productionCompanies.join(", "),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(
+                              context,
+                            )!.details_production_countries,
+                            widget.tvshow.productionCountries.join(", "),
+                          ),
+                          buildDetailItem(
+                            context,
+                            AppLocalizations.of(
+                              context,
+                            )!.details_spoken_languages,
+                            widget.tvshow.spokenLanguages.join(", "),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+        const SizedBox(height: 8),
+        GestureDetector(
+          onTap: () => setState(() => isExpanded = !isExpanded),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              isExpanded
+                  ? AppLocalizations.of(context)!.details_hide
+                  : AppLocalizations.of(context)!.show_more_details,
+              style: textStyles.bodyLarge?.copyWith(
+                color: colors.primary.withAlpha(170),
+                fontWeight: FontWeight.bold,
               ),
             ),
-
-            //* 📝 Overview text
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.overviewTitle,
-                    style: textStyles.titleMedium?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 0),
-                  ExpandableText(
-                    text: (tvshow.overview.trim().isNotEmpty)
-                        ? tvshow.overview
-                        : AppLocalizations.of(context)!.resultsSearch,
-                    wordLimit: 30,
-                    style: textStyles.bodyMedium?.copyWith(
-                      color: colors.onSurface,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
+}
+
+Widget buildDetailItem(BuildContext context, String title, String value) {
+  final color = Theme.of(context).colorScheme.onSurface;
+  final textStyle = Theme.of(context).textTheme.bodyMedium;
+
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 4),
+    child: RichText(
+      maxLines: 2,
+      text: TextSpan(
+        style: textStyle?.copyWith(color: color),
+        children: [
+          TextSpan(
+            text: "$title: ",
+            style: textStyle?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(text: value),
+        ],
+      ),
+    ),
+  );
 }
 
 class _ActorsByMovie extends ConsumerWidget {
