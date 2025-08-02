@@ -53,6 +53,18 @@ class TvshowMapper {
 
       status: tvshowdb.status,
       type: tvshowdb.type,
+      createdBy: tvshowdb.createdBy.map((e) => e.name).toList(),
+      episodeRunTime: tvshowdb.episodeRunTime.map((e) => e as int).toList(),
+      languages: tvshowdb.languages.map((e) => e).toList(),
+      productionCompanies: tvshowdb.productionCompanies
+          .map((e) => e.name)
+          .toList(),
+      productionCountries: tvshowdb.productionCountries
+          .map((e) => e.name)
+          .toList(),
+      spokenLanguages: tvshowdb.spokenLanguages.map((e) => e.name).toList(),
+      tagline: tvshowdb.tagline,
+      lastAirDate: tvshowdb.lastAirDate,
     );
   }
 }
