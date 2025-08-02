@@ -13,4 +13,5 @@ abstract class MoviesRepository {
   Future<List<Movie>> searchMovies(String query);
   Future<List<VideoMovie>> getYoutubeVideosById(int movieId);
   Future<List<VideoMovie>> getYoutubeVideosByIdTvShow(int tvshowId);
+  Future<List<Movie>> getRecomendationsById(int movieId, {int page = 1});
 }
