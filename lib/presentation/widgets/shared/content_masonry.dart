@@ -55,14 +55,15 @@ class MasonrySection extends ConsumerWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
-              mainAxisSpacing: 15,
+              mainAxisSpacing: 25,
               crossAxisSpacing: 20,
+              padding: EdgeInsets.all(20),
               itemCount: displayedMovies.length,
               itemBuilder: (context, index) {
                 if (index == 1) {
                   return Column(
                     children: [
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 25),
                       ContentPosterLink(
                         movie: displayedMovies[index],
                         type: type,

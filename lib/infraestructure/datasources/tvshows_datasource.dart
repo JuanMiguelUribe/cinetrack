@@ -89,4 +89,17 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
     );
     return _jsonToTvShows(response.data);
   }
+
+  @override
+  Future<List<TvShow>> getRecomendationsTvShowById(
+    int tvshowId, {
+    int page = 1,
+  }) async {
+    final response = await dio.get(
+      'tv/$tvshowId/recommendations',
+      queryParameters: {'page': page},
+    );
+
+    return _jsonToTvShows(response.data);
+  }
 }

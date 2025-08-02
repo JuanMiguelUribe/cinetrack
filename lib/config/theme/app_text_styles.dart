@@ -86,5 +86,25 @@ class AppTextStyles {
     );
   }
 
+  static TextStyle videoNameTitle(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return TextStyle(
+      fontSize: 14,
+      color: colors.onSurface,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  static TextStyle videoTypeTitle(BuildContext context) {
+    // final colors = Theme.of(context).colorScheme;
+
+    return TextStyle(
+      fontSize: 14,
+      color: Colors.grey,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
   // Puedes seguir agregando más: descripción, botón, etc.
 }

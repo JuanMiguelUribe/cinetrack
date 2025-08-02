@@ -79,7 +79,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.width * 9 / 18,
+                  height: MediaQuery.of(context).size.width * 0.58,
                   // width: 2,
                   child: PageView.builder(
                     controller: _pageController,
@@ -90,19 +90,34 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: _YouTubeVideoPlayer(
-                                youtubeId: video.youtubeKey,
-                                name: video.name,
-                                type: video.type,
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: _YouTubeVideoPlayer(
+                                  youtubeId: video.youtubeKey,
+                                  name: video.name,
+                                  type: video.type,
+                                ),
                               ),
                             ),
-                          ),
+                            Text(
+                              video.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.videoNameTitle(context),
+                            ),
+                            Text(
+                              video.type,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.videoTypeTitle(context),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -113,6 +128,8 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                 _currentPage != 0
                     ? Positioned(
                         left: 0,
+                        top: MediaQuery.of(context).size.width * 0.18,
+
                         child: IconButton(
                           onPressed: _previousPage,
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -129,6 +146,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                 _currentPage != videos.length - 1
                     ? Positioned(
                         right: 0,
+                        top: MediaQuery.of(context).size.width * 0.18,
                         child: IconButton(
                           onPressed: () => _nextPage(videos.length),
                           icon: const Icon(Icons.arrow_forward_ios_rounded),
@@ -144,6 +162,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
             ),
 
             const SizedBox(height: 8),
+            // Center(child: Text("titulo")),
             Center(
               child: Text(
                 '${_currentPage + 1}/${limitedVideos.length}',
@@ -207,6 +226,7 @@ class _ResultIfVIdeosAreEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final colors = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -226,7 +246,9 @@ class _ResultIfVIdeosAreEmpty extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                decoration: BoxDecoration(color: Colors.grey),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 226, 226, 226).withAlpha(10),
+                ),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   child: Center(

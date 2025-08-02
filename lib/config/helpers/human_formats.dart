@@ -10,4 +10,14 @@ class HumanFormats {
 
     return formatterNumber;
   }
+
+  static String humanExtentNumber(double number) {
+    final formatterNumber = NumberFormat.simpleCurrency(
+      decimalDigits: 0,
+      // symbol: "",
+      locale: "en",
+    ).format(number);
+
+    return formatterNumber;
+  }
 }

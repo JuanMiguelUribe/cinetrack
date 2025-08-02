@@ -299,8 +299,128 @@ abstract class AppLocalizations {
   /// No description provided for @ratingTitle.
   ///
   /// In en, this message translates to:
-  /// **'Rating'**
+  /// **'TMDB Rating'**
   String get ratingTitle;
+
+  /// No description provided for @details_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Title'**
+  String get details_title;
+
+  /// No description provided for @details_release.
+  ///
+  /// In en, this message translates to:
+  /// **'Release'**
+  String get details_release;
+
+  /// No description provided for @details_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Language'**
+  String get details_language;
+
+  /// No description provided for @details_budget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get details_budget;
+
+  /// No description provided for @details_revenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get details_revenue;
+
+  /// No description provided for @details_runtime.
+  ///
+  /// In en, this message translates to:
+  /// **'Runtime'**
+  String get details_runtime;
+
+  /// No description provided for @details_tagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Tagline'**
+  String get details_tagline;
+
+  /// No description provided for @details_homepage.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Page'**
+  String get details_homepage;
+
+  /// No description provided for @details_production_companies.
+  ///
+  /// In en, this message translates to:
+  /// **'Production Companies'**
+  String get details_production_companies;
+
+  /// No description provided for @details_production_countries.
+  ///
+  /// In en, this message translates to:
+  /// **'Production Countries'**
+  String get details_production_countries;
+
+  /// No description provided for @details_spoken_languages.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken Languages'**
+  String get details_spoken_languages;
+
+  /// No description provided for @details_hide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Details'**
+  String get details_hide;
+
+  /// No description provided for @show_more_details.
+  ///
+  /// In en, this message translates to:
+  /// **'View More Details'**
+  String get show_more_details;
+
+  /// No description provided for @first_air_episode.
+  ///
+  /// In en, this message translates to:
+  /// **'First Episode Air Date'**
+  String get first_air_episode;
+
+  /// No description provided for @last_air_episode.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Episode Air Date'**
+  String get last_air_episode;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @created_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Created By'**
+  String get created_by;
+
+  /// No description provided for @in_production.
+  ///
+  /// In en, this message translates to:
+  /// **'In Production'**
+  String get in_production;
+
+  /// No description provided for @yes_response.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes_response;
+
+  /// No description provided for @no_response.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no_response;
 }
 
 class _AppLocalizationsDelegate

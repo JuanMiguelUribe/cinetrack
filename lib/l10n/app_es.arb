@@ -33,7 +33,27 @@
   "relatedVideos": "Videos Relacionados",
   "noTrailerFound": "No se encontro ningun trailer",
   "overviewTitle": "Descripción General",
-  "ratingTitle": "Calificación"
+  "ratingTitle": "TMDB Calificación",
+  "details_title": "Título Original",
+  "details_release": "Estreno",
+  "details_language": "Idioma original",
+  "details_budget": "Presupuesto",
+  "details_revenue": "Ingresos",
+  "details_runtime": "Duración",
+  "details_tagline": "Eslogan",
+  "details_homepage": "Página oficial",
+  "details_production_companies": "Productoras",
+  "details_production_countries": "Países de producción",
+  "details_spoken_languages": "Idiomas hablados",
+  "details_hide": "Ocultar detalles",
+  "show_more_details": "Ver Más Detalles",
+   "first_air_episode": "Primer Episodio al Aire",
+  "last_air_episode": "Último Episodio al Aire",
+  "status" : "Estado",
+  "created_by": "Creado Por",
+  "in_production": "En Producción",
+  "yes_response": "Si",
+  "no_response": "No"
 
 
 

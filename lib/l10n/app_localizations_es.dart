@@ -110,5 +110,65 @@ class AppLocalizationsEs extends AppLocalizations {
   String get overviewTitle => 'Descripción General';
 
   @override
-  String get ratingTitle => 'Calificación';
+  String get ratingTitle => 'TMDB Calificación';
+
+  @override
+  String get details_title => 'Título Original';
+
+  @override
+  String get details_release => 'Estreno';
+
+  @override
+  String get details_language => 'Idioma original';
+
+  @override
+  String get details_budget => 'Presupuesto';
+
+  @override
+  String get details_revenue => 'Ingresos';
+
+  @override
+  String get details_runtime => 'Duración';
+
+  @override
+  String get details_tagline => 'Eslogan';
+
+  @override
+  String get details_homepage => 'Página oficial';
+
+  @override
+  String get details_production_companies => 'Productoras';
+
+  @override
+  String get details_production_countries => 'Países de producción';
+
+  @override
+  String get details_spoken_languages => 'Idiomas hablados';
+
+  @override
+  String get details_hide => 'Ocultar detalles';
+
+  @override
+  String get show_more_details => 'Ver Más Detalles';
+
+  @override
+  String get first_air_episode => 'Primer Episodio al Aire';
+
+  @override
+  String get last_air_episode => 'Último Episodio al Aire';
+
+  @override
+  String get status => 'Estado';
+
+  @override
+  String get created_by => 'Creado Por';
+
+  @override
+  String get in_production => 'En Producción';
+
+  @override
+  String get yes_response => 'Si';
+
+  @override
+  String get no_response => 'No';
 }
