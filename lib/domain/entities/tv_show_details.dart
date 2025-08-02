@@ -8,7 +8,7 @@ class TvShowDetails {
   final String? backdropPath;
   final DateTime? firstAirDate;
   final DateTime? lastAirDate;
-  final double? popularity;
+  final double popularity;
   final bool? inProduction;
   final String originalLanguage;
   final double voteAverage;
@@ -17,12 +17,25 @@ class TvShowDetails {
   final int? numberOfSeasons;
   final int? numberOfEpisodes;
   final String? homepage;
-  final String? tagline;
+  final String tagline;
   final String status;
   final String type;
+  final List<String> createdBy;
+  final List<int> episodeRunTime;
+  final List<String> languages;
+  final List<String> spokenLanguages;
+  final List<String> productionCompanies;
+  final List<String> productionCountries;
 
   TvShowDetails({
-    this.popularity,
+    required this.genres,
+    required this.createdBy,
+    required this.episodeRunTime,
+    required this.languages,
+    required this.productionCompanies,
+    required this.productionCountries,
+    required this.spokenLanguages,
+    required this.popularity,
     required this.adult,
     this.originalName,
     required this.id,
@@ -36,11 +49,10 @@ class TvShowDetails {
     required this.originalLanguage,
     required this.voteAverage,
     required this.voteCount,
-    required this.genres,
     this.numberOfSeasons,
     this.numberOfEpisodes,
     this.homepage,
-    this.tagline,
+    required this.tagline,
     required this.status,
     required this.type,
   });
