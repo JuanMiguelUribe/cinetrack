@@ -23,7 +23,6 @@ class RecommendationsNotifier extends StateNotifier<List<Movie>> {
       movieId,
       page: _currentPage,
     );
-    print('📽️ Recomendaciones recibidas: ${movies.length}');
 
     state = [...state, ...movies];
 
