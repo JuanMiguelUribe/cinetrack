@@ -156,7 +156,26 @@ class _MovieDetails extends StatelessWidget {
         TrailerCarousel(movieId: movie.id, type: MediaType.movie),
         // VideosFromMovie(movieId: movie.id),
         SizedBox(height: 100),
+        //*Lista de Recomendaciones
+        _RecomendationsListVIew(movieId: movie.id.toString()),
       ],
+    );
+  }
+}
+
+class _RecomendationsListVIew extends ConsumerWidget {
+  final String movieId;
+  const _RecomendationsListVIew({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recommendationsMovie = ref.watch(
+      recommendationsNotifierProvider(movieId),
+    );
+
+    return MovieHorizontalListView(
+      movies: recommendationsMovie,
+      title: "Recomendaciones",
     );
   }
 }
