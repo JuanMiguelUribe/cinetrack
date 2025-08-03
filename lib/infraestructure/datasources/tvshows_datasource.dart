@@ -92,11 +92,11 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
 
   @override
   Future<List<TvShow>> getRecomendationsTvShowById(
-    int tvshowId, {
+    String tvshowId, {
     int page = 1,
   }) async {
     final response = await dio.get(
-      'tv/$tvshowId/recommendations',
+      '/tv/$tvshowId/recommendations',
       queryParameters: {'page': page},
     );
 
