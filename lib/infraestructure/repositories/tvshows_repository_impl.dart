@@ -39,7 +39,7 @@ class TvshowsDbRepositoryImpl extends TvShowsDBRepository {
 
   @override
   Future<List<TvShow>> getRecomendationsTvShowById(
-    int tvshowId, {
+    String tvshowId, {
     int page = 1,
   }) {
     return datasource.getRecomendationsTvShowById(tvshowId, page: page);
