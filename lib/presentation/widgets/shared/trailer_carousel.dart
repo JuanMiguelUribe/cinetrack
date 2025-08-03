@@ -79,7 +79,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.58,
+                  height: MediaQuery.of(context).size.width * 0.57,
                   // width: 2,
                   child: PageView.builder(
                     controller: _pageController,
@@ -161,8 +161,6 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
               ],
             ),
 
-            const SizedBox(height: 8),
-            // Center(child: Text("titulo")),
             Center(
               child: Text(
                 '${_currentPage + 1}/${limitedVideos.length}',
