@@ -155,7 +155,26 @@ class _TvShowDetails extends StatelessWidget {
         TrailerCarousel(movieId: tvshow.id, type: MediaType.tv),
         // VideosFromMovie(movieId: movie.id),
         SizedBox(height: 100),
+
+        _RecomendationsListVIew(tvshowId: tvshow.id.toString()),
       ],
+    );
+  }
+}
+
+class _RecomendationsListVIew extends ConsumerWidget {
+  final String tvshowId;
+  const _RecomendationsListVIew({required this.tvshowId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recommendationsTvShow = ref.watch(
+      recommendationsNotifierProviderTvShow(tvshowId),
+    );
+
+    return TvShowHorizontalListView(
+      tvShows: recommendationsTvShow,
+      title: "Recomendaciones",
     );
   }
 }
