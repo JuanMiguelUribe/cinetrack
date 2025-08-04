@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieflex/domain/entities/tv_shows.dart';
 import 'package:movieflex/domain/respositories/tvshows_repository.dart';
@@ -21,15 +22,26 @@ class RecommendationsNotifierTvShow extends StateNotifier<List<TvShow>> {
     if (_isLoading) return;
     _isLoading = true;
 
-    final movies = await repository.getRecomendationsTvShowById(
-      tvshowId,
-      page: _currentPage,
-    );
+    try {
+      final movies = await repository.getRecomendationsTvShowById(
+        tvshowId,
+        page: _currentPage,
+      );
+      if (movies.isEmpty) {
+        _isLoading = false;
+        return;
+      }
 
-    state = [...state, ...movies];
-
-    _currentPage++;
-    _isLoading = false;
+      state = [...state, ...movies];
+      _currentPage++;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+      } else {
+        rethrow;
+      }
+    } finally {
+      _isLoading = false;
+    }
   }
 }
 
