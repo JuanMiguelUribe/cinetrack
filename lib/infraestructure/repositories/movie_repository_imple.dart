@@ -55,4 +55,9 @@ class MovieRepositoryImple extends MoviesRepository {
   Future<List<Movie>> getRecomendationsById(String movieId, {int page = 1}) {
     return datasource.getRecomendationsById(movieId, page: page);
   }
+
+  @override
+  Future<List<Movie>> discoverMovies({int page = 1}) {
+    return datasource.discoverMovies(page: page);
+  }
 }
