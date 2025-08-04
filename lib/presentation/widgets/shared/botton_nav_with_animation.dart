@@ -24,19 +24,14 @@ List<NavBarItem> getNavItems(BuildContext context) {
       index: 0,
     ),
     NavBarItem(
-      label: AppLocalizations.of(context)!.seriesNav,
-      icon: Icons.tv_sharp,
-      index: 1,
-    ),
-    NavBarItem(
       label: AppLocalizations.of(context)!.categoriasNav,
       icon: Icons.explore_rounded,
-      index: 2,
+      index: 1,
     ),
     NavBarItem(
       label: AppLocalizations.of(context)!.favsNav,
       icon: Icons.favorite_rounded,
-      index: 3,
+      index: 2,
     ),
   ];
 }
@@ -52,12 +47,9 @@ class BottonNavWithAnimationState
         context.go("/");
         break;
       case 1:
-        context.go("/series");
-        break;
-      case 2:
         context.go("/categories");
         break;
-      case 3:
+      case 2:
         context.go("/favorites");
         break;
     }
