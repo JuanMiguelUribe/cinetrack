@@ -42,10 +42,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get always => 'Siempre';
 
   @override
-  String get homeNav => 'Inicio';
+  String get homeNav => 'Películas';
 
   @override
-  String get categoriasNav => 'Categorías';
+  String get seriesNav => 'Series';
+
+  @override
+  String get categoriasNav => 'Descubrir';
 
   @override
   String get favsNav => 'Favoritos';

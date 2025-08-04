@@ -167,13 +167,19 @@ abstract class AppLocalizations {
   /// No description provided for @homeNav.
   ///
   /// In en, this message translates to:
-  /// **'Home'**
+  /// **'Films'**
   String get homeNav;
+
+  /// No description provided for @seriesNav.
+  ///
+  /// In en, this message translates to:
+  /// **'Series'**
+  String get seriesNav;
 
   /// No description provided for @categoriasNav.
   ///
   /// In en, this message translates to:
-  /// **'Categories'**
+  /// **'Discover'**
   String get categoriasNav;
 
   /// No description provided for @favsNav.
