@@ -272,8 +272,9 @@ class _ContentItem extends StatelessWidget {
                 children: [
                   //*Image
                   SizedBox(
-                    width: size.width * 0.2,
+                    width: size.width * 0.25,
 
+                    // height: size.height * 0.2,
                     child: ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(15),
                       child: Image.network(
