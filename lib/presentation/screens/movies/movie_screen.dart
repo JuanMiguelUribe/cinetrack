@@ -152,12 +152,28 @@ class _MovieDetails extends StatelessWidget {
         //*Actores de la pelicula
         _ActorsByMovie(movieId: movie.id.toString()),
 
+        // SizedBox(height: 20),
+        //*DIVISOR DE SECCIÓN,
+        _buildSectionDivider("", context),
+
         //*Videos de la Pelicula
         TrailerCarousel(movieId: movie.id, type: MediaType.movie),
+
         // VideosFromMovie(movieId: movie.id),
-        SizedBox(height: 100),
+        //*DIVISOR DE SECCIÓN,
+        _buildSectionDivider("", context),
+        //*Titulo Recomendaciones
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            AppLocalizations.of(context)!.recommendations_title,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.titlesForDetailScreen(context),
+          ),
+        ),
         //*Lista de Recomendaciones
         _RecomendationsListVIew(movieId: movie.id.toString()),
+        SizedBox(height: 50),
       ],
     );
   }
@@ -175,7 +191,9 @@ class _RecomendationsListVIew extends ConsumerWidget {
 
     return MovieHorizontalListView(
       movies: recommendationsMovie,
-      title: "Recomendaciones",
+      loadNextPage: () => ref
+          .read(recommendationsNotifierProvider(movieId).notifier)
+          .loadNextPage(),
     );
   }
 }
@@ -438,7 +456,7 @@ class _ActorsByMovie extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: SizedBox(
-        height: 300,
+        height: 215,
 
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
