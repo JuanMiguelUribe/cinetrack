@@ -13,7 +13,7 @@ class MoviesSlideshow extends StatelessWidget {
     super.key,
     required this.movies,
     this.aspectRatio = 14 / 7.5,
-    this.viewportFraction = 0.75,
+    this.viewportFraction = 0.85,
     this.showTitle = true,
   });
 
@@ -27,7 +27,7 @@ class MoviesSlideshow extends StatelessWidget {
         duration: 1000,
         autoplayDelay: 8000,
         viewportFraction: viewportFraction,
-        scale: 0.8,
+        scale: 0.85,
         autoplay: true,
         pagination: SwiperPagination(
           margin: const EdgeInsets.only(top: 0),

@@ -20,18 +20,23 @@ List<NavBarItem> getNavItems(BuildContext context) {
   return [
     NavBarItem(
       label: AppLocalizations.of(context)!.homeNav,
-      icon: Icons.home,
+      icon: Icons.theaters_outlined,
       index: 0,
     ),
     NavBarItem(
-      label: AppLocalizations.of(context)!.categoriasNav,
-      icon: Icons.category_sharp,
+      label: AppLocalizations.of(context)!.seriesNav,
+      icon: Icons.tv_sharp,
       index: 1,
+    ),
+    NavBarItem(
+      label: AppLocalizations.of(context)!.categoriasNav,
+      icon: Icons.explore_rounded,
+      index: 2,
     ),
     NavBarItem(
       label: AppLocalizations.of(context)!.favsNav,
       icon: Icons.favorite_rounded,
-      index: 2,
+      index: 3,
     ),
   ];
 }
@@ -45,12 +50,14 @@ class BottonNavWithAnimationState
     switch (currentIndex) {
       case 0:
         context.go("/");
-
         break;
       case 1:
-        context.go("/categories");
+        context.go("/series");
         break;
       case 2:
+        context.go("/categories");
+        break;
+      case 3:
         context.go("/favorites");
         break;
     }

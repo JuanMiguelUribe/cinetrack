@@ -10,7 +10,7 @@ abstract class TvShowsDBDatasource {
   Future<TvShowDetails> getTvShowById(String id);
   Future<List<TvShow>> searchtvshow(String query);
   Future<List<TvShow>> getRecomendationsTvShowById(
-    int tvshowId, {
+    String tvshowId, {
     int page = 1,
   });
 }

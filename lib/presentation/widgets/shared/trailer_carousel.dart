@@ -53,6 +53,8 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
         // final trailers = videos.where((v) => v.type == 'Trailer').toList();
         final limitedVideos = videos.take(20).toList();
 
+        //*If por si no hay videos
+
         if (videos.isEmpty) {
           return _ResultIfVIdeosAreEmpty();
         }
@@ -79,7 +81,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.58,
+                  height: MediaQuery.of(context).size.width * 0.57,
                   // width: 2,
                   child: PageView.builder(
                     controller: _pageController,
@@ -161,8 +163,6 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
               ],
             ),
 
-            const SizedBox(height: 8),
-            // Center(child: Text("titulo")),
             Center(
               child: Text(
                 '${_currentPage + 1}/${limitedVideos.length}',
@@ -247,7 +247,12 @@ class _ResultIfVIdeosAreEmpty extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 226, 226, 226).withAlpha(10),
+                  color: const Color.fromARGB(
+                    255,
+                    226,
+                    226,
+                    226,
+                  ).withAlpha(100),
                 ),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,

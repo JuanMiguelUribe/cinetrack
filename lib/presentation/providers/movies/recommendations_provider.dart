@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieflex/domain/entities/movie.dart';
 import 'package:movieflex/domain/respositories/movies_repository.dart';
@@ -19,16 +20,28 @@ class RecommendationsNotifier extends StateNotifier<List<Movie>> {
     if (_isLoading) return;
     _isLoading = true;
 
-    final movies = await repository.getRecomendationsById(
-      movieId,
-      page: _currentPage,
-    );
-    print('📽️ Recomendaciones recibidas: ${movies.length}');
+    try {
+      final movies = await repository.getRecomendationsById(
+        movieId,
+        page: _currentPage,
+      );
 
-    state = [...state, ...movies];
+      // Si viene vacío, asumimos que no hay más páginas
+      if (movies.isEmpty) {
+        _isLoading = false;
+        return;
+      }
 
-    _currentPage++;
-    _isLoading = false;
+      state = [...state, ...movies];
+      _currentPage++;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+      } else {
+        rethrow; // Para otros errores, lo lanzamos de nuevo
+      }
+    } finally {
+      _isLoading = false;
+    }
   }
 }
 

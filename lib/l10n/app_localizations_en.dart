@@ -42,10 +42,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get always => 'Always';
 
   @override
-  String get homeNav => 'Home';
+  String get homeNav => 'Films';
 
   @override
-  String get categoriasNav => 'Categories';
+  String get seriesNav => 'Series';
+
+  @override
+  String get categoriasNav => 'Discover';
 
   @override
   String get favsNav => 'Favorites';
@@ -171,4 +174,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_response => 'No';
+
+  @override
+  String get recommendations_title => 'Recommendations';
 }

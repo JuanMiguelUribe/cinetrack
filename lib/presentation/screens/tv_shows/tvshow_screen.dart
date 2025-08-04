@@ -139,11 +139,7 @@ class _TvShowDetails extends StatelessWidget {
           child: Text(
             AppLocalizations.of(context)!.cast,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              color: colors.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTextStyles.titlesForDetailScreen(context),
           ),
         ),
         SizedBox(height: 5),
@@ -151,11 +147,48 @@ class _TvShowDetails extends StatelessWidget {
         //*Actores de la pelicula
         _ActorsByMovie(tvshowId: tvshow.id.toString()),
 
+        //*DIVISOR DE SECCIÓN,
+        _buildSectionDivider("", context),
+
         //*Videos de la Pelicula
         TrailerCarousel(movieId: tvshow.id, type: MediaType.tv),
-        // VideosFromMovie(movieId: movie.id),
-        SizedBox(height: 100),
+
+        //*DIVISOR DE SECCIÓN,
+        _buildSectionDivider("", context),
+
+        //*Titulo de recomendaciones
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            AppLocalizations.of(context)!.recommendations_title,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.titlesForDetailScreen(context),
+          ),
+        ),
+        //*Lista de recomendaciones
+        _RecomendationsListVIew(tvshowId: tvshow.id.toString()),
+
+        SizedBox(height: 50),
       ],
+    );
+  }
+}
+
+class _RecomendationsListVIew extends ConsumerWidget {
+  final String tvshowId;
+  const _RecomendationsListVIew({required this.tvshowId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recommendationsTvShow = ref.watch(
+      recommendationsNotifierProviderTvShow(tvshowId),
+    );
+
+    return TvShowHorizontalListView(
+      tvShows: recommendationsTvShow,
+      loadNextPage: () => ref
+          .read(recommendationsNotifierProvider(tvshowId).notifier)
+          .loadNextPage(),
     );
   }
 }
@@ -422,53 +455,56 @@ class _ActorsByMovie extends ConsumerWidget {
     final actors = actorsByTvshow[tvshowId]!;
 
     return SizedBox(
-      height: 300,
+      height: 215,
 
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: actors.length,
-        itemBuilder: (context, index) {
-          final actor = actors[index];
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FadeInRight(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.network(
-                      actor.profilePath ?? '',
-                      height: 150,
-                      width: 100,
-                      fit: BoxFit.cover,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: actors.length,
+          itemBuilder: (context, index) {
+            final actor = actors[index];
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FadeInRight(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(
+                        actor.profilePath ?? '',
+                        height: 150,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                SizedBox(
-                  width: 100,
-                  child: Text(
-                    actor.name,
-                    maxLines: 3,
-                    style: AppTextStyles.actorName(context),
-                    textAlign: TextAlign.left,
+                  const SizedBox(height: 5),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      actor.name,
+                      maxLines: 3,
+                      style: AppTextStyles.actorName(context),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 0),
-                SizedBox(
-                  width: 100,
-                  child: Text(
-                    actor.character ?? 'Not Found',
-                    maxLines: 2,
-                    style: AppTextStyles.characterName(context),
-                    textAlign: TextAlign.left,
+                  const SizedBox(height: 0),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      actor.character ?? 'Not Found',
+                      maxLines: 2,
+                      style: AppTextStyles.characterName(context),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

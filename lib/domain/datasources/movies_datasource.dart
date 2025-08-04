@@ -7,11 +7,10 @@ abstract class MoviesDatasource {
   Future<List<Movie>> getPopular({int page = 1});
   Future<List<Movie>> getUpcoming({int page = 1});
   Future<List<Movie>> getTopRated({int page = 1});
-
   Future<MovieDetails> getMovieById(String id);
-
   Future<List<Movie>> searchMovies(String query);
   Future<List<VideoMovie>> getYoutubeVideosById(int movieId);
   Future<List<VideoMovie>> getYoutubeVideosByIdTvShow(int tvshowId);
   Future<List<Movie>> getRecomendationsById(String movieId, {int page = 1});
+  Future<List<Movie>> discoverMovies({int page = 1});
 }

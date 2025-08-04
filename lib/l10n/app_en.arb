@@ -11,8 +11,9 @@
   "movies": "Movies",
   "tvshows": "Tv Shows",
   "always": "Always",
-  "homeNav": "Home",
-  "categoriasNav": "Categories",
+  "homeNav": "Films",
+  "seriesNav": "Series",
+  "categoriasNav": "Discover",
   "favsNav": "Favorites",
   "loading": "Loading",
   "showMore": "Show More",
@@ -53,7 +54,8 @@
   "created_by": "Created By",
   "in_production": "In Production",
   "yes_response": "Yes",
-  "no_response": "No"
+  "no_response": "No",
+  "recommendations_title": "Recommendations"
   
 
 }

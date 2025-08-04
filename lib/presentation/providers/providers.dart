@@ -17,3 +17,6 @@ export 'bottom_nav/bottom_nav_provider.dart';
 export 'movies/video_movie_provider.dart';
 export 'tvshows/video_tvshow_provider.dart';
 export 'tvshows/tvshows_details_provider.dart';
+export 'movies/recommendations_provider.dart';
+export 'tvshows/recommendations_provider.dart';
+export 'tvshows/tvshow_slideshow_provider.dart';
