@@ -55,15 +55,18 @@ class _TvShowHorizontalListViewState extends State<TvShowHorizontalListView> {
             _Title(title: widget.title, subtitle: widget.subtitle),
           const SizedBox(height: 5),
           Expanded(
-            child: ListView.builder(
-              controller: scrollController,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: ListView.builder(
+                controller: scrollController,
 
-              itemCount: widget.tvShows.length,
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return _TvShowSlide(tvShow: widget.tvShows[index]);
-              },
+                itemCount: widget.tvShows.length,
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return _TvShowSlide(tvShow: widget.tvShows[index]);
+                },
+              ),
             ),
           ),
         ],
