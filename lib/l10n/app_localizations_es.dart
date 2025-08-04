@@ -171,4 +171,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get no_response => 'No';
+
+  @override
+  String get recommendations_title => 'Recomendaciones';
 }

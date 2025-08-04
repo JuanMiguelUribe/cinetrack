@@ -53,7 +53,8 @@
   "created_by": "Created By",
   "in_production": "In Production",
   "yes_response": "Yes",
-  "no_response": "No"
+  "no_response": "No",
+  "recommendations_title": "Recommendations"
   
 
 }

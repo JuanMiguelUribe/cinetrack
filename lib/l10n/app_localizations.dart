@@ -421,6 +421,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No'**
   String get no_response;
+
+  /// No description provided for @recommendations_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get recommendations_title;
 }
 
 class _AppLocalizationsDelegate
