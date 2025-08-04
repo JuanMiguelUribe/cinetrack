@@ -1,5 +1,4 @@
 import 'package:movieflex/presentation/screens/screens.dart';
-import 'package:movieflex/presentation/views/home_views/series_views.dart';
 import 'package:movieflex/presentation/views/home_views/views.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,14 +23,7 @@ final appRouter = GoRouter(
             ),
           ],
         ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/series',
-              builder: (context, state) => const SeriesView(),
-            ),
-          ],
-        ),
+
         StatefulShellBranch(
           routes: [
             GoRoute(
