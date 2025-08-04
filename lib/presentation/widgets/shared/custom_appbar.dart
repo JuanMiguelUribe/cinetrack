@@ -1,9 +1,5 @@
-import 'package:movieflex/presentation/delegates/search_movie_series_delegate.dart';
-import 'package:movieflex/presentation/providers/movies/movies_respository_provider.dart';
-import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppbar extends ConsumerWidget {
@@ -44,30 +40,12 @@ class CustomAppbar extends ConsumerWidget {
               ),
 
               Spacer(),
-              IconButton(
-                onPressed: () async {
-                  final searchQuery = ref.read(searchQueryProvider);
-                  final result = await showSearch(
-                    query: searchQuery,
-                    context: context,
-                    delegate: SearchMovieSeriesDelegate(
-                      movieRepo: ref.read(movieRepositoryProvider),
-                      tvRepo: ref.read(tvshowsRepositoryProvider),
-                      ref: ref,
-                    ),
-                  );
-
-                  if (!context.mounted || result == null) return;
-
-                  if (result.type == 'movie') {
-                    context.push('/movie/${result.id}');
-                  } else {
-                    context.push('/tvshow/${result.id}');
-                  }
-                },
-
-                icon: Icon(Icons.search, color: colors.onSurface),
-              ),
+              // IconButton(
+              //   onPressed: () async {
+              //     // ...
+              //   },
+              //   icon: Icon(Icons.line_style_sharp, color: colors.onSurface),
+              // ),
             ],
           ),
         ),
