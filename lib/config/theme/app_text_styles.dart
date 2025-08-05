@@ -106,5 +106,25 @@ class AppTextStyles {
     );
   }
 
+  static TextStyle titlesForListSettings(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return TextStyle(
+      fontSize: 17,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
+  static TextStyle titlesForAppSettingsView(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return TextStyle(
+      fontSize: 20,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
   // Puedes seguir agregando más: descripción, botón, etc.
 }
