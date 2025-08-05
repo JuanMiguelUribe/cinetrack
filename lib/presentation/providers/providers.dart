@@ -20,3 +20,4 @@ export 'tvshows/tvshows_details_provider.dart';
 export 'movies/recommendations_provider.dart';
 export 'tvshows/recommendations_provider.dart';
 export 'tvshows/tvshow_slideshow_provider.dart';
+export 'theme/theme_provider.dart';
