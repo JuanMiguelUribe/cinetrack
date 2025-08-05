@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppbar extends ConsumerWidget {
@@ -11,7 +12,7 @@ class CustomAppbar extends ConsumerWidget {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: SizedBox(
           width: double.infinity,
           child: Row(
@@ -40,6 +41,15 @@ class CustomAppbar extends ConsumerWidget {
               ),
 
               Spacer(),
+              Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.menu),
+                  color: colors.onSurface,
+                  onPressed: () {
+                    context.push('/settings');
+                  },
+                ),
+              ),
               // IconButton(
               //   onPressed: () async {
               //     // ...
