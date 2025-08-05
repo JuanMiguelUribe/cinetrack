@@ -36,13 +36,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get movies => 'Movies';
 
   @override
-  String get tvshows => 'Tv Shows';
+  String get tvshows => 'Tv Series';
 
   @override
   String get always => 'Always';
 
   @override
-  String get homeNav => 'Films';
+  String get homeNav => 'Home';
 
   @override
   String get seriesNav => 'Series';
@@ -75,13 +75,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get movieSearch => 'Movie';
 
   @override
-  String get tvshowSearch => 'Tv Show';
+  String get tvshowSearch => 'Tv Series';
 
   @override
   String get myFavoriteMovies => 'Favorites Movies';
 
   @override
-  String get myFavoriteTvshows => 'Favorites TV Shows';
+  String get myFavoriteTvshows => 'Favorites TV Series';
 
   @override
   String get startTheSearch => 'Start Exploring';
@@ -90,7 +90,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exploreMoreMovies => 'Explore More Movies';
 
   @override
-  String get exploreMoreTvShows => 'Explore More TV Shows';
+  String get exploreMoreTvShows => 'Explore More TV Series';
 
   @override
   String get favoriteMovieNotAddedMessage =>
@@ -98,7 +98,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get favoriteTvShowNotAddedMessage =>
-      'Add some TV shows to your favorites to see them here.';
+      'Add some TV series to your favorites to see them here.';
 
   @override
   String get watchTrailer => 'Watch Trailer';
@@ -177,4 +177,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recommendations_title => 'Recommendations';
+
+  @override
+  String get config_title => 'Settings';
+
+  @override
+  String get app_setting_title => 'App Settings';
 }

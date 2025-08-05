@@ -9,9 +9,9 @@
   "airingToday": "Al Aire Hoy",
   "onTheAir": "En el Aire",
   "movies": "Películas",
-  "tvshows": "Series de Televisión",
+  "tvshows": "Series",
   "always": "Siempre",
-  "homeNav": "Películas",
+  "homeNav": "Inicio",
   "seriesNav": "Series",
   "categoriasNav": "Descubrir",
   "favsNav": "Favoritos",
@@ -55,7 +55,11 @@
   "in_production": "En Producción",
   "yes_response": "Si",
   "no_response": "No",
-  "recommendations_title": "Recomendaciones"
+  "recommendations_title": "Recomendaciones",
+  "config_title": "Configuración",
+    "app_setting_title": "Configuración de la Aplicación"
+
+
 
 
 

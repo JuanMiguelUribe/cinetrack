@@ -155,7 +155,7 @@ abstract class AppLocalizations {
   /// No description provided for @tvshows.
   ///
   /// In en, this message translates to:
-  /// **'Tv Shows'**
+  /// **'Tv Series'**
   String get tvshows;
 
   /// No description provided for @always.
@@ -167,7 +167,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeNav.
   ///
   /// In en, this message translates to:
-  /// **'Films'**
+  /// **'Home'**
   String get homeNav;
 
   /// No description provided for @seriesNav.
@@ -233,7 +233,7 @@ abstract class AppLocalizations {
   /// No description provided for @tvshowSearch.
   ///
   /// In en, this message translates to:
-  /// **'Tv Show'**
+  /// **'Tv Series'**
   String get tvshowSearch;
 
   /// No description provided for @myFavoriteMovies.
@@ -245,7 +245,7 @@ abstract class AppLocalizations {
   /// No description provided for @myFavoriteTvshows.
   ///
   /// In en, this message translates to:
-  /// **'Favorites TV Shows'**
+  /// **'Favorites TV Series'**
   String get myFavoriteTvshows;
 
   /// No description provided for @startTheSearch.
@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// No description provided for @exploreMoreTvShows.
   ///
   /// In en, this message translates to:
-  /// **'Explore More TV Shows'**
+  /// **'Explore More TV Series'**
   String get exploreMoreTvShows;
 
   /// No description provided for @favoriteMovieNotAddedMessage.
@@ -275,7 +275,7 @@ abstract class AppLocalizations {
   /// No description provided for @favoriteTvShowNotAddedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Add some TV shows to your favorites to see them here.'**
+  /// **'Add some TV series to your favorites to see them here.'**
   String get favoriteTvShowNotAddedMessage;
 
   /// No description provided for @watchTrailer.
@@ -433,6 +433,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recommendations'**
   String get recommendations_title;
+
+  /// No description provided for @config_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get config_title;
+
+  /// No description provided for @app_setting_title.
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get app_setting_title;
 }
 
 class _AppLocalizationsDelegate

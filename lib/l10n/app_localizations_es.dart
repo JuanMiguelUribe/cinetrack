@@ -36,13 +36,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get movies => 'Películas';
 
   @override
-  String get tvshows => 'Series de Televisión';
+  String get tvshows => 'Series';
 
   @override
   String get always => 'Siempre';
 
   @override
-  String get homeNav => 'Películas';
+  String get homeNav => 'Inicio';
 
   @override
   String get seriesNav => 'Series';
@@ -177,4 +177,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get recommendations_title => 'Recomendaciones';
+
+  @override
+  String get config_title => 'Configuración';
+
+  @override
+  String get app_setting_title => 'Configuración de la Aplicación';
 }

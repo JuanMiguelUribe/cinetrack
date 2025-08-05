@@ -9,9 +9,9 @@
   "airingToday": "Airing Today",
   "onTheAir": "On The Air",
   "movies": "Movies",
-  "tvshows": "Tv Shows",
+  "tvshows": "Tv Series",
   "always": "Always",
-  "homeNav": "Films",
+  "homeNav": "Home",
   "seriesNav": "Series",
   "categoriasNav": "Discover",
   "favsNav": "Favorites",
@@ -22,14 +22,14 @@
   "resultsSearch": "No results Found",
   "unknownDate": "Unknown Date",
   "movieSearch": "Movie",
-  "tvshowSearch": "Tv Show",
+  "tvshowSearch": "Tv Series",
   "myFavoriteMovies": "Favorites Movies",
-  "myFavoriteTvshows": "Favorites TV Shows",
+  "myFavoriteTvshows": "Favorites TV Series",
   "startTheSearch": "Start Exploring",
   "exploreMoreMovies": "Explore More Movies",
-  "exploreMoreTvShows": "Explore More TV Shows",
+  "exploreMoreTvShows": "Explore More TV Series",
   "favoriteMovieNotAddedMessage" : "Start adding your favorite movies!",
-  "favoriteTvShowNotAddedMessage" : "Add some TV shows to your favorites to see them here.",
+  "favoriteTvShowNotAddedMessage" : "Add some TV series to your favorites to see them here.",
   "watchTrailer" : "Watch Trailer",
   "relatedVideos": "Related Videos",
   "noTrailerFound": "No Trailer Found",
@@ -55,7 +55,9 @@
   "in_production": "In Production",
   "yes_response": "Yes",
   "no_response": "No",
-  "recommendations_title": "Recommendations"
+  "recommendations_title": "Recommendations",
+  "config_title": "Settings",
+  "app_setting_title": "App Settings"
   
 
 }
