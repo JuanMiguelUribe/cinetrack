@@ -162,6 +162,7 @@ class _MovieDetails extends StatelessWidget {
         // VideosFromMovie(movieId: movie.id),
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
+
         //*Titulo Recomendaciones
         Padding(
           padding: const EdgeInsets.only(left: 16),
@@ -456,7 +457,7 @@ class _ActorsByMovie extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: SizedBox(
-        height: 215,
+        height: 240,
 
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -484,7 +485,7 @@ class _ActorsByMovie extends ConsumerWidget {
                     width: 100,
                     child: Text(
                       actor.name,
-                      maxLines: 3,
+                      maxLines: 2,
                       style: AppTextStyles.actorName(context),
                       textAlign: TextAlign.left,
                     ),
@@ -551,7 +552,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
         iconSize: 18,
         paddingSize: 12,
         icon: Icons.close,
-        onPressed: () => Navigator.pop(context),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
 
       flexibleSpace: FlexibleSpaceBar(
