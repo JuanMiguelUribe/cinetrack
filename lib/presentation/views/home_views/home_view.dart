@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieflex/domain/entities/movie.dart';
 import 'package:movieflex/domain/entities/tv_shows.dart';
-import 'package:movieflex/l10n/app_localizations_es.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,39 +46,49 @@ class HomeViewState extends ConsumerState<HomeView> {
     final isLoading = ref.watch(initialLoadingProvider);
     if (isLoading) return const FullScreenLoader();
 
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          snap: true,
-          pinned: false,
-          elevation: 0,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          expandedHeight: 70,
-          flexibleSpace: FlexibleSpaceBar(
-            background: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                SizedBox(height: kToolbarHeight * 0.1),
-                CustomAppbar(),
-              ],
-            ),
-          ),
-        ),
-        SliverPersistentHeader(
-          pinned: false,
-          delegate: _SegmentedControlHeader(
-            selectedIndex: selectedIndex,
-            onValueChanged: (newIndex) {
-              setState(() => selectedIndex = newIndex);
-            },
-          ),
-        ),
+    return Scaffold(
+      drawer: AppDrawer(),
+      body: Builder(
+        builder: (context) {
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                floating: true,
+                snap: true,
+                pinned: false,
+                elevation: 0,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                expandedHeight: 70,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      SizedBox(height: kToolbarHeight * 0.1),
+                      CustomAppbar(),
+                    ],
+                  ),
+                ),
+              ),
+              SliverPersistentHeader(
+                pinned: false,
+                delegate: _SegmentedControlHeader(
+                  selectedIndex: selectedIndex,
+                  onValueChanged: (newIndex) {
+                    setState(() => selectedIndex = newIndex);
+                  },
+                ),
+              ),
 
-        SliverToBoxAdapter(
-          child: selectedIndex == 0 ? const _FilmsView() : const _SeriesView(),
-        ),
-      ],
+              SliverToBoxAdapter(
+                child: selectedIndex == 0
+                    ? const _FilmsView()
+                    : const _SeriesView(),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
@@ -115,7 +124,7 @@ class _SegmentedControlHeader extends SliverPersistentHeaderDelegate {
           0: Padding(
             padding: const EdgeInsets.all(8),
             child: Text(
-              AppLocalizations.of(context)!.homeNav,
+              AppLocalizations.of(context)!.movies,
               style: TextStyle(
                 color: selectedIndex == 0 ? colors.primary : colors.onSurface,
                 fontSize: 16,
@@ -367,7 +376,10 @@ class _SeriesSectionSlides extends StatelessWidget {
           TvShowHorizontalListView(
             tvShows: airingTvShows,
             title: AppLocalizations.of(context)!.airingToday,
-            subtitle: DateFormat('EEEE, d MMMM').format(DateTime.now()),
+            subtitle: DateFormat(
+              'EEEE, d MMMM',
+              Localizations.localeOf(context).languageCode,
+            ).format(DateTime.now()),
             loadNextPage: () =>
                 ref.read(airingTvShowProvider.notifier).loadNextPage(),
           ),
