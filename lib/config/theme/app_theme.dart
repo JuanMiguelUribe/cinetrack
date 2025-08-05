@@ -18,16 +18,26 @@ const colorList = <Color>[
 class AppTheme {
   final int selectedColor;
   final bool isDarkMode;
+  final Color? customColor;
 
-  AppTheme({this.selectedColor = 0, this.isDarkMode = false})
-    : assert(
-        selectedColor >= 0 && selectedColor < colorList.length,
-        "Selected color index is out of range",
-      );
+  AppTheme({this.selectedColor = 0, this.isDarkMode = false, this.customColor});
 
-  ThemeData getTheme() => ThemeData(
-    useMaterial3: true,
-    brightness: isDarkMode ? Brightness.dark : Brightness.light,
-    colorSchemeSeed: colorList[selectedColor],
+  ThemeData getTheme() {
+    final color = customColor ?? colorList[selectedColor % colorList.length];
+    return ThemeData(
+      useMaterial3: true,
+      brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      colorSchemeSeed: color,
+    );
+  }
+
+  AppTheme copyWith({
+    int? selectedColor,
+    bool? isDarkMode,
+    Color? customColor,
+  }) => AppTheme(
+    selectedColor: selectedColor ?? this.selectedColor,
+    isDarkMode: isDarkMode ?? this.isDarkMode,
+    customColor: customColor,
   );
 }
