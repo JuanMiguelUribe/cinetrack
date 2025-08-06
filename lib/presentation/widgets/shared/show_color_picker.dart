@@ -7,7 +7,8 @@ import 'package:movieflex/config/theme/app_theme.dart';
 import 'package:movieflex/presentation/providers/theme/theme_provider.dart';
 
 void showColorPicker(BuildContext context, WidgetRef ref) {
-  Color pickerColor = colorList[ref.watch(themeNotifierProvider).selectedColor];
+  final theme = ref.watch(themeNotifierProvider);
+  Color pickerColor = theme.customColor ?? colorList[theme.selectedColor];
 
   showDialog(
     context: context,
@@ -17,15 +18,16 @@ void showColorPicker(BuildContext context, WidgetRef ref) {
         content: SingleChildScrollView(
           child: ColorPicker(
             hexInputBar: true,
-
             pickerColor: pickerColor,
-            pickerAreaBorderRadius: BorderRadius.circular(30),
+            showLabel: false,
+            displayThumbColor: false,
+            pickerAreaBorderRadius: BorderRadius.circular(10),
             onColorChanged: (color) {
               pickerColor = color;
             },
             enableAlpha: false,
             labelTypes: const [ColorLabelType.rgb],
-            pickerAreaHeightPercent: 0.8,
+            pickerAreaHeightPercent: 0.5,
           ),
         ),
         actions: [
