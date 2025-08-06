@@ -4,7 +4,7 @@ import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/video_movie.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/movies/video_movie_provider.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class TrailerCarousel extends ConsumerStatefulWidget {
   final int movieId;
@@ -89,6 +89,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                     onPageChanged: (i) => setState(() => _currentPage = i),
                     itemBuilder: (context, index) {
                       final video = limitedVideos[index];
+                      print('🎬 VIDEO ID: ${video.youtubeKey}');
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -98,10 +99,10 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                               borderRadius: BorderRadius.circular(20),
                               child: AspectRatio(
                                 aspectRatio: 16 / 9,
-                                child: _YouTubeVideoPlayer(
-                                  youtubeId: video.youtubeKey,
-                                  name: video.name,
-                                  type: video.type,
+                                child: YouTubeTestPlayer(
+                                  // youtubeId: video.youtubeKey,
+                                  // name: video.name,
+                                  // type: video.type,
                                 ),
                               ),
                             ),
@@ -176,7 +177,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, __) => const Center(child: Text('Error cargando trailers')),
+      error: (_, _) => const Center(child: Text('Error cargando trailers')),
     );
   }
 }
@@ -207,10 +208,10 @@ class _WidgetForOnlyOneVideo extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: _YouTubeVideoPlayer(
-                  youtubeId: videos.first.youtubeKey,
-                  name: videos.first.name,
-                  type: videos.first.type,
+                child: YouTubeTestPlayer(
+                  // youtubeId: videos.first.youtubeKey,
+                  // name: videos.first.name,
+                  // type: videos.first.type,
                 ),
               ),
             ),
@@ -269,22 +270,12 @@ class _ResultIfVIdeosAreEmpty extends StatelessWidget {
   }
 }
 
-class _YouTubeVideoPlayer extends StatefulWidget {
-  final String youtubeId;
-  final String name;
-  final String type;
-
-  const _YouTubeVideoPlayer({
-    required this.youtubeId,
-    required this.name,
-    required this.type,
-  });
-
+class YouTubeTestPlayer extends StatefulWidget {
   @override
-  _YouTubeVideoPlayerState createState() => _YouTubeVideoPlayerState();
+  State<YouTubeTestPlayer> createState() => _YouTubeTestPlayerState();
 }
 
-class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
+class _YouTubeTestPlayerState extends State<YouTubeTestPlayer> {
   late YoutubePlayerController _controller;
 
   @override
@@ -292,29 +283,29 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
     super.initState();
 
     _controller = YoutubePlayerController(
-      initialVideoId: widget.youtubeId,
-      flags: const YoutubePlayerFlags(
-        hideThumbnail: true,
-        showLiveFullscreenButton: false,
+      key: 'J_izy6Z_Oao',
+      params: YoutubePlayerParams(
+        showFullscreenButton: true,
+        playsInline: false,
         mute: false,
-        autoPlay: false,
-        disableDragSeek: true,
-        loop: false,
-        isLive: false,
-        forceHD: false,
         enableCaption: false,
       ),
     );
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  Widget build(BuildContext context) {
+    return YoutubePlayerScaffold(
+      controller: _controller,
+      builder: (context, player) {
+        return AspectRatio(aspectRatio: 16 / 9, child: player);
+      },
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return YoutubePlayer(controller: _controller);
+  void dispose() {
+    _controller.close();
+    super.dispose();
   }
 }
