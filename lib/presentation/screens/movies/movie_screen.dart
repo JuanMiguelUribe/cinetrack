@@ -624,8 +624,9 @@ class _BackgroundStack extends StatelessWidget {
             movie.posterPath!,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress != null)
+              if (loadingProgress != null) {
                 return const Center(child: CircularProgressIndicator());
+              }
 
               return FadeIn(child: child);
             },
