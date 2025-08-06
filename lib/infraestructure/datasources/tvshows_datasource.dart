@@ -9,10 +9,17 @@ import 'package:movieflex/config/constants/environment.dart';
 import '../mappers/tvshow_mapper.dart';
 
 class TvshowsDBDatasource extends TvShowsDBDatasource {
-  final dio = Dio(
+  final String language;
+
+  TvshowsDBDatasource({this.language = "en"});
+
+  late final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_key': Environment.movieDbKey, 'language': "en"},
+      queryParameters: {
+        'api_key': Environment.movieDbKey,
+        'language': language,
+      },
     ),
   );
 
@@ -30,8 +37,9 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
   Future<List<TvShow>> getTvShowsAiring({int page = 1}) async {
     final response = await dio.get(
       "/tv/airing_today",
-      queryParameters: {'page': page},
+      queryParameters: {'page': page, "language": language},
     );
+
     return _jsonToTvShows(response.data);
   }
 
@@ -39,7 +47,7 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
   Future<List<TvShow>> getTvShowsOnTheAir({int page = 1}) async {
     final response = await dio.get(
       "/tv/on_the_air",
-      queryParameters: {'page': page},
+      queryParameters: {'page': page, "language": language},
     );
     return _jsonToTvShows(response.data);
   }
@@ -48,7 +56,7 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
   Future<List<TvShow>> getTvShowsPopular({int page = 1}) async {
     final response = await dio.get(
       "/tv/popular",
-      queryParameters: {'page': page},
+      queryParameters: {'page': page, "language": language},
     );
     return _jsonToTvShows(response.data);
   }
@@ -57,7 +65,7 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
   Future<List<TvShow>> getTvShowsTopRated({int page = 1}) async {
     final response = await dio.get(
       "/tv/top_rated",
-      queryParameters: {'page': page},
+      queryParameters: {'page': page, "language": language},
     );
     return _jsonToTvShows(response.data);
   }
@@ -84,7 +92,7 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
       queryParameters: {
         'query': query,
         'api_key': Environment.movieDbKey,
-        'language': "en",
+        "language": language,
       },
     );
     return _jsonToTvShows(response.data);
@@ -97,7 +105,7 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
   }) async {
     final response = await dio.get(
       '/tv/$tvshowId/recommendations',
-      queryParameters: {'page': page},
+      queryParameters: {'page': page, "language": language},
     );
 
     return _jsonToTvShows(response.data);

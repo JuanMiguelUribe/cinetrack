@@ -2,16 +2,22 @@ import 'package:movieflex/config/constants/environment.dart';
 import 'package:movieflex/domain/datasources/actors_datasource.dart';
 import 'package:movieflex/domain/entities/actor.dart';
 import 'package:movieflex/infraestructure/mappers/actor_mapper.dart';
-import 'package:movieflex/infraestructure/models/movieDb/ActorsTv_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/actorstv_response.dart';
 import 'package:dio/dio.dart';
 
 import '../models/movieDb/credits_response.dart';
 
 class ActorMoviedbDatasource extends ActorsDatasource {
-  final dio = Dio(
+  final String language;
+
+  ActorMoviedbDatasource({this.language = "en"});
+  late final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_key': Environment.movieDbKey, 'language': "en"},
+      queryParameters: {
+        'api_key': Environment.movieDbKey,
+        'language': language,
+      },
     ),
   );
   @override

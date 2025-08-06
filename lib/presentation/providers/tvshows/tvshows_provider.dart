@@ -36,17 +36,32 @@ typedef TvShowCallBack = Future<List<TvShow>> Function({int page});
 class TvShowsNotifier extends StateNotifier<List<TvShow>> {
   int currentPage = 0;
   bool isLoading = false;
+  bool _disposed = false;
 
   TvShowCallBack fetchMoreTvshows;
 
-  TvShowsNotifier({required this.fetchMoreTvshows}) : super([]);
+  TvShowsNotifier({required this.fetchMoreTvshows}) : super([]) {
+    _init();
+  }
+
+  void _init() {
+    loadNextPage();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
 
   Future<void> loadNextPage() async {
-    if (isLoading) return;
+    if (isLoading || _disposed) return;
 
     isLoading = true;
     currentPage++;
     final List<TvShow> tvshows = await fetchMoreTvshows(page: currentPage);
+    if (_disposed) return; // Chequea después del await también
+
     state = [...state, ...tvshows];
     await Future.delayed(const Duration(milliseconds: 500));
 
