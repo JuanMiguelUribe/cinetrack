@@ -445,6 +445,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'App Settings'**
   String get app_setting_title;
+
+  /// No description provided for @title_apptheme.
+  ///
+  /// In en, this message translates to:
+  /// **'App Theme'**
+  String get title_apptheme;
+
+  /// No description provided for @description_apptheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you want to view the app'**
+  String get description_apptheme;
+
+  /// No description provided for @title_app_color.
+  ///
+  /// In en, this message translates to:
+  /// **'App Color'**
+  String get title_app_color;
+
+  /// No description provided for @choose_personalized_color.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose custom color'**
+  String get choose_personalized_color;
+
+  /// No description provided for @reset_color_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset default color'**
+  String get reset_color_default;
+
+  /// No description provided for @select_a_color.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a color'**
+  String get select_a_color;
+
+  /// No description provided for @apply_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply_button;
+
+  /// No description provided for @cancel_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel_button;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
 }
 
 class _AppLocalizationsDelegate

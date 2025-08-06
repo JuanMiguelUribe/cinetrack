@@ -183,4 +183,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get app_setting_title => 'App Settings';
+
+  @override
+  String get title_apptheme => 'App Theme';
+
+  @override
+  String get description_apptheme => 'Choose how you want to view the app';
+
+  @override
+  String get title_app_color => 'App Color';
+
+  @override
+  String get choose_personalized_color => 'Choose custom color';
+
+  @override
+  String get reset_color_default => 'Reset default color';
+
+  @override
+  String get select_a_color => 'Select a color';
+
+  @override
+  String get apply_button => 'Apply';
+
+  @override
+  String get cancel_button => 'Cancel';
+
+  @override
+  String get language => 'Language';
 }

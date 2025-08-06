@@ -57,7 +57,17 @@
   "no_response": "No",
   "recommendations_title": "Recomendaciones",
   "config_title": "Configuración",
-    "app_setting_title": "Configuración de la Aplicación"
+    "app_setting_title": "Configuración de la Aplicación",
+  "title_apptheme": "Tema de La Aplicación",
+  "description_apptheme": "Elige como quieres ver la aplicación",
+  "title_app_color": "Color de la Aplicación",
+  "choose_personalized_color": "Elegir color personalizado",
+  "reset_color_default": "Restablecer color predeterminado",
+  "select_a_color": "Selecciona un color",
+  "apply_button": "Aplicar",
+  "cancel_button": "Cancelar",
+  "language": "Idioma"
+
 
 
 

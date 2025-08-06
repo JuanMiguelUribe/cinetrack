@@ -183,4 +183,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get app_setting_title => 'Configuración de la Aplicación';
+
+  @override
+  String get title_apptheme => 'Tema de La Aplicación';
+
+  @override
+  String get description_apptheme => 'Elige como quieres ver la aplicación';
+
+  @override
+  String get title_app_color => 'Color de la Aplicación';
+
+  @override
+  String get choose_personalized_color => 'Elegir color personalizado';
+
+  @override
+  String get reset_color_default => 'Restablecer color predeterminado';
+
+  @override
+  String get select_a_color => 'Selecciona un color';
+
+  @override
+  String get apply_button => 'Aplicar';
+
+  @override
+  String get cancel_button => 'Cancelar';
+
+  @override
+  String get language => 'Idioma';
 }
