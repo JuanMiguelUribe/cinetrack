@@ -24,6 +24,8 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final AppTheme apptheme = ref.watch(themeNotifierProvider);
+    final lang = ref.watch(languageProvider);
+
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
@@ -34,7 +36,7 @@ class MainApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: const Locale('en'),
+      locale: Locale(lang),
       supportedLocales: [
         Locale('en'), // English
         Locale('es'), // Spanish
