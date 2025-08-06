@@ -154,7 +154,11 @@ class MoviedbDatasource extends MoviesDatasource {
   Future<List<Movie>> discoverMovies({int page = 1}) async {
     final response = await dio.get(
       "/discover/movie",
-      queryParameters: {'page': page, "language": language},
+      queryParameters: {
+        'page': page,
+        "language": language,
+        // "sort_by": "primary_release_date.asc",
+      },
     );
     return _jsonToMovies(response.data);
   }
