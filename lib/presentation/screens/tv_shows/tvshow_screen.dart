@@ -455,7 +455,7 @@ class _ActorsByMovie extends ConsumerWidget {
     final actors = actorsByTvshow[tvshowId]!;
 
     return SizedBox(
-      height: 215,
+      height: 242,
 
       child: Padding(
         padding: const EdgeInsets.only(left: 8),
