@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieflex/presentation/providers/movies/movies_providers.dart';
+import 'package:movieflex/presentation/widgets/movies/movie_horizontal_listview.dart';
 
-class CategoriesView extends StatelessWidget {
-  const CategoriesView({super.key});
+class DiscoverView extends ConsumerWidget {
+  const DiscoverView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Placeholder());
+  Widget build(BuildContext context, WidgetRef ref) {
+    final discoverMovies = ref.watch(discoverMoviesProvider);
+    return Scaffold(body: MovieHorizontalListView(movies: discoverMovies));
   }
 }
