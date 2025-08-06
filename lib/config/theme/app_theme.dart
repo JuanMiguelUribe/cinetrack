@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const colorList = <Color>[
-  Color(0xFF2862F5), // Azul fuerte
+  Color.fromARGB(255, 40, 98, 245), // Azul fuerte
   Color(0xFF42A5F5), // Azul cielo
   Color(0xFF009688), // Verde azulado
   Color(0xFF4CAF50), // Verde
@@ -13,6 +13,8 @@ const colorList = <Color>[
   Color(0xFF5D4037), // Marrón oscuro
   Color(0xFF78909C), // Gris azulado
   Color(0xFF546E7A), // Azul grisáceo
+  Color(0xFF5D547A), // Azul grisáceo
+  Color(0xFF7A6154), // Azul grisáceo
 ];
 
 class AppTheme {
@@ -32,12 +34,14 @@ class AppTheme {
   }
 
   AppTheme copyWith({
-    int? selectedColor,
     bool? isDarkMode,
+    int? selectedColor,
     Color? customColor,
-  }) => AppTheme(
-    selectedColor: selectedColor ?? this.selectedColor,
-    isDarkMode: isDarkMode ?? this.isDarkMode,
-    customColor: customColor,
-  );
+  }) {
+    return AppTheme(
+      isDarkMode: isDarkMode ?? this.isDarkMode,
+      selectedColor: selectedColor ?? this.selectedColor,
+      customColor: customColor ?? this.customColor,
+    );
+  }
 }
