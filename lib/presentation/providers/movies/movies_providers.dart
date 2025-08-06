@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:movieflex/domain/entities/movie.dart';
 import 'package:movieflex/presentation/providers/movies/movies_respository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,6 +64,35 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     if (_disposed) return; // Chequea después del await también
 
     state = [...state, ...movies];
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    isLoading = false;
+  }
+
+  Future<void> loadNextRandomPage() async {
+    if (isLoading || _disposed) return;
+    isLoading = true;
+
+    currentPage = Random().nextInt(498) + 1;
+    final List<Movie> movies = await fetchMoreMovies(page: currentPage);
+    if (_disposed) return; // Chequea después del await también
+
+    state = movies;
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    isLoading = false;
+  }
+
+  Future<void> loadNextRandomPageAdded() async {
+    if (isLoading || _disposed) return;
+    isLoading = true;
+
+    currentPage = Random().nextInt(498) + 1;
+    final List<Movie> movies = await fetchMoreMovies(page: currentPage);
+    if (_disposed) return; // Chequea después del await también
+
+    state = [...state, ...movies];
+
     await Future.delayed(const Duration(milliseconds: 500));
 
     isLoading = false;
