@@ -47,7 +47,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     if (isLoading) return const FullScreenLoader();
 
     return Scaffold(
-      drawer: AppDrawer(),
+      // drawer: AppDrawer(),
       body: Builder(
         builder: (context) {
           return CustomScrollView(
