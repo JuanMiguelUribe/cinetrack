@@ -4,7 +4,7 @@ import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/video_movie.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/movies/video_movie_provider.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TrailerCarousel extends ConsumerStatefulWidget {
   final int movieId;
@@ -89,8 +89,6 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                     onPageChanged: (i) => setState(() => _currentPage = i),
                     itemBuilder: (context, index) {
                       final video = limitedVideos[index];
-                      print('🎬 VIDEO ID: ${video.youtubeKey}');
-
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
@@ -99,10 +97,10 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
                               borderRadius: BorderRadius.circular(20),
                               child: AspectRatio(
                                 aspectRatio: 16 / 9,
-                                child: YouTubeTestPlayer(
-                                  // youtubeId: video.youtubeKey,
-                                  // name: video.name,
-                                  // type: video.type,
+                                child: _YouTubeVideoPlayer(
+                                  youtubeId: video.youtubeKey,
+                                  name: video.name,
+                                  type: video.type,
                                 ),
                               ),
                             ),
@@ -208,10 +206,10 @@ class _WidgetForOnlyOneVideo extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: YouTubeTestPlayer(
-                  // youtubeId: videos.first.youtubeKey,
-                  // name: videos.first.name,
-                  // type: videos.first.type,
+                child: _YouTubeVideoPlayer(
+                  youtubeId: videos.first.youtubeKey,
+                  name: videos.first.name,
+                  type: videos.first.type,
                 ),
               ),
             ),
@@ -270,12 +268,22 @@ class _ResultIfVIdeosAreEmpty extends StatelessWidget {
   }
 }
 
-class YouTubeTestPlayer extends StatefulWidget {
+class _YouTubeVideoPlayer extends StatefulWidget {
+  final String youtubeId;
+  final String name;
+  final String type;
+
+  const _YouTubeVideoPlayer({
+    required this.youtubeId,
+    required this.name,
+    required this.type,
+  });
+
   @override
-  State<YouTubeTestPlayer> createState() => _YouTubeTestPlayerState();
+  _YouTubeVideoPlayerState createState() => _YouTubeVideoPlayerState();
 }
 
-class _YouTubeTestPlayerState extends State<YouTubeTestPlayer> {
+class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
   late YoutubePlayerController _controller;
 
   @override
@@ -283,29 +291,30 @@ class _YouTubeTestPlayerState extends State<YouTubeTestPlayer> {
     super.initState();
 
     _controller = YoutubePlayerController(
-      key: 'J_izy6Z_Oao',
-      params: YoutubePlayerParams(
-        showFullscreenButton: true,
-        playsInline: false,
+      initialVideoId: widget.youtubeId,
+      flags: const YoutubePlayerFlags(
+        hideThumbnail: true,
+        showLiveFullscreenButton: false,
         mute: false,
+        autoPlay: false,
+        disableDragSeek: true,
+        loop: false,
+        isLive: false,
+        forceHD: false,
         enableCaption: false,
+        controlsVisibleAtStart: true,
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return YoutubePlayerScaffold(
-      controller: _controller,
-      builder: (context, player) {
-        return AspectRatio(aspectRatio: 16 / 9, child: player);
-      },
-    );
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
-  void dispose() {
-    _controller.close();
-    super.dispose();
+  Widget build(BuildContext context) {
+    return YoutubePlayer(controller: _controller);
   }
 }
