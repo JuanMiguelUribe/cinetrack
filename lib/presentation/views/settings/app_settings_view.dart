@@ -37,7 +37,7 @@ class AppSettingsView extends ConsumerWidget {
         children: [
           //*Titulo
           Padding(
-            padding: const EdgeInsets.only(left: 30),
+            padding: const EdgeInsets.only(left: 20),
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
@@ -51,45 +51,43 @@ class AppSettingsView extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 20),
+
+          //*Container de tema
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
               height: 80,
               decoration: BoxDecoration(
-                color: colors.surfaceContainerHighest.withAlpha(150),
-                borderRadius: BorderRadius.circular(8),
+                color: colors.surface.withAlpha(250),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors.onSurfaceVariant.withAlpha(100),
+                    blurRadius: 3,
+                    offset: Offset(0, 0),
+                  ),
+                ],
               ),
               child: _ThemeSection(isDarkMode: isDarkMode),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 15),
 
-          ElevatedButton.icon(
-            icon: const Icon(Icons.palette),
-            label: const Text("Elegir color personalizado"),
-            onPressed: () => showColorPicker(context, ref),
-          ),
-          TextButton(
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              prefs.remove('customColor');
-              ref.read(themeNotifierProvider.notifier).changeCustomColor(null);
-            },
-            child: const Text("Restablecer color predeterminado"),
-          ),
-
+          //*Elegir Color de lista
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "App Color",
-                  style: Theme.of(context).textTheme.titleLarge,
+                  AppLocalizations.of(context)!.title_app_color,
+                  style: AppTextStyles.titlesForAppSettingsView(context),
                 ),
                 const SizedBox(height: 10),
                 Wrap(
-                  spacing: 10,
+                  spacing: 12,
+                  runSpacing: 12,
+
                   children: List.generate(colorList.length, (index) {
                     final color = colorList[index];
                     final isSelected =
@@ -102,9 +100,11 @@ class AppSettingsView extends ConsumerWidget {
                             .read(themeNotifierProvider.notifier)
                             .changeColorIndex(index);
                       },
+
                       child: CircleAvatar(
                         backgroundColor: color,
                         radius: isSelected ? 24 : 20,
+
                         child: isSelected
                             ? const Icon(Icons.check, color: Colors.white)
                             : null,
@@ -113,6 +113,90 @@ class AppSettingsView extends ConsumerWidget {
                   }),
                 ),
               ],
+            ),
+          ),
+          const SizedBox(height: 15),
+
+          ElevatedButton.icon(
+            icon: const Icon(Icons.palette),
+            label: Text(
+              AppLocalizations.of(context)!.choose_personalized_color,
+            ),
+            onPressed: () => showColorPicker(context, ref),
+          ),
+          TextButton(
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              prefs.remove('customColor');
+              ref.read(themeNotifierProvider.notifier).resetToDefault();
+            },
+            child: Text(AppLocalizations.of(context)!.reset_color_default),
+          ),
+
+          const SizedBox(height: 0),
+
+          //*Seleccion de Idioma
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: colors.surface.withAlpha(250),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors.onSurfaceVariant.withAlpha(100),
+                    blurRadius: 3,
+                    offset: Offset(0, 0),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.language,
+                        style: AppTextStyles.titlesForListSettings(context),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: ref.watch(languageProvider),
+                        icon: const Icon(Icons.arrow_drop_down),
+                        onChanged: (String? lang) {
+                          if (lang != null) {
+                            ref
+                                .read(languageProvider.notifier)
+                                .setLanguage(lang);
+                            ref.invalidate(movieRepositoryProvider);
+
+                            ref.invalidate(nowPlayingMoviesProvider);
+                            ref.invalidate(popularMoviesProvider);
+                            ref.invalidate(topRatedMoviesProvider);
+                            ref.invalidate(upcomingMoviesProvider);
+                            ref.invalidate(airingTvShowProvider);
+                            ref.invalidate(onTheAirTvShowProvider);
+                            ref.invalidate(popularTvShowProvider);
+                            ref.invalidate(topRatedTvShowProvider);
+                          }
+                        },
+                        items: const [
+                          DropdownMenuItem(value: 'en', child: Text("English")),
+                          DropdownMenuItem(value: 'es', child: Text("Español")),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -139,10 +223,14 @@ class _ThemeSection extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "App Theme",
+                AppLocalizations.of(context)!.title_apptheme,
+
                 style: AppTextStyles.titlesForAppSettingsView(context),
               ),
-              const Text("Choose how you want to view the app.", maxLines: 2),
+              Text(
+                AppLocalizations.of(context)!.description_apptheme,
+                maxLines: 2,
+              ),
             ],
           ),
         ),
