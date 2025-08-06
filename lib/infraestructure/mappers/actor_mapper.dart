@@ -1,5 +1,5 @@
 import 'package:movieflex/domain/entities/actor.dart';
-import 'package:movieflex/infraestructure/models/movieDb/ActorsTv_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/actorstv_response.dart';
 import 'package:movieflex/infraestructure/models/movieDb/credits_response.dart';
 
 class ActorMapper {
