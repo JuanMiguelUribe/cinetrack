@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieflex/config/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,8 +37,13 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
   void toggleDarkMode() async {
     final prefs = await SharedPreferences.getInstance();
     final newMode = !state.isDarkMode;
-    prefs.setBool('isDarkMode', newMode);
-    state = state.copyWith(isDarkMode: newMode);
+    await prefs.setBool('isDarkMode', newMode);
+
+    state = state.copyWith(
+      isDarkMode: newMode,
+      selectedColor: state.selectedColor,
+      customColor: state.customColor,
+    );
   }
 
   void changeColorIndex(int newIndex) async {
@@ -53,12 +59,14 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
   void changeCustomColor(Color? color) async {
     state = state.copyWith(customColor: color, selectedColor: 0);
     final prefs = await SharedPreferences.getInstance();
+
     if (color == null) {
-      await prefs.remove('selectedColor');
+      await prefs.remove('customColor');
+      await prefs.setInt('selectedColor', 0);
     } else {
-      await prefs.setInt('customColor', color.value);
+      await prefs.setString('customColor', color.toHexString());
+      await prefs.setInt('selectedColor', 0);
     }
-    state = state.copyWith(customColor: color);
   }
 
   void resetToDefault() async {
