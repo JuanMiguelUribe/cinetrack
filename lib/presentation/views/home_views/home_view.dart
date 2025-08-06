@@ -111,7 +111,7 @@ class _SegmentedControlHeader extends SliverPersistentHeaderDelegate {
     final colors = Theme.of(context).colorScheme;
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
       alignment: Alignment.center,
       child: CupertinoSegmentedControl<int>(
         borderColor: Colors.transparent,
@@ -123,28 +123,58 @@ class _SegmentedControlHeader extends SliverPersistentHeaderDelegate {
         children: {
           0: Padding(
             padding: const EdgeInsets.all(8),
-            child: Text(
-              AppLocalizations.of(context)!.movies,
-              style: TextStyle(
-                color: selectedIndex == 0 ? colors.primary : colors.onSurface,
-                fontSize: 16,
-                fontWeight: selectedIndex == 0
-                    ? FontWeight.w900
-                    : FontWeight.normal,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.movies,
+                  style: TextStyle(
+                    color: selectedIndex == 0
+                        ? colors.primary
+                        : colors.onSurface,
+                    fontSize: 16,
+                    fontWeight: selectedIndex == 0
+                        ? FontWeight.w900
+                        : FontWeight.normal,
+                  ),
+                ),
+                Container(
+                  height: 1,
+
+                  decoration: BoxDecoration(
+                    color: selectedIndex == 0
+                        ? colors.primary
+                        : Colors.transparent,
+                  ),
+                ),
+              ],
             ),
           ),
           1: Padding(
             padding: const EdgeInsets.all(8),
-            child: Text(
-              AppLocalizations.of(context)!.seriesNav,
-              style: TextStyle(
-                color: selectedIndex == 1 ? colors.primary : colors.onSurface,
-                fontSize: 16,
-                fontWeight: selectedIndex == 1
-                    ? FontWeight.w900
-                    : FontWeight.normal,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.seriesNav,
+                  style: TextStyle(
+                    color: selectedIndex == 1
+                        ? colors.primary
+                        : colors.onSurface,
+                    fontSize: 16,
+                    fontWeight: selectedIndex == 1
+                        ? FontWeight.w900
+                        : FontWeight.normal,
+                  ),
+                ),
+                Container(
+                  height: 1,
+
+                  decoration: BoxDecoration(
+                    color: selectedIndex != 0
+                        ? colors.primary
+                        : Colors.transparent,
+                  ),
+                ),
+              ],
             ),
           ),
         },
