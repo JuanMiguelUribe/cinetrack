@@ -45,6 +45,8 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   void _init() {
     loadNextPage();
+    loadNextRandomPage();
+    loadNextRandomPageAdded();
   }
 
   @override
@@ -69,13 +71,14 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     isLoading = false;
   }
 
+  //*se carga paginas  siguiente, pero consecuente
   Future<void> loadNextRandomPage() async {
     if (isLoading || _disposed) return;
     isLoading = true;
 
     currentPage = Random().nextInt(498) + 1;
     final List<Movie> movies = await fetchMoreMovies(page: currentPage);
-    if (_disposed) return; // Chequea después del await también
+    if (_disposed) return;
 
     state = movies;
     await Future.delayed(const Duration(milliseconds: 500));
@@ -83,18 +86,37 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     isLoading = false;
   }
 
+  //*Se carga la pagina siguiente
   Future<void> loadNextRandomPageAdded() async {
     if (isLoading || _disposed) return;
     isLoading = true;
 
     currentPage = Random().nextInt(498) + 1;
     final List<Movie> movies = await fetchMoreMovies(page: currentPage);
-    if (_disposed) return; // Chequea después del await también
+    if (_disposed) return;
 
     state = [...state, ...movies];
 
     await Future.delayed(const Duration(milliseconds: 500));
 
+    isLoading = false;
+  }
+
+  //*Se carga otra pagina pero se agrega antes
+  int loadedBefore = 0;
+
+  Future<void> loadPreviousRandomPageAdded() async {
+    if (isLoading || _disposed || loadedBefore > 200) return;
+    isLoading = true;
+
+    final int randomPage = Random().nextInt(498) + 1;
+    final List<Movie> movies = await fetchMoreMovies(page: randomPage);
+    if (_disposed) return;
+
+    state = [...movies, ...state];
+    loadedBefore += movies.length;
+
+    await Future.delayed(const Duration(milliseconds: 500));
     isLoading = false;
   }
 }
