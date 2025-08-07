@@ -103,10 +103,9 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
   }
 
   //*Se carga otra pagina pero se agrega antes
-  int loadedBefore = 0;
 
   Future<void> loadPreviousRandomPageAdded() async {
-    if (isLoading || _disposed || loadedBefore > 200) return;
+    if (isLoading || _disposed) return;
     isLoading = true;
 
     final int randomPage = Random().nextInt(498) + 1;
@@ -114,7 +113,6 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     if (_disposed) return;
 
     state = [...movies, ...state];
-    loadedBefore += movies.length;
 
     await Future.delayed(const Duration(milliseconds: 500));
     isLoading = false;
