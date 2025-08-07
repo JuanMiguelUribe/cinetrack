@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:movieflex/domain/entities/movie_details.dart';
 import 'package:movieflex/domain/entities/video_movie.dart';
 import 'package:movieflex/infraestructure/mappers/video_movie_mapper.dart';
@@ -151,11 +153,13 @@ class MoviedbDatasource extends MoviesDatasource {
   }
 
   @override
-  Future<List<Movie>> discoverMovies({int page = 1}) async {
+  Future<List<Movie>> discoverMovies({int? page}) async {
+    final int randomPage = Random().nextInt(498) + 1;
+
     final response = await dio.get(
       "/discover/movie",
       queryParameters: {
-        'page': page,
+        'page': randomPage,
         "language": language,
         // "sort_by": "primary_release_date.asc",
       },
