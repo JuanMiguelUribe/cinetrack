@@ -66,7 +66,26 @@
   "select_a_color": "Selecciona un color",
   "apply_button": "Aplicar",
   "cancel_button": "Cancelar",
-  "language": "Idioma"
+  "language": "Idioma",
+  "genreAction": "Acción",
+  "genreAdventure": "Aventura",
+  "genreAnimation": "Animación",
+  "genreComedy": "Comedia",
+  "genreCrime": "Crimen",
+  "genreDocumentary": "Documental",
+  "genreDrama": "Drama",
+  "genreFamily": "Familiar",
+  "genreFantasy": "Fantasía",
+  "genreHistory": "Historia",
+  "genreHorror": "Terror",
+  "genreMusic": "Música",
+  "genreMystery": "Misterio",
+  "genreRomance": "Romance",
+  "genreScienceFiction": "Ciencia Ficción",
+  "genreTvMovie": "Película de TV",
+  "genreThriller": "Suspenso",
+  "genreWar": "Guerra",
+  "genreWestern": "Occidental"
 
 
 

@@ -210,4 +210,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get language => 'Language';
+
+  @override
+  String get genreAction => 'Action';
+
+  @override
+  String get genreAdventure => 'Adventure';
+
+  @override
+  String get genreAnimation => 'Animation';
+
+  @override
+  String get genreComedy => 'Comedy';
+
+  @override
+  String get genreCrime => 'Crime';
+
+  @override
+  String get genreDocumentary => 'Documentary';
+
+  @override
+  String get genreDrama => 'Drama';
+
+  @override
+  String get genreFamily => 'Family';
+
+  @override
+  String get genreFantasy => 'Fantasy';
+
+  @override
+  String get genreHistory => 'History';
+
+  @override
+  String get genreHorror => 'Horror';
+
+  @override
+  String get genreMusic => 'Music';
+
+  @override
+  String get genreMystery => 'Mystery';
+
+  @override
+  String get genreRomance => 'Romance';
+
+  @override
+  String get genreScienceFiction => 'Science Fiction';
+
+  @override
+  String get genreTvMovie => 'TV Movie';
+
+  @override
+  String get genreThriller => 'Thriller';
+
+  @override
+  String get genreWar => 'War';
+
+  @override
+  String get genreWestern => 'Western';
 }
