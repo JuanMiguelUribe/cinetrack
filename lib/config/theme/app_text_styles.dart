@@ -131,7 +131,7 @@ class AppTextStyles {
 
     return TextStyle(
       fontSize: 20,
-      color: colors.primary,
+      color: colors.onSurface,
       fontWeight: FontWeight.w500,
     );
   }
