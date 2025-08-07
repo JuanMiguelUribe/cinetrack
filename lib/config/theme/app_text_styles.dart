@@ -126,5 +126,15 @@ class AppTextStyles {
     );
   }
 
+  static TextStyle styleForTitleContentDiscover(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return TextStyle(
+      fontSize: 20,
+      color: colors.primary,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
   // Puedes seguir agregando más: descripción, botón, etc.
 }
