@@ -122,6 +122,7 @@ class _MovieDetails extends StatelessWidget {
               ),
             ),
           ),
+        const SizedBox(height: 8),
 
         // //*DIVISOR DE SECCIÓN,
         // _buildSectionDivider("", context),

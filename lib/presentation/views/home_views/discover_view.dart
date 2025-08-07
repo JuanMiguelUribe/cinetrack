@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieflex/config/helpers/human_formats.dart';
+import 'package:movieflex/config/helpers/localizations_helper.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/movie.dart';
+import 'package:movieflex/domain/entities/movie_details.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
-import 'package:movieflex/presentation/widgets/movies/movie_horizontal_listview.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
 
 class DiscoverMoviesView extends ConsumerStatefulWidget {
@@ -45,6 +48,7 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
     final size = MediaQuery.of(context).size;
     final isLoading = ref.watch(initialLoadingDiscoverProvider);
     if (isLoading) return const FullScreenLoader();
+
     return Scaffold(
       appBar: AppBar(),
       body: RefreshIndicator(
@@ -161,6 +165,8 @@ class _PageSwiperState extends State<_PageSwiper> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+
     return Column(
       children: [
         SizedBox(
@@ -172,6 +178,7 @@ class _PageSwiperState extends State<_PageSwiper> {
             padEnds: true,
             itemBuilder: (context, index) {
               final movie = widget.discoverMovies[index];
+              final loc = AppLocalizations.of(context)!;
 
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -187,7 +194,7 @@ class _PageSwiperState extends State<_PageSwiper> {
 
                       return Center(
                         child: SizedBox(
-                          height: Curves.easeOut.transform(value) * 460,
+                          height: Curves.easeOut.transform(value) * 410,
                           width: Curves.easeOut.transform(value) * 370,
                           child: child,
                         ),
@@ -211,7 +218,79 @@ class _PageSwiperState extends State<_PageSwiper> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+                  movie.genreIds.isNotEmpty
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            //*Generos
+                            const SizedBox(width: 8),
+                            Center(
+                              child: Wrap(
+                                spacing: 8,
+                                children: movie.genreIds.take(2).map((genre) {
+                                  final key = genreTranslationKeys[genre];
+                                  final translated = key != null
+                                      ? loc.getTranslation(key)
+                                      : genre;
+
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: colors.onSurface.withAlpha(220),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      translated,
+                                      style: TextStyle(
+                                        color: colors.surface,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+
+                            //*RATING
+                            SizedBox(
+                              width: 60,
+                              child: Row(
+                                children: [
+                                  AnimatedRatingCircle(
+                                    rating: movie.voteAverage,
+                                    size: 26,
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      : SizedBox(
+                          width: 60,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.star_half_outlined,
+                                color: Colors.yellow.shade800,
+                                size: 28,
+                              ),
+                              Text(
+                                movie.voteAverage.toStringAsFixed(1),
+                                style: textStyles.bodyMedium?.copyWith(
+                                  color: Colors.yellow.shade800,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
                   Text(
                     movie.title,
                     style: AppTextStyles.styleForTitleContentDiscover(context),
@@ -219,6 +298,23 @@ class _PageSwiperState extends State<_PageSwiper> {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  if (movie.adult)
+                    Center(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          '+18',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
                 ],
               );
             },
@@ -252,3 +348,59 @@ class _PageSwiperState extends State<_PageSwiper> {
     );
   }
 }
+
+// MovieDetails mapMovieToDetails(Movie movie) {
+//   final genreNames = movie.genreIds
+//       .map((id) => genreMap[int.tryParse(id.toString())])
+//       .whereType<String>() // esto filtra los nulos
+//       .toList();
+
+//   return MovieDetails(
+//     id: movie.id,
+//     title: movie.title,
+//     posterPath: movie.posterPath ?? '',
+//     overview: movie.overview,
+//     popularity: movie.voteAverage,
+//     originalTitle: movie.originalTitle,
+//     backdropPath: '',
+//     releaseDate: null,
+//     runtime: null,
+//     voteAverage: movie.voteAverage,
+//     voteCount: movie.voteCount,
+//     originalLanguage: '',
+//     originCountry: [],
+//     genres: genreNames, // <--- ahora pasas List<String>
+//     homepage: '',
+//     budget: 0,
+//     revenue: 0,
+//     video: null,
+//     status: '',
+//     imdbId: '',
+//     belongsToCollection: null,
+//     productionCompanies: [],
+//     productionCountries: [],
+//     spokenLanguages: [],
+//   );
+// }
+
+final Map<String, String> genreTranslationKeys = {
+  "28": 'genre_action',
+  "12": 'genre_adventure',
+  "16": 'genre_animation',
+  "35": 'genre_comedy',
+  "80": 'genre_crime',
+  "99": 'genre_documentary',
+  "18": 'genre_drama',
+  "10751": 'genre_family',
+  "14": 'genre_fantasy',
+  "36": 'genre_history',
+  "27": 'genre_horror',
+  "10402": 'genre_music',
+  "9648": 'genre_mystery',
+  "10749": 'genre_romance',
+  "878": 'genre_scifi',
+  "10770": 'genre_tv_movie',
+  "53": 'genre_thriller',
+  "10752": 'genre_war',
+  "37": 'genre_western',
+};
