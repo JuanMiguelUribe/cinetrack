@@ -73,7 +73,11 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
                 loadNextPage: () => ref
                     .read(discoverMoviesProvider.notifier)
                     .loadNextRandomPageAdded(),
+                loadNextPageBackward: () => ref
+                    .read(discoverMoviesProvider.notifier)
+                    .loadPreviousRandomPageAdded(),
               ),
+
               const SizedBox(height: 30),
             ],
           ),
@@ -83,24 +87,26 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
   }
 }
 
-class _PageSwiper extends ConsumerStatefulWidget {
+class _PageSwiper extends StatefulWidget {
   const _PageSwiper({
     super.key,
     required this.size,
     required this.pageController,
     required this.discoverMovies,
     this.loadNextPage,
+    this.loadNextPageBackward,
   });
 
   final Size size;
   final PageController pageController;
   final List<Movie> discoverMovies;
   final VoidCallback? loadNextPage;
+  final VoidCallback? loadNextPageBackward;
   @override
-  _PageSwiperState createState() => _PageSwiperState();
+  State<_PageSwiper> createState() => _PageSwiperState();
 }
 
-class _PageSwiperState extends ConsumerState<_PageSwiper> {
+class _PageSwiperState extends State<_PageSwiper> {
   int _currentPage = 10;
   late final VoidCallback _pageListener;
 
@@ -123,19 +129,20 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
       }
 
       // Carga hacia atrás
-      if (page < 1) {
+      if (page <= 0) {
         final previousItemCount = 20; // o la cantidad que vayas a insertar
         final viewportFraction = widget.pageController.viewportFraction;
         final pageWidth =
             widget.pageController.position.viewportDimension * viewportFraction;
         final offsetBefore = widget.pageController.offset;
 
-        ref.read(discoverMoviesProvider.notifier).loadPreviousRandomPageAdded();
-
+        widget.loadNextPageBackward!();
         // Desplazamos el scroll para seguir en la misma película
         final offsetAfter = offsetBefore + (pageWidth * previousItemCount);
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          Future.delayed(Duration(seconds: 1));
+
           if (mounted) {
             widget.pageController.jumpTo(offsetAfter);
           }
@@ -241,61 +248,7 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
             }),
           ),
         ),
-
-        // _PageIndicator(
-        //   currentIndex: _currentPage - widget.pageController.initialPage,
-        //   itemCount: widget.discoverMovies.length,
-        // ),
       ],
     );
   }
 }
-
-// class _PageIndicator extends StatelessWidget {
-//   const _PageIndicator({required this.itemCount, required this.currentIndex});
-
-//   final int itemCount;
-//   final int currentIndex;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final colors = Theme.of(context).colorScheme;
-//     const visibleDots = 5;
-//     final middleIndex = visibleDots ~/ 2;
-
-//     List<Widget> dots = [];
-
-//     for (int i = 0; i < visibleDots; i++) {
-//       int relativeIndex = currentIndex - middleIndex + i;
-
-//       // Controlar bordes
-//       if (currentIndex < middleIndex) {
-//         relativeIndex = i; // estamos al inicio
-//       } else if (currentIndex > itemCount - middleIndex - 1) {
-//         relativeIndex = itemCount - visibleDots + i; // estamos al final
-//       }
-
-//       // Solo dibujar si el índice existe
-//       if (relativeIndex < 0 || relativeIndex >= itemCount) {
-//         dots.add(const SizedBox(width: 12)); // espacio vacío
-//       } else {
-//         final isActive = relativeIndex == currentIndex;
-
-//         dots.add(
-//           AnimatedContainer(
-//             duration: const Duration(milliseconds: 300),
-//             margin: const EdgeInsets.symmetric(horizontal: 4),
-//             height: 8,
-//             width: isActive ? 20 : 8,
-//             decoration: BoxDecoration(
-//               color: isActive ? colors.primary : colors.secondary,
-//               borderRadius: BorderRadius.circular(8),
-//             ),
-//           ),
-//         );
-//       }
-//     }
-
-//     return Row(mainAxisAlignment: MainAxisAlignment.center, children: dots);
-//   }
-// }
