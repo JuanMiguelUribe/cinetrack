@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/movie.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:movieflex/presentation/widgets/movies/movie_horizontal_listview.dart';
@@ -82,7 +83,7 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
   }
 }
 
-class _PageSwiper extends StatefulWidget {
+class _PageSwiper extends ConsumerStatefulWidget {
   const _PageSwiper({
     super.key,
     required this.size,
@@ -96,55 +97,63 @@ class _PageSwiper extends StatefulWidget {
   final List<Movie> discoverMovies;
   final VoidCallback? loadNextPage;
   @override
-  State<_PageSwiper> createState() => _PageSwiperState();
+  _PageSwiperState createState() => _PageSwiperState();
 }
 
-class _PageSwiperState extends State<_PageSwiper> {
-  final PageController pageController = PageController();
-  final PageController dotController = PageController(viewportFraction: 1 / 5);
+class _PageSwiperState extends ConsumerState<_PageSwiper> {
   int _currentPage = 10;
+  late final VoidCallback _pageListener;
 
   @override
   void initState() {
     super.initState();
-    pageController.addListener(() {
-      dotController.jumpTo(pageController.offset);
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.pageController.hasClients &&
-          widget.discoverMovies.length > 10) {
-        widget.pageController.jumpToPage(10);
-      }
-    });
-
-    widget.pageController.addListener(() {
+    _pageListener = () {
       final page = widget.pageController.page?.round() ?? 10;
-      if (page != _currentPage) {
+
+      if (mounted && page != _currentPage) {
         setState(() {
           _currentPage = page;
         });
       }
 
-      pageController.addListener(() {
-        final page = pageController.page?.round() ?? 0;
-        if (page != _currentPage) {
-          setState(() {
-            _currentPage = page;
-          });
-        }
-
-        dotController.jumpTo(pageController.offset);
-      });
-      if (widget.loadNextPage == null) return;
-      if (page >= widget.discoverMovies.length - 1) {
-        widget.loadNextPage!(); // Llama al método para traer más películas
+      // Carga hacia adelante
+      if (widget.loadNextPage != null &&
+          page >= widget.discoverMovies.length - 1) {
+        widget.loadNextPage!();
       }
-    });
+
+      // Carga hacia atrás
+      if (page < 1) {
+        final previousItemCount = 20; // o la cantidad que vayas a insertar
+        final viewportFraction = widget.pageController.viewportFraction;
+        final pageWidth =
+            widget.pageController.position.viewportDimension * viewportFraction;
+        final offsetBefore = widget.pageController.offset;
+
+        ref.read(discoverMoviesProvider.notifier).loadPreviousRandomPageAdded();
+
+        // Desplazamos el scroll para seguir en la misma película
+        final offsetAfter = offsetBefore + (pageWidth * previousItemCount);
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            widget.pageController.jumpTo(offsetAfter);
+          }
+        });
+      }
+    };
+    widget.pageController.addListener(_pageListener);
+  }
+
+  @override
+  void dispose() {
+    widget.pageController.removeListener(_pageListener);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return Column(
       children: [
         SizedBox(
@@ -157,110 +166,82 @@ class _PageSwiperState extends State<_PageSwiper> {
             itemBuilder: (context, index) {
               final movie = widget.discoverMovies[index];
 
-              return AnimatedBuilder(
-                animation: widget.pageController,
-                builder: (context, child) {
-                  double value = 1.0;
-                  if (widget.pageController.position.haveDimensions) {
-                    value = widget.pageController.page! - index;
-                    value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
-                  }
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AnimatedBuilder(
+                    animation: widget.pageController,
+                    builder: (context, child) {
+                      double value = 1.0;
+                      if (widget.pageController.position.haveDimensions) {
+                        value = widget.pageController.page! - index;
+                        value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
+                      }
 
-                  return Center(
-                    child: SizedBox(
-                      height: Curves.easeOut.transform(value) * 520,
-                      width: 320,
-                      child: child,
+                      return Center(
+                        child: SizedBox(
+                          height: Curves.easeOut.transform(value) * 460,
+                          width: Curves.easeOut.transform(value) * 370,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                        image: DecorationImage(
+                          image: NetworkImage(movie.posterPath!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
-                          image: DecorationImage(
-                            image: NetworkImage(movie.posterPath!),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                      ),
-                      Positioned(
-                        left: 20,
-                        bottom: 60,
-                        right: 20,
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                movie.title,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "⭐ ${movie.popularity.toStringAsFixed(1)}",
-                                style: const TextStyle(color: Colors.white70),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
-                ),
+                  const SizedBox(height: 8),
+                  Text(
+                    movie.title,
+                    style: AppTextStyles.styleForTitleContentDiscover(context),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               );
             },
           ),
         ),
+
         const SizedBox(height: 16),
         SizedBox(
           height: 40,
-          child: PageView.builder(
-            controller: dotController,
-            itemCount: widget.discoverMovies.length,
-            physics:
-                const NeverScrollableScrollPhysics(), // que no se pueda arrastrar
-            itemBuilder: (context, index) {
-              final isSelected =
-                  index ==
-                  _currentPage; // asume que actualizas esto desde el otro PageView
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(20, (index) {
+              final isSelected = index == (_currentPage % 20);
 
-              return Center(
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  width: isSelected ? 20 : 8,
-                  height: 8,
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: isSelected ? Colors.red : Colors.grey,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: isSelected ? 20 : 8,
+                height: 8,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? colors.primary
+                      : colors.onSurface.withAlpha(100),
+                  borderRadius: BorderRadius.circular(8),
                 ),
               );
-            },
+            }),
           ),
         ),
+
         // _PageIndicator(
         //   currentIndex: _currentPage - widget.pageController.initialPage,
         //   itemCount: widget.discoverMovies.length,
