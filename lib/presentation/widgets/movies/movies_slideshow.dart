@@ -3,18 +3,21 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:movieflex/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieflex/presentation/providers/providers.dart';
 
 class MoviesSlideshow extends StatelessWidget {
   final double aspectRatio;
   final double viewportFraction;
   final List<Movie> movies;
   final bool showTitle;
+  final MediaType type;
   const MoviesSlideshow({
     super.key,
     required this.movies,
     this.aspectRatio = 14 / 7.5,
     this.viewportFraction = 0.85,
     this.showTitle = true,
+    required this.type,
   });
 
   @override
@@ -38,7 +41,7 @@ class MoviesSlideshow extends StatelessWidget {
         ),
         itemCount: movies.length,
         itemBuilder: (context, index) =>
-            _Slide(movie: movies[index], showTitle: showTitle),
+            _Slide(movie: movies[index], showTitle: showTitle, type: type),
       ),
     );
   }
@@ -47,8 +50,13 @@ class MoviesSlideshow extends StatelessWidget {
 class _Slide extends StatelessWidget {
   final Movie movie;
   final bool showTitle;
+  final MediaType type;
 
-  const _Slide({required this.movie, this.showTitle = true});
+  const _Slide({
+    required this.movie,
+    this.showTitle = true,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +75,12 @@ class _Slide extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.push('/movie/${movie.id}');
+        if (type == MediaType.movie) {
+          context.push('/movie/${movie.id}');
+        }
+        if (type == MediaType.tv) {
+          context.push('/tvshow/${movie.id}');
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 30, top: 0),
