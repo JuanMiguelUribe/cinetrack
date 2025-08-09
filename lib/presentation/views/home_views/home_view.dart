@@ -207,7 +207,11 @@ class _FilmsView extends ConsumerWidget {
     return Column(
       children: [
         const SizedBox(height: 8),
-        MoviesSlideshow(movies: slideShowMovies, showTitle: true),
+        MoviesSlideshow(
+          movies: slideShowMovies,
+          showTitle: true,
+          type: MediaType.movie,
+        ),
         buildSectionDivider(AppLocalizations.of(context)!.movies, context),
         SearchBarWidget(ref: ref),
         _MoviesSectionSlides(
@@ -260,7 +264,9 @@ class _SeriesView extends ConsumerWidget {
           showTitle: true,
           aspectRatio: 14 / 7.5,
           viewportFraction: 0.80,
+          type: MediaType.tv,
         ),
+        //*División de sección
         buildSectionDivider(AppLocalizations.of(context)!.tvshows, context),
         //*Barra de busqueda
         SearchBarWidget(ref: ref),
