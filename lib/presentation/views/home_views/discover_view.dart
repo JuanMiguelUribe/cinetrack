@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movieflex/config/helpers/human_formats.dart';
 import 'package:movieflex/config/helpers/localizations_helper.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
@@ -91,7 +92,7 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
   }
 }
 
-class _PageSwiper extends StatefulWidget {
+class _PageSwiper extends ConsumerStatefulWidget {
   const _PageSwiper({
     super.key,
     required this.size,
@@ -107,10 +108,10 @@ class _PageSwiper extends StatefulWidget {
   final VoidCallback? loadNextPage;
   final VoidCallback? loadNextPageBackward;
   @override
-  State<_PageSwiper> createState() => _PageSwiperState();
+  ConsumerState<_PageSwiper> createState() => _PageSwiperState();
 }
 
-class _PageSwiperState extends State<_PageSwiper> {
+class _PageSwiperState extends ConsumerState<_PageSwiper> {
   int _currentPage = 10;
   late final VoidCallback _pageListener;
 
@@ -179,143 +180,191 @@ class _PageSwiperState extends State<_PageSwiper> {
             itemBuilder: (context, index) {
               final movie = widget.discoverMovies[index];
               final loc = AppLocalizations.of(context)!;
+              final isFavoriteFuture = ref.watch(
+                isFavoriteProvider((type: 'movie', id: movie.id)),
+              );
 
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedBuilder(
-                    animation: widget.pageController,
-                    builder: (context, child) {
-                      double value = 1.0;
-                      if (widget.pageController.position.haveDimensions) {
-                        value = widget.pageController.page! - index;
-                        value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
-                      }
+              return GestureDetector(
+                onTap: () {
+                  context.push('/movie/${movie.id}');
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedBuilder(
+                      animation: widget.pageController,
+                      builder: (context, child) {
+                        double value = 1.0;
+                        if (widget.pageController.position.haveDimensions) {
+                          value = widget.pageController.page! - index;
+                          value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
+                        }
 
-                      return Center(
-                        child: SizedBox(
-                          height: Curves.easeOut.transform(value) * 410,
-                          width: Curves.easeOut.transform(value) * 370,
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
+                        return Center(
+                          child: SizedBox(
+                            height: Curves.easeOut.transform(value) * 410,
+                            width: Curves.easeOut.transform(value) * 370,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                              image: DecorationImage(
+                                image: NetworkImage(movie.posterPath!),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ],
-                        image: DecorationImage(
-                          image: NetworkImage(movie.posterPath!),
-                          fit: BoxFit.cover,
-                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  movie.genreIds.isNotEmpty
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            //*Generos
-                            const SizedBox(width: 8),
-                            Center(
-                              child: Wrap(
-                                spacing: 8,
-                                children: movie.genreIds.take(2).map((genre) {
-                                  final key = genreTranslationKeys[genre];
-                                  final translated = key != null
-                                      ? loc.getTranslation(key)
-                                      : genre;
-
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: colors.onSurface.withAlpha(220),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      translated,
-                                      style: TextStyle(
-                                        color: colors.surface,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-
-                            //*RATING
-                            SizedBox(
-                              width: 60,
-                              child: Row(
-                                children: [
-                                  AnimatedRatingCircle(
-                                    rating: movie.voteAverage,
-                                    size: 26,
-                                  ),
-                                  Spacer(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      : SizedBox(
-                          width: 60,
-                          child: Row(
+                    const SizedBox(height: 12),
+                    movie.genreIds.isNotEmpty
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Icon(
-                                Icons.star_half_outlined,
-                                color: Colors.yellow.shade800,
-                                size: 28,
-                              ),
-                              Text(
-                                movie.voteAverage.toStringAsFixed(1),
-                                style: textStyles.bodyMedium?.copyWith(
-                                  color: Colors.yellow.shade800,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
+                              IconButton(
+                                onPressed: () async {
+                                  await
+                                  // ref
+                                  //     .read(localStorageRepositoryProvider)
+                                  //     .toggleFavoriteMovie(movie);
+                                  ref
+                                      .read(favoriteMoviesProvider.notifier)
+                                      .toggleFavorite(movie);
+                                  ref.invalidate(
+                                    isFavoriteProvider((
+                                      type: 'movie',
+                                      id: movie.id,
+                                    )),
+                                  );
+                                },
+                                icon: isFavoriteFuture.when(
+                                  loading: () =>
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                  data: (isFavorite) => isFavorite
+                                      ? Icon(
+                                          Icons.favorite_rounded,
+                                          color: Colors.red,
+                                          size: 36,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border_rounded,
+                                          color: colors.onSurface,
+                                          size: 36,
+                                        ),
+                                  error: (_, _) => throw UnimplementedError(),
                                 ),
                               ),
-                              Spacer(),
+
+                              //*Generos
+                              // const SizedBox(width: 8),
+                              Center(
+                                child: Wrap(
+                                  spacing: 8,
+                                  children: movie.genreIds.take(2).map((genre) {
+                                    final key = genreTranslationKeys[genre];
+                                    final translated = key != null
+                                        ? loc.getTranslation(key)
+                                        : genre;
+
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: colors.onSurface.withAlpha(220),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        translated,
+                                        style: TextStyle(
+                                          color: colors.surface,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+
+                              //*RATING
+                              SizedBox(
+                                width: 60,
+                                child: Row(
+                                  children: [
+                                    AnimatedRatingCircle(
+                                      rating: movie.voteAverage,
+                                      size: 26,
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                              ),
                             ],
+                          )
+                        : SizedBox(
+                            width: 60,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.star_half_outlined,
+                                  color: Colors.yellow.shade800,
+                                  size: 28,
+                                ),
+                                Text(
+                                  movie.voteAverage.toStringAsFixed(1),
+                                  style: textStyles.bodyMedium?.copyWith(
+                                    color: Colors.yellow.shade800,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                    Text(
+                      movie.title,
+                      style: AppTextStyles.styleForTitleContentDiscover(
+                        context,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (movie.adult)
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Text(
+                            '+18',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                         ),
-                  Text(
-                    movie.title,
-                    style: AppTextStyles.styleForTitleContentDiscover(context),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (movie.adult)
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Text(
-                          '+18',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               );
             },
           ),
