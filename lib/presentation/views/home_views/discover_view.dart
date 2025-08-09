@@ -1,11 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movieflex/config/helpers/human_formats.dart';
+import 'package:intl/intl.dart';
 import 'package:movieflex/config/helpers/localizations_helper.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/movie.dart';
-import 'package:movieflex/domain/entities/movie_details.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
@@ -22,6 +22,7 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
     viewportFraction: 0.8,
     initialPage: 10,
   );
+  int selectedIndex = 0;
 
   @override
   void dispose() {
@@ -48,32 +49,31 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
     final discoverMovies = ref.watch(discoverMoviesProvider);
     final size = MediaQuery.of(context).size;
     final isLoading = ref.watch(initialLoadingDiscoverProvider);
+
     if (isLoading) return const FullScreenLoader();
 
     return Scaffold(
       appBar: AppBar(),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
-        child: SingleChildScrollView(
-          physics:
-              const AlwaysScrollableScrollPhysics(), // Para permitir el pull even sin overflow
-          child: Column(
-            children: [
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              //   child: Align(
-              //     alignment: Alignment.centerLeft,
-              //     child: Text(
-              //       'Discover Movies',
-              //       style: Theme.of(context).textTheme.headlineMedium,
-              //     ),
-              //   ),
-              // ),
-              const SizedBox(height: 40),
-              _PageSwiper(
-                key: ValueKey(_pageController),
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverPersistentHeader(
+              pinned: false,
+              delegate: _SegmentedControlHeaderDiscover(
+                selectedIndex: selectedIndex,
+                onValueChanged: (newIndex) {
+                  setState(() => selectedIndex = newIndex);
+                },
+              ),
+            ),
+
+            // Películas
+            SliverToBoxAdapter(
+              child: _PageSwiper(
                 size: size,
-                pageController: _pageController,
+                pageController: _pageController, // controlador independiente
                 discoverMovies: discoverMovies,
                 loadNextPage: () => ref
                     .read(discoverMoviesProvider.notifier)
@@ -82,10 +82,27 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
                     .read(discoverMoviesProvider.notifier)
                     .loadPreviousRandomPageAdded(),
               ),
+            ),
 
-              const SizedBox(height: 30),
-            ],
-          ),
+            const SliverToBoxAdapter(child: SizedBox(height: 30)),
+
+            // Series
+            // SliverToBoxAdapter(
+            //   child: _PageSwiper(
+            //     size: size,
+            //     pageController:
+            //         _seriesPageController, // otro controlador distinto
+            //     discoverMovies: discoverSeries,
+            //     loadNextPage: () => ref
+            //         .read(discoverSeriesProvider.notifier)
+            //         .loadNextRandomPageAdded(),
+            //     loadNextPageBackward: () => ref
+            //         .read(discoverSeriesProvider.notifier)
+            //         .loadPreviousRandomPageAdded(),
+            //   ),
+            // ),
+            const SliverToBoxAdapter(child: SizedBox(height: 30)),
+          ],
         ),
       ),
     );
@@ -142,7 +159,6 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
         final offsetBefore = widget.pageController.offset;
 
         widget.loadNextPageBackward!();
-        // Desplazamos el scroll para seguir en la misma película
         final offsetAfter = offsetBefore + (pageWidth * previousItemCount);
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -171,7 +187,7 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
     return Column(
       children: [
         SizedBox(
-          height: widget.size.width * 1.3,
+          height: widget.size.width * 1.38,
           child: PageView.builder(
             controller: widget.pageController,
             itemCount: widget.discoverMovies.length,
@@ -208,135 +224,28 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
                           ),
                         );
                       },
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                              image: DecorationImage(
-                                image: NetworkImage(movie.posterPath!),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      //*MOTRAR POSTER MOVIE/TV
+                      child: _PosterPathWidget(movie: movie),
                     ),
-                    const SizedBox(height: 12),
+
+                    //*FAVORITOS, GENEROS Y RATING
+                    const SizedBox(height: 0),
                     movie.genreIds.isNotEmpty
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                onPressed: () async {
-                                  await
-                                  // ref
-                                  //     .read(localStorageRepositoryProvider)
-                                  //     .toggleFavoriteMovie(movie);
-                                  ref
-                                      .read(favoriteMoviesProvider.notifier)
-                                      .toggleFavorite(movie);
-                                  ref.invalidate(
-                                    isFavoriteProvider((
-                                      type: 'movie',
-                                      id: movie.id,
-                                    )),
-                                  );
-                                },
-                                icon: isFavoriteFuture.when(
-                                  loading: () =>
-                                      CircularProgressIndicator(strokeWidth: 2),
-                                  data: (isFavorite) => isFavorite
-                                      ? Icon(
-                                          Icons.favorite_rounded,
-                                          color: Colors.red,
-                                          size: 36,
-                                        )
-                                      : Icon(
-                                          Icons.favorite_border_rounded,
-                                          color: colors.onSurface,
-                                          size: 36,
-                                        ),
-                                  error: (_, _) => throw UnimplementedError(),
-                                ),
-                              ),
-
-                              //*Generos
-                              // const SizedBox(width: 8),
-                              Center(
-                                child: Wrap(
-                                  spacing: 8,
-                                  children: movie.genreIds.take(2).map((genre) {
-                                    final key = genreTranslationKeys[genre];
-                                    final translated = key != null
-                                        ? loc.getTranslation(key)
-                                        : genre;
-
-                                    return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: colors.onSurface.withAlpha(220),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        translated,
-                                        style: TextStyle(
-                                          color: colors.surface,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-
-                              //*RATING
-                              SizedBox(
-                                width: 60,
-                                child: Row(
-                                  children: [
-                                    AnimatedRatingCircle(
-                                      rating: movie.voteAverage,
-                                      size: 26,
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                              ),
-                            ],
+                        ? _FavoriteGendersAndRatingWidget(
+                            ref: ref,
+                            movie: movie,
+                            isFavoriteFuture: isFavoriteFuture,
+                            colors: colors,
+                            loc: loc,
                           )
-                        : SizedBox(
-                            width: 60,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.star_half_outlined,
-                                  color: Colors.yellow.shade800,
-                                  size: 28,
-                                ),
-                                Text(
-                                  movie.voteAverage.toStringAsFixed(1),
-                                  style: textStyles.bodyMedium?.copyWith(
-                                    color: Colors.yellow.shade800,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
+                        : _FavoriteAndRatingWidget(
+                            ref: ref,
+                            movie: movie,
+                            isFavoriteFuture: isFavoriteFuture,
+                            colors: colors,
                           ),
+                    // SizedBox(height: 8),
+                    //*TITULO DE LA PELICULA
                     Text(
                       movie.title,
                       style: AppTextStyles.styleForTitleContentDiscover(
@@ -345,6 +254,13 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    //*FECHA
+                    Text(
+                      "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate}",
+                      style: textStyles.bodySmall?.copyWith(
+                        color: colors.onSurface.withAlpha(150),
+                      ),
                     ),
                     if (movie.adult)
                       Center(
@@ -398,39 +314,278 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
   }
 }
 
-// MovieDetails mapMovieToDetails(Movie movie) {
-//   final genreNames = movie.genreIds
-//       .map((id) => genreMap[int.tryParse(id.toString())])
-//       .whereType<String>() // esto filtra los nulos
-//       .toList();
+class _SegmentedControlHeaderDiscover extends SliverPersistentHeaderDelegate {
+  final int selectedIndex;
+  final ValueChanged<int> onValueChanged;
 
-//   return MovieDetails(
-//     id: movie.id,
-//     title: movie.title,
-//     posterPath: movie.posterPath ?? '',
-//     overview: movie.overview,
-//     popularity: movie.voteAverage,
-//     originalTitle: movie.originalTitle,
-//     backdropPath: '',
-//     releaseDate: null,
-//     runtime: null,
-//     voteAverage: movie.voteAverage,
-//     voteCount: movie.voteCount,
-//     originalLanguage: '',
-//     originCountry: [],
-//     genres: genreNames, // <--- ahora pasas List<String>
-//     homepage: '',
-//     budget: 0,
-//     revenue: 0,
-//     video: null,
-//     status: '',
-//     imdbId: '',
-//     belongsToCollection: null,
-//     productionCompanies: [],
-//     productionCountries: [],
-//     spokenLanguages: [],
-//   );
-// }
+  _SegmentedControlHeaderDiscover({
+    required this.selectedIndex,
+    required this.onValueChanged,
+  });
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+      alignment: Alignment.center,
+      child: CupertinoSegmentedControl<int>(
+        borderColor: Colors.transparent,
+        selectedColor: Colors.transparent,
+        pressedColor: Colors.transparent,
+        unselectedColor: Colors.transparent,
+        groupValue: selectedIndex,
+        onValueChanged: onValueChanged,
+        children: {
+          0: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.movies,
+                  style: TextStyle(
+                    color: selectedIndex == 0
+                        ? colors.primary
+                        : colors.onSurface,
+                    fontSize: 16,
+                    fontWeight: selectedIndex == 0
+                        ? FontWeight.w900
+                        : FontWeight.normal,
+                  ),
+                ),
+                Container(
+                  height: 1,
+
+                  decoration: BoxDecoration(
+                    color: selectedIndex == 0
+                        ? colors.primary
+                        : Colors.transparent,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          1: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.seriesNav,
+                  style: TextStyle(
+                    color: selectedIndex == 1
+                        ? colors.primary
+                        : colors.onSurface,
+                    fontSize: 16,
+                    fontWeight: selectedIndex == 1
+                        ? FontWeight.w900
+                        : FontWeight.normal,
+                  ),
+                ),
+                Container(
+                  height: 1,
+
+                  decoration: BoxDecoration(
+                    color: selectedIndex != 0
+                        ? colors.primary
+                        : Colors.transparent,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        },
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 56;
+
+  @override
+  double get minExtent => 56;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      true;
+}
+
+class _FavoriteAndRatingWidget extends StatelessWidget {
+  const _FavoriteAndRatingWidget({
+    super.key,
+    required this.ref,
+    required this.movie,
+    required this.isFavoriteFuture,
+    required this.colors,
+  });
+
+  final WidgetRef ref;
+  final Movie movie;
+  final AsyncValue<bool> isFavoriteFuture;
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Spacer(),
+
+        IconButton(
+          onPressed: () async {
+            await
+            // ref
+            //     .read(localStorageRepositoryProvider)
+            //     .toggleFavoriteMovie(movie);
+            ref.read(favoriteMoviesProvider.notifier).toggleFavorite(movie);
+            ref.invalidate(isFavoriteProvider((type: 'movie', id: movie.id)));
+          },
+          icon: isFavoriteFuture.when(
+            loading: () => CircularProgressIndicator(strokeWidth: 2),
+            data: (isFavorite) => isFavorite
+                ? Icon(Icons.favorite_rounded, color: Colors.red, size: 36)
+                : Icon(
+                    Icons.favorite_border_rounded,
+                    color: colors.onSurface,
+                    size: 36,
+                  ),
+            error: (_, _) => throw UnimplementedError(),
+          ),
+        ),
+        //*RATING
+        SizedBox(
+          width: 60,
+          child: Row(
+            children: [
+              AnimatedRatingCircle(rating: movie.voteAverage, size: 26),
+              Spacer(),
+            ],
+          ),
+        ),
+        Spacer(),
+      ],
+    );
+  }
+}
+
+class _FavoriteGendersAndRatingWidget extends StatelessWidget {
+  const _FavoriteGendersAndRatingWidget({
+    super.key,
+    required this.ref,
+    required this.movie,
+    required this.isFavoriteFuture,
+    required this.colors,
+    required this.loc,
+  });
+
+  final WidgetRef ref;
+  final Movie movie;
+  final AsyncValue<bool> isFavoriteFuture;
+  final ColorScheme colors;
+  final AppLocalizations loc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          onPressed: () async {
+            await
+            // ref
+            //     .read(localStorageRepositoryProvider)
+            //     .toggleFavoriteMovie(movie);
+            ref.read(favoriteMoviesProvider.notifier).toggleFavorite(movie);
+            ref.invalidate(isFavoriteProvider((type: 'movie', id: movie.id)));
+          },
+          icon: isFavoriteFuture.when(
+            loading: () => CircularProgressIndicator(strokeWidth: 2),
+            data: (isFavorite) => isFavorite
+                ? Icon(Icons.favorite_rounded, color: Colors.red, size: 36)
+                : Icon(
+                    Icons.favorite_border_rounded,
+                    color: colors.onSurface,
+                    size: 36,
+                  ),
+            error: (_, _) => throw UnimplementedError(),
+          ),
+        ),
+
+        //*Generos
+        // const SizedBox(width: 8),
+        Center(
+          child: Wrap(
+            spacing: 8,
+            children: movie.genreIds.take(2).map((genre) {
+              final key = genreTranslationKeys[genre];
+              final translated = key != null ? loc.getTranslation(key) : genre;
+
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: colors.onSurface.withAlpha(220),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  translated,
+                  style: TextStyle(color: colors.surface, fontSize: 14),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+
+        //*RATING
+        SizedBox(
+          width: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+            children: [
+              AnimatedRatingCircle(rating: movie.voteAverage, size: 26),
+              Spacer(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PosterPathWidget extends StatelessWidget {
+  const _PosterPathWidget({super.key, required this.movie});
+
+  final Movie movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+            image: DecorationImage(
+              image: NetworkImage(movie.posterPath!),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 final Map<String, String> genreTranslationKeys = {
   "28": 'genre_action',
