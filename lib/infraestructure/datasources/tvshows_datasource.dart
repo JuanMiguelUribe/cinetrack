@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:movieflex/domain/datasources/tvshows_datasources.dart';
 import 'package:movieflex/domain/entities/tv_show_details.dart';
 import 'package:movieflex/domain/entities/tv_shows.dart';
@@ -108,6 +110,21 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
       queryParameters: {'page': page, "language": language},
     );
 
+    return _jsonToTvShows(response.data);
+  }
+
+  @override
+  Future<List<TvShow>> discoverSeries({int? page}) async {
+    final int randomPage = Random().nextInt(498) + 1;
+
+    final response = await dio.get(
+      "/discover/tv",
+      queryParameters: {
+        'page': randomPage,
+        "language": language,
+        // "sort_by": "primary_release_date.asc",
+      },
+    );
     return _jsonToTvShows(response.data);
   }
 }
