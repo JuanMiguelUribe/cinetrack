@@ -13,4 +13,5 @@ abstract class TvShowsDBDatasource {
     String tvshowId, {
     int page = 1,
   });
+  Future<List<TvShow>> discoverSeries({int? page});
 }
