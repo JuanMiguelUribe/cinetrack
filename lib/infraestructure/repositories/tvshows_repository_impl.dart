@@ -44,4 +44,9 @@ class TvshowsDbRepositoryImpl extends TvShowsDBRepository {
   }) {
     return datasource.getRecomendationsTvShowById(tvshowId, page: page);
   }
+
+  @override
+  Future<List<TvShow>> discoverSeries({int? page}) {
+    return datasource.discoverSeries(page: page);
+  }
 }
