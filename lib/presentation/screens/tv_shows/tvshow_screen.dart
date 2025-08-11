@@ -582,11 +582,11 @@ class _CustomSliverAppBar extends ConsumerWidget {
                 text: TextSpan(
                   style: TextStyle(fontSize: 12),
                   children: [
-                    // TextSpan(
-                    //   text:
-                    //       "${tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate} •",
-                    //   style: TextStyle(color: colors.onSurface),
-                    // ),
+                    TextSpan(
+                      text:
+                          "${tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate} •",
+                      style: TextStyle(color: colors.onSurface),
+                    ),
                     TextSpan(
                       text:
                           "  ${tvshow.numberOfSeasons} Season${tvshow.numberOfSeasons == 1 ? "" : "s"}",
