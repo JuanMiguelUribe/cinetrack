@@ -16,11 +16,13 @@ final initialLoadingProvider = Provider<bool>((ref) {
   }
   return false; // Terminamos de cargar
 });
+
 final initialLoadingDiscoverProvider = Provider<bool>((ref) {
   final step1 = ref.watch(discoverMoviesProvider).isEmpty;
+  final step2 = ref.watch(discoverSeriesProvider).isEmpty;
 
   // Si alguno de los pasos está vacío, significa que aún no se ha cargado
-  if (step1) {
+  if (step1 || step2) {
     return true; // Aún estamos cargando
   }
   return false; // Terminamos de cargar
