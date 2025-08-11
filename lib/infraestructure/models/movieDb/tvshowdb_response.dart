@@ -57,6 +57,15 @@ class TvShowTvShowsDB {
     required this.voteAverage,
     required this.voteCount,
   });
+  static DateTime? _parseDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00")
+      return null;
+    try {
+      return DateTime.parse(dateStr);
+    } catch (_) {
+      return null;
+    }
+  }
 
   factory TvShowTvShowsDB.fromJson(Map<String, dynamic> json) =>
       TvShowTvShowsDB(
@@ -70,11 +79,8 @@ class TvShowTvShowsDB {
         overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
         posterPath: json["poster_path"],
-        firstAirDate:
-            json["first_air_date"] != null &&
-                json["first_air_date"].toString().isNotEmpty
-            ? DateTime.parse(json["first_air_date"])
-            : null,
+        firstAirDate: _parseDate(json["first_air_date"]),
+
         name: json["name"],
         voteAverage: json["vote_average"]?.toDouble(),
         voteCount: json["vote_count"],
@@ -90,8 +96,9 @@ class TvShowTvShowsDB {
     "overview": overview,
     "popularity": popularity,
     "poster_path": posterPath,
-    "first_air_date":
-        "${firstAirDate!.year.toString().padLeft(4, '0')}-${firstAirDate!.month.toString().padLeft(2, '0')}-${firstAirDate!.day.toString().padLeft(2, '0')}",
+    "first_air_date": firstAirDate != null
+        ? "${firstAirDate!.year.toString().padLeft(4, '0')}-${firstAirDate!.month.toString().padLeft(2, '0')}-${firstAirDate!.day.toString().padLeft(2, '0')}"
+        : null,
     "name": name,
     "vote_average": voteAverage,
     "vote_count": voteCount,
