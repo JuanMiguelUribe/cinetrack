@@ -215,6 +215,14 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
+    // String formatDate(DateTime? date) {
+    //   if (date == null) return AppLocalizations.of(context)!.unknownDate;
+    //   try {
+    //     return DateFormat('d MMMM y').format(date);
+    //   } catch (e) {
+    //     return AppLocalizations.of(context)!.unknownDate;
+    //   }
+    // }
 
     return Column(
       children: [
@@ -574,11 +582,11 @@ class _CustomSliverAppBar extends ConsumerWidget {
                 text: TextSpan(
                   style: TextStyle(fontSize: 12),
                   children: [
-                    TextSpan(
-                      text:
-                          "${tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate} •",
-                      style: TextStyle(color: colors.onSurface),
-                    ),
+                    // TextSpan(
+                    //   text:
+                    //       "${tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate} •",
+                    //   style: TextStyle(color: colors.onSurface),
+                    // ),
                     TextSpan(
                       text:
                           "  ${tvshow.numberOfSeasons} Season${tvshow.numberOfSeasons == 1 ? "" : "s"}",
@@ -697,4 +705,13 @@ Widget _buildSectionDivider(String title, BuildContext context) {
       ],
     ),
   );
+}
+
+String formatDate(DateTime? date) {
+  if (date == null) return 'Sin fecha';
+  try {
+    return DateFormat('dd/MM/yyyy').format(date);
+  } catch (_) {
+    return 'Fecha inválida';
+  }
 }
