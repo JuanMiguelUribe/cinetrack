@@ -19,6 +19,7 @@ void showColorPicker(BuildContext context, WidgetRef ref) {
           child: ColorPicker(
             hexInputBar: true,
             pickerColor: pickerColor,
+
             showLabel: false,
             displayThumbColor: false,
             pickerAreaBorderRadius: BorderRadius.circular(10),

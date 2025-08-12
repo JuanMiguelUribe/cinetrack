@@ -78,11 +78,11 @@ class BottonNavWithAnimationState
                   height: 72,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: colors.inverseSurface.withOpacity(0.85),
+                    color: colors.inverseSurface.withAlpha(240),
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: colors.shadow.withOpacity(0.3),
+                        color: colors.shadow.withAlpha(70),
                         offset: const Offset(0, 10),
                         blurRadius: 20,
                       ),
