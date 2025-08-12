@@ -234,7 +234,7 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withAlpha(80),
                   blurRadius: 8,
                   offset: const Offset(0, 6),
                 ),
@@ -325,7 +325,7 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
+                            color: Colors.black.withAlpha(80),
                             blurRadius: 8,
                             offset: const Offset(0, 6),
                           ),
@@ -343,7 +343,11 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                           _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_release,
-                            "${widget.movie.releaseDate != null ? DateFormat('d MMMM y').format(widget.movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate}",
+                            widget.movie.releaseDate != null
+                                ? DateFormat(
+                                    'd MMMM y',
+                                  ).format(widget.movie.releaseDate!)
+                                : AppLocalizations.of(context)!.unknownDate,
                           ),
                           _buildDetailItem(
                             context,
@@ -616,8 +620,8 @@ class _BackgroundStack extends StatelessWidget {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final gradientColors = isDarkMode
-        ? [Colors.transparent, colors.surface.withOpacity(0.91), colors.surface]
-        : [Colors.transparent, colors.surface.withOpacity(0.5), colors.surface];
+        ? [Colors.transparent, colors.surface.withAlpha(200), colors.surface]
+        : [Colors.transparent, colors.surface.withAlpha(150), colors.surface];
     return Stack(
       children: [
         SizedBox.expand(
