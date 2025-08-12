@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 
 class MenuItems extends StatelessWidget {
   final VoidCallback? refresh;
@@ -21,9 +22,19 @@ class MenuItems extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
-            child: const Text(
-              "Hola",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.reload,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 8), // espacio entre texto e icono
+                const Icon(Icons.refresh_rounded, size: 20),
+              ],
             ),
           ),
         ),
