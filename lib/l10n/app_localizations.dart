@@ -613,6 +613,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Western'**
   String get genreWestern;
+
+  /// No description provided for @reload.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get reload;
 }
 
 class _AppLocalizationsDelegate

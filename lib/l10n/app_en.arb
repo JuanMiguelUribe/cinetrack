@@ -85,7 +85,8 @@
   "genreTvMovie": "TV Movie",
   "genreThriller": "Thriller",
   "genreWar": "War",
-  "genreWestern": "Western"
+  "genreWestern": "Western",
+  "reload": "Refresh"
 
 
 }

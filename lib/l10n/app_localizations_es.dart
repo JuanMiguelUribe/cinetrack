@@ -267,4 +267,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get genreWestern => 'Occidental';
+
+  @override
+  String get reload => 'Recargar';
 }

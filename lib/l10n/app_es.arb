@@ -85,7 +85,9 @@
   "genreTvMovie": "Película de TV",
   "genreThriller": "Suspenso",
   "genreWar": "Guerra",
-  "genreWestern": "Occidental"
+  "genreWestern": "Occidental",
+    "reload": "Recargar"
+
 
 
 
