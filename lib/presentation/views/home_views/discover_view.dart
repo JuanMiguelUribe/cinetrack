@@ -10,6 +10,7 @@ import 'package:movieflex/domain/entities/tv_shows.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
+import 'package:popover/popover.dart';
 
 class DiscoverMoviesView extends ConsumerStatefulWidget {
   const DiscoverMoviesView({super.key});
@@ -52,7 +53,7 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
     });
   }
 
-  Future<void> _onRefresh() async {
+  Future<void> onRefresh() async {
     ref.invalidate(discoverMoviesProvider);
     ref.invalidate(discoverSeriesProvider);
 
@@ -76,13 +77,41 @@ class DiscoverMoviesViewState extends ConsumerState<DiscoverMoviesView> {
     final discoverSeries = ref.watch(discoverSeriesProvider);
     final size = MediaQuery.of(context).size;
     final isLoading = ref.watch(initialLoadingDiscoverProvider);
+    final colors = Theme.of(context).colorScheme;
 
     if (isLoading) return const FullScreenLoader();
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actionsPadding: EdgeInsets.only(right: 15),
+        actions: [
+          Builder(
+            builder: (context) => GestureDetector(
+              onTap: () => showPopover(
+                context: context,
+                bodyBuilder: (context) => MenuItems(
+                  refresh: () {
+                    onRefresh();
+                    context.pop();
+                  },
+                ),
+                backgroundColor: colors.surfaceDim,
+                width: 150,
+                height: 40,
+                direction: PopoverDirection.left,
+              ),
+              child: Icon(Icons.more_vert_sharp),
+            ),
+          ),
+
+          // LeadingRoundedIconButton(
+          //   icon: Icons.refresh,
+          //   backgroundColor: colors.onSurface.withAlpha(50),
+          // ),
+        ],
+      ),
       body: RefreshIndicator(
-        onRefresh: _onRefresh,
+        onRefresh: onRefresh,
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
@@ -278,7 +307,7 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
                     ),
 
                     //*FAVORITOS, GENEROS Y RATING
-                    const SizedBox(height: 0),
+                    const SizedBox(height: 6),
                     movie.genreIds.isNotEmpty
                         ? _FavoriteGendersAndRatingWidget(
                             ref: ref,
@@ -471,6 +500,7 @@ class _PageSwiperSeriesState extends ConsumerState<_PageSwiperSeries> {
           ),
         )
         .toList();
+
     return Column(
       children: [
         SizedBox(
@@ -487,6 +517,9 @@ class _PageSwiperSeriesState extends ConsumerState<_PageSwiperSeries> {
               final isFavoriteFuture = ref.watch(
                 isFavoriteProvider((type: 'tv', id: movie.id)),
               );
+              for (final genreId in serie.genreIds) {
+                print('Género ID: $genreId');
+              }
 
               return GestureDetector(
                 onTap: () {
@@ -517,7 +550,7 @@ class _PageSwiperSeriesState extends ConsumerState<_PageSwiperSeries> {
                     ),
 
                     //*FAVORITOS, GENEROS Y RATING
-                    const SizedBox(height: 0),
+                    const SizedBox(height: 6),
                     movie.genreIds.isNotEmpty
                         ? _FavoriteGendersAndRatingWidget(
                             ref: ref,
@@ -632,7 +665,7 @@ class _SegmentedControlHeaderDiscover extends SliverPersistentHeaderDelegate {
     final colors = Theme.of(context).colorScheme;
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
       alignment: Alignment.center,
       child: CupertinoSegmentedControl<int>(
         borderColor: Colors.transparent,
@@ -652,7 +685,7 @@ class _SegmentedControlHeaderDiscover extends SliverPersistentHeaderDelegate {
                     color: selectedIndex == 0
                         ? colors.primary
                         : colors.onSurface,
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: selectedIndex == 0
                         ? FontWeight.w900
                         : FontWeight.normal,
@@ -680,7 +713,7 @@ class _SegmentedControlHeaderDiscover extends SliverPersistentHeaderDelegate {
                     color: selectedIndex == 1
                         ? colors.primary
                         : colors.onSurface,
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: selectedIndex == 1
                         ? FontWeight.w900
                         : FontWeight.normal,
