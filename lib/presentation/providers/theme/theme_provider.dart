@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieflex/config/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,8 +24,21 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
     final prefs = await SharedPreferences.getInstance();
     final isDark = prefs.getBool('isDarkMode') ?? false;
     final colorIndex = prefs.getInt('selectedColor') ?? 0;
-    final customColorValue = prefs.getInt('customColor');
+    dynamic rawCustomColor = prefs.get(
+      'customColor',
+    ); // 👈 puede ser int o string
+    int? customColorValue;
 
+    if (rawCustomColor is int) {
+      customColorValue = rawCustomColor;
+    } else if (rawCustomColor is String) {
+      // intentar convertir el string a int
+      try {
+        customColorValue = int.parse(rawCustomColor, radix: 16);
+      } catch (_) {
+        prefs.remove('customColor'); // si falla, lo borramos
+      }
+    }
     state = AppTheme(
       isDarkMode: isDark,
       selectedColor: colorIndex,
@@ -64,7 +76,7 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
       await prefs.remove('customColor');
       await prefs.setInt('selectedColor', 0);
     } else {
-      await prefs.setString('customColor', color.toHexString());
+      await prefs.setInt('customColor', color.value);
       await prefs.setInt('selectedColor', 0);
     }
   }
