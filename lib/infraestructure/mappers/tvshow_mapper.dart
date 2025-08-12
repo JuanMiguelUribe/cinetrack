@@ -1,5 +1,8 @@
+import 'package:movieflex/domain/entities/seasons.dart';
 import 'package:movieflex/domain/entities/tv_show_details.dart';
-import 'package:movieflex/infraestructure/models/movieDb/tvshow_details_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/seasons_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/tvshow_details_response.dart'
+    hide Season;
 
 import '../../domain/entities/tv_shows.dart';
 import '../models/movieDb/tvshowdb_response.dart';
@@ -65,6 +68,34 @@ class TvshowMapper {
       spokenLanguages: tvshowdb.spokenLanguages.map((e) => e.name).toList(),
       tagline: tvshowdb.tagline,
       lastAirDate: tvshowdb.lastAirDate,
+    );
+  }
+
+  static Season seasonsDbToEntity(SeasonsDbResponde seasondb) {
+    return Season(
+      id: seasondb.id,
+      name: seasondb.name,
+      overview: seasondb.overview,
+      seasonNumber: seasondb.seasonNumber,
+      voteAverage: seasondb.voteAverage,
+      posterPath: (seasondb.posterPath != "" && seasondb.posterPath != null)
+          ? "https://image.tmdb.org/t/p/w500${seasondb.posterPath}"
+          : "https://cdn.displate.com/artwork/270x380/2023-02-03/6b806b90ed460362ce845aec44991468_ee90576e764e6e2dc6be65372d967710.jpg",
+      airDate: seasondb.airDate,
+      episodes: seasondb.episodes
+          .map(
+            (ep) => EpisodeEntity(
+              id: ep.id,
+              name: ep.name,
+              overview: ep.overview,
+              episodeNumber: ep.episodeNumber,
+              seasonNumber: ep.seasonNumber,
+              airDate: ep.airDate,
+              stillPath: ep.stillPath,
+              voteAverage: ep.voteAverage,
+            ),
+          )
+          .toList(),
     );
   }
 }
