@@ -65,8 +65,8 @@ class _Slide extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       boxShadow: [
         BoxShadow(
-          color: Colors.black45,
-          blurRadius: 9,
+          color: Colors.black12,
+          blurRadius: 10,
           offset: Offset(0, 5),
           spreadRadius: 2,
         ),
