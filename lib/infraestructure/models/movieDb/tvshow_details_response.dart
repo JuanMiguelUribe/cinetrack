@@ -132,7 +132,7 @@ class TvShowsDetails {
     "created_by": List<dynamic>.from(createdBy.map((x) => x.toJson())),
     "episode_run_time": List<dynamic>.from(episodeRunTime.map((x) => x)),
     "first_air_date":
-        "${firstAirDate!.year.toString().padLeft(4, '0')}-${firstAirDate!.month.toString().padLeft(2, '0')}-${firstAirDate!.day.toString().padLeft(2, '0')}",
+        "${firstAirDate.year.toString().padLeft(4, '0')}-${firstAirDate.month.toString().padLeft(2, '0')}-${firstAirDate.day.toString().padLeft(2, '0')}",
     "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
     "homepage": homepage,
     "id": id,
