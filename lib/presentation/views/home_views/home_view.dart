@@ -294,7 +294,7 @@ Widget buildSectionDivider(String title, BuildContext context) {
         const SizedBox(width: 10),
         Expanded(
           child: Divider(
-            color: colors.outlineVariant.withOpacity(0.8),
+            color: colors.outlineVariant.withAlpha(200),
             thickness: 1,
             endIndent: 10,
           ),
@@ -311,7 +311,7 @@ Widget buildSectionDivider(String title, BuildContext context) {
 
         Expanded(
           child: Divider(
-            color: colors.outlineVariant.withOpacity(0.8),
+            color: colors.outlineVariant.withAlpha(200),
             thickness: 1,
             indent: 10,
           ),
