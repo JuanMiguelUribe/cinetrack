@@ -76,7 +76,7 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
       await prefs.remove('customColor');
       await prefs.setInt('selectedColor', 0);
     } else {
-      await prefs.setInt('customColor', color.value);
+      await prefs.setInt('customColor', color.toARGB32());
       await prefs.setInt('selectedColor', 0);
     }
   }
