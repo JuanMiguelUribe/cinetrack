@@ -619,6 +619,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refresh'**
   String get reload;
+
+  /// No description provided for @message_for_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search movies or series...'**
+  String get message_for_search;
 }
 
 class _AppLocalizationsDelegate

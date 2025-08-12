@@ -270,4 +270,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reload => 'Refresh';
+
+  @override
+  String get message_for_search => 'Search movies or series...';
 }

@@ -86,7 +86,9 @@
   "genreThriller": "Thriller",
   "genreWar": "War",
   "genreWestern": "Western",
-  "reload": "Refresh"
+  "reload": "Refresh",
+      "message_for_search": "Search movies or series..."
+
 
 
 }

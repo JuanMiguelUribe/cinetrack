@@ -86,7 +86,8 @@
   "genreThriller": "Suspenso",
   "genreWar": "Guerra",
   "genreWestern": "Occidental",
-    "reload": "Recargar"
+    "reload": "Recargar",
+    "message_for_search": "Buscar películas o series..."
 
 
 
