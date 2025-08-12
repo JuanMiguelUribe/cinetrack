@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:movieflex/domain/datasources/tvshows_datasources.dart';
+import 'package:movieflex/domain/entities/seasons.dart';
 import 'package:movieflex/domain/entities/tv_show_details.dart';
 import 'package:movieflex/domain/entities/tv_shows.dart';
+import 'package:movieflex/infraestructure/models/movieDb/seasons_response.dart';
 
-import 'package:movieflex/infraestructure/models/movieDb/tvshow_details_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/tvshow_details_response.dart'
+    hide Season;
 import 'package:movieflex/infraestructure/models/movieDb/tvshowdb_response.dart';
 import 'package:dio/dio.dart';
 import 'package:movieflex/config/constants/environment.dart';
@@ -126,5 +129,17 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
       },
     );
     return _jsonToTvShows(response.data);
+  }
+
+  @override
+  Future<List<Season>> tvShowSeasons(String id, int season) async {
+    final response = await dio.get("/tv/$id/season/$season");
+    if (response.statusCode != 200) {
+      throw Exception("Error fetching series details");
+    }
+
+    final tvshowDetails = SeasonsDbResponde.fromJson(response.data);
+    final seasonTv = TvshowMapper.seasonsDbToEntity(tvshowDetails);
+    return [seasonTv];
   }
 }

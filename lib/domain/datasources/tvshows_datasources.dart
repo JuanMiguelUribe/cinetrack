@@ -1,3 +1,4 @@
+import 'package:movieflex/domain/entities/seasons.dart';
 import 'package:movieflex/domain/entities/tv_show_details.dart';
 import 'package:movieflex/domain/entities/tv_shows.dart';
 
@@ -14,4 +15,5 @@ abstract class TvShowsDBDatasource {
     int page = 1,
   });
   Future<List<TvShow>> discoverSeries({int? page});
+  Future<List<Season>> tvShowSeasons(String id, int season);
 }
