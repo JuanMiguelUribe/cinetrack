@@ -67,8 +67,9 @@ class TvShowsDetails {
     required this.voteCount,
   });
   static DateTime? _parseDate(String? dateStr) {
-    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00")
+    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00") {
       return null;
+    }
     try {
       return DateTime.parse(dateStr);
     } catch (_) {
@@ -249,8 +250,9 @@ class LastEpisodeToAir {
     required this.stillPath,
   });
   static DateTime? _parseDate(String? dateStr) {
-    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00")
+    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00") {
       return null;
+    }
     try {
       return DateTime.parse(dateStr);
     } catch (_) {
@@ -354,8 +356,9 @@ class Season {
     required this.voteAverage,
   });
   static DateTime? _parseDate(String? dateStr) {
-    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00")
+    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00") {
       return null;
+    }
     try {
       return DateTime.parse(dateStr);
     } catch (_) {
