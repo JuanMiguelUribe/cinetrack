@@ -5,7 +5,6 @@ import 'package:movieflex/infraestructure/mappers/tvshow_details_to_tvshow_mappe
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/actors/actors_by_tvshow_provider.dart';
 import 'package:movieflex/presentation/providers/providers.dart';
-import 'package:movieflex/presentation/providers/tvshows/tvshows_details_provider.dart';
 import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,14 +79,21 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
   }
 }
 
-class _TvShowDetails extends StatelessWidget {
+class _TvShowDetails extends ConsumerWidget {
   final TvShowDetails tvshow;
   const _TvShowDetails({required this.tvshow});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
+    final seasonsAsync = ref.watch(
+      tvShowSeasonsProvider({
+        'id': tvshow.id.toString(),
+        'season': 1, // o el número de temporada que quieras
+      }),
+    );
+    debugPrint(seasonsAsync.toString());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,6 +152,23 @@ class _TvShowDetails extends StatelessWidget {
 
         //*Actores de la pelicula
         _ActorsByMovie(tvshowId: tvshow.id.toString()),
+        // seasonsAsync.when(
+        //   data: (seasons) => ListView.builder(
+        //     itemCount: seasons.length,
+        //     itemBuilder: (context, index) {
+        //       final season = seasons[index];
+        //       return ListTile(
+        //         leading: CircleAvatar(
+        //           child: Text(season.seasonNumber.toString()),
+        //         ),
+        //         title: Text(season.name),
+        //         subtitle: Text('Episodios: ${season.name}'),
+        //       );
+        //     },
+        //   ),
+        //   loading: () => const CircularProgressIndicator(),
+        //   error: (err, stack) => Text('Error: $err'),
+        // ),
 
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
@@ -235,7 +258,7 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withAlpha(80),
                   blurRadius: 8,
                   offset: const Offset(0, 6),
                 ),
@@ -326,7 +349,7 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
+                            color: Colors.black.withAlpha(80),
                             blurRadius: 8,
                             offset: const Offset(0, 6),
                           ),
@@ -344,12 +367,20 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                           buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.first_air_episode,
-                            "${widget.tvshow.firstAirDate != null ? DateFormat('d MMMM y').format(widget.tvshow.firstAirDate!) : AppLocalizations.of(context)!.unknownDate}",
+                            widget.tvshow.firstAirDate != null
+                                ? DateFormat(
+                                    'd MMMM y',
+                                  ).format(widget.tvshow.firstAirDate!)
+                                : AppLocalizations.of(context)!.unknownDate,
                           ),
                           buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.last_air_episode,
-                            "${widget.tvshow.lastAirDate != null ? DateFormat('d MMMM y').format(widget.tvshow.lastAirDate!) : AppLocalizations.of(context)!.unknownDate}",
+                            widget.tvshow.lastAirDate != null
+                                ? DateFormat(
+                                    'd MMMM y',
+                                  ).format(widget.tvshow.lastAirDate!)
+                                : AppLocalizations.of(context)!.unknownDate,
                           ),
                           buildDetailItem(
                             context,
@@ -618,8 +649,8 @@ class _BackgroundStack extends StatelessWidget {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final gradientColors = isDarkMode
-        ? [Colors.transparent, colors.surface.withOpacity(0.91), colors.surface]
-        : [Colors.transparent, colors.surface.withOpacity(0.5), colors.surface];
+        ? [Colors.transparent, colors.surface.withAlpha(200), colors.surface]
+        : [Colors.transparent, colors.surface.withAlpha(150), colors.surface];
     return Stack(
       children: [
         SizedBox.expand(
@@ -627,8 +658,9 @@ class _BackgroundStack extends StatelessWidget {
             tvshow.posterPath!,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress != null)
+              if (loadingProgress != null) {
                 return const Center(child: CircularProgressIndicator());
+              }
 
               return FadeIn(child: child);
             },
