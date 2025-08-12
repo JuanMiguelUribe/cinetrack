@@ -350,7 +350,9 @@ class _PageSwiperState extends ConsumerState<_PageSwiper> {
                     ),
                     //*FECHA
                     Text(
-                      "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate}",
+                      movie.releaseDate != null
+                          ? DateFormat('d MMMM y').format(movie.releaseDate!)
+                          : AppLocalizations.of(context)!.unknownDate,
                       style: textStyles.bodySmall?.copyWith(
                         color: colors.onSurface.withAlpha(150),
                       ),
@@ -517,9 +519,6 @@ class _PageSwiperSeriesState extends ConsumerState<_PageSwiperSeries> {
               final isFavoriteFuture = ref.watch(
                 isFavoriteProvider((type: 'tv', id: movie.id)),
               );
-              for (final genreId in serie.genreIds) {
-                print('Género ID: $genreId');
-              }
 
               return GestureDetector(
                 onTap: () {
@@ -590,7 +589,9 @@ class _PageSwiperSeriesState extends ConsumerState<_PageSwiperSeries> {
                     ),
                     //*FECHA
                     Text(
-                      "${movie.releaseDate != null ? DateFormat('d MMMM y').format(movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate}",
+                      movie.releaseDate != null
+                          ? DateFormat('d MMMM y').format(movie.releaseDate!)
+                          : AppLocalizations.of(context)!.unknownDate,
                       style: textStyles.bodySmall?.copyWith(
                         color: colors.onSurface.withAlpha(150),
                       ),
@@ -897,7 +898,7 @@ class _PosterPathWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withAlpha(230),
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               ),
