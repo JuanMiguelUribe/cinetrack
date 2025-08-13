@@ -7,7 +7,7 @@ class ActorDbResponse {
   final List<String> alsoKnownAs;
   final String biography;
   final DateTime? birthday;
-  final dynamic deathday;
+  final DateTime? deathday;
   final int gender;
   final dynamic homepage;
   final int id;
@@ -23,7 +23,7 @@ class ActorDbResponse {
     required this.alsoKnownAs,
     required this.biography,
     this.birthday,
-    required this.deathday,
+    this.deathday,
     required this.gender,
     required this.homepage,
     required this.id,
@@ -48,13 +48,13 @@ class ActorDbResponse {
             : DateTime(1900, 1, 1),
         deathday:
             (json["deathday"] != null && json["deathday"].toString().isNotEmpty)
-            ? json["deathday"].toString()
+            ? DateTime.parse(json["deathday"].toString())
             : null,
         gender: json["gender"] ?? 0,
-        homepage: json["homepage"],
+        homepage: json["homepage"] ?? '',
         id: json["id"] ?? 0,
-        imdbId: json["imdb_id"],
-        knownForDepartment: json["known_for_department"],
+        imdbId: json["imdb_id"] ?? '',
+        knownForDepartment: json["known_for_department"] ?? '',
         name: json["name"] ?? '',
         placeOfBirth: json["place_of_birth"] ?? '',
         popularity: (json["popularity"] is num)
