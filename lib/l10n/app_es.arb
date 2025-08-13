@@ -86,11 +86,22 @@
   "genreThriller": "Suspenso",
   "genreWar": "Guerra",
   "genreWestern": "Occidental",
-    "reload": "Recargar",
-    "message_for_search": "Buscar películas o series...",
-    "season_abbreviation": "T",
+  "reload": "Recargar",
+  "message_for_search": "Buscar películas o series...",
+  "season_abbreviation": "T",
   "season": "Temporada",
-    "episodes": "Episodios"
+  "episodes": "Episodios",
+  "genderMale": "Masculino",
+  "genderFemale": "Femenino",
+  "genderNonBinary": "No binario",
+  "gender_no_specified": "No especificado",
+  "born" : "Nacimiento",
+  "died" : "Fallecimiento",
+  "gender": "Género",
+    "biography" : "Biografía",
+      "alsoKnownAs": "Otros Nombres"
+
+
 
 
 

@@ -643,6 +643,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Episodes'**
   String get episodes;
+
+  /// No description provided for @genderMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get genderMale;
+
+  /// No description provided for @genderFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get genderFemale;
+
+  /// No description provided for @genderNonBinary.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-Binary'**
+  String get genderNonBinary;
+
+  /// No description provided for @gender_no_specified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Specified'**
+  String get gender_no_specified;
+
+  /// No description provided for @born.
+  ///
+  /// In en, this message translates to:
+  /// **'Born'**
+  String get born;
+
+  /// No description provided for @died.
+  ///
+  /// In en, this message translates to:
+  /// **'Died'**
+  String get died;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @biography.
+  ///
+  /// In en, this message translates to:
+  /// **'Biography'**
+  String get biography;
+
+  /// No description provided for @alsoKnownAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Also Known As'**
+  String get alsoKnownAs;
 }
 
 class _AppLocalizationsDelegate

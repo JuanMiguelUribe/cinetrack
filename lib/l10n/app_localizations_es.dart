@@ -282,4 +282,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get episodes => 'Episodios';
+
+  @override
+  String get genderMale => 'Masculino';
+
+  @override
+  String get genderFemale => 'Femenino';
+
+  @override
+  String get genderNonBinary => 'No binario';
+
+  @override
+  String get gender_no_specified => 'No especificado';
+
+  @override
+  String get born => 'Nacimiento';
+
+  @override
+  String get died => 'Fallecimiento';
+
+  @override
+  String get gender => 'Género';
+
+  @override
+  String get biography => 'Biografía';
+
+  @override
+  String get alsoKnownAs => 'Otros Nombres';
 }

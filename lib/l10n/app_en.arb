@@ -90,7 +90,16 @@
   "message_for_search": "Search movies or series...",
   "season_abbreviation": "S",
   "season": "Season",
-  "episodes": "Episodes"
+  "episodes": "Episodes",
+  "genderMale": "Male",
+  "genderFemale": "Female",
+  "genderNonBinary": "Non-Binary",
+  "gender_no_specified": "Not Specified",
+  "born" : "Born",
+  "died" : "Died",
+  "gender": "Gender",
+  "biography" : "Biography",
+  "alsoKnownAs": "Also Known As"
 
 
 
