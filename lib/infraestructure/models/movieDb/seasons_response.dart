@@ -27,17 +27,21 @@ class SeasonsDbResponde {
 
   factory SeasonsDbResponde.fromJson(Map<String, dynamic> json) =>
       SeasonsDbResponde(
-        id: json["_id"],
-        airDate: DateTime.parse(json["air_date"]),
-        episodes: List<Episode>.from(
-          json["episodes"].map((x) => Episode.fromJson(x)),
-        ),
-        name: json["name"],
-        overview: json["overview"] ?? "No overview founded",
-        seasonsDbRespondeId: json["id"],
+        id: json["_id"] ?? "",
+        airDate: json["air_date"] != null
+            ? DateTime.tryParse(json["air_date"]) ?? DateTime(1900)
+            : DateTime(1900),
+        episodes: json["episodes"] != null
+            ? List<Episode>.from(
+                json["episodes"].map((x) => Episode.fromJson(x)),
+              )
+            : [],
+        name: json["name"] ?? '',
+        overview: json["overview"] ?? "No overview found",
+        seasonsDbRespondeId: json["id"] ?? 0,
         posterPath: json["poster_path"],
-        seasonNumber: json["season_number"],
-        voteAverage: json["vote_average"]?.toDouble(),
+        seasonNumber: json["season_number"] ?? 0,
+        voteAverage: (json["vote_average"] ?? 0).toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,23 +94,27 @@ class Episode {
   });
 
   factory Episode.fromJson(Map<String, dynamic> json) => Episode(
-    airDate: DateTime.parse(json["air_date"]),
-    episodeNumber: json["episode_number"],
-    episodeType: json["episode_type"],
-    id: json["id"],
-    name: json["name"],
-    overview: json["overview"],
-    productionCode: json["production_code"],
-    runtime: json["runtime"],
-    seasonNumber: json["season_number"],
-    showId: json["show_id"],
-    stillPath: json["still_path"],
-    voteAverage: json["vote_average"]?.toDouble(),
-    voteCount: json["vote_count"],
-    crew: List<Crew>.from(json["crew"].map((x) => Crew.fromJson(x))),
-    guestStars: List<Crew>.from(
-      json["guest_stars"].map((x) => Crew.fromJson(x)),
-    ),
+    airDate: json["air_date"] != null
+        ? DateTime.tryParse(json["air_date"]) ?? DateTime(1900)
+        : DateTime(1900),
+    episodeNumber: json["episode_number"] ?? 0,
+    episodeType: json["episode_type"] ?? '',
+    id: json["id"] ?? 0,
+    name: json["name"] ?? '',
+    overview: json["overview"] ?? '',
+    productionCode: json["production_code"] ?? '',
+    runtime: json["runtime"] ?? 0,
+    seasonNumber: json["season_number"] ?? 0,
+    showId: json["show_id"] ?? 0,
+    stillPath: json["still_path"] ?? '',
+    voteAverage: (json["vote_average"] ?? 0).toDouble(),
+    voteCount: json["vote_count"] ?? 0,
+    crew: json["crew"] != null
+        ? List<Crew>.from(json["crew"].map((x) => Crew.fromJson(x)))
+        : [],
+    guestStars: json["guest_stars"] != null
+        ? List<Crew>.from(json["guest_stars"].map((x) => Crew.fromJson(x)))
+        : [],
   );
 
   Map<String, dynamic> toJson() => {
@@ -159,18 +167,21 @@ class Crew {
     this.character,
     this.order,
   });
-
   factory Crew.fromJson(Map<String, dynamic> json) => Crew(
     job: json["job"],
-    department: departmentValues.map[json["department"]]!,
-    creditId: json["credit_id"],
-    adult: json["adult"],
-    gender: json["gender"],
-    id: json["id"],
-    knownForDepartment: departmentValues.map[json["known_for_department"]]!,
-    name: json["name"],
-    originalName: json["original_name"],
-    popularity: json["popularity"]?.toDouble(),
+    department: json["department"] != null
+        ? departmentValues.map[json["department"]]
+        : null,
+    creditId: json["credit_id"] ?? '',
+    adult: json["adult"] ?? false,
+    gender: json["gender"] ?? 0,
+    id: json["id"] ?? 0,
+    knownForDepartment:
+        departmentValues.map[json["known_for_department"]] ??
+        Department.CREW, // valor por defecto
+    name: json["name"] ?? '',
+    originalName: json["original_name"] ?? '',
+    popularity: (json["popularity"] ?? 0).toDouble(),
     profilePath: json["profile_path"],
     character: json["character"],
     order: json["order"],
