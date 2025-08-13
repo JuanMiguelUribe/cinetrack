@@ -1,6 +1,7 @@
 import 'package:movieflex/domain/entities/actor.dart';
 import 'package:movieflex/infraestructure/models/movieDb/actors_details_response.dart';
 import 'package:movieflex/infraestructure/models/movieDb/actorstv_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/credits_actor_response.dart';
 import 'package:movieflex/infraestructure/models/movieDb/credits_response.dart';
 
 class ActorMapper {
@@ -48,5 +49,12 @@ class ActorMapper {
     profilePath: actor.profilePath != null
         ? "https://image.tmdb.org/t/p/w500${actor.profilePath}"
         : "https://assets.mycast.io/actor_images/actor-a-unknown-voice-actor-745520_small.jpg?1682266765",
+  );
+
+  static ActorCredit actorCreditToEntity(CastCredit credit) => ActorCredit(
+    id: credit.id,
+    mediaType: credit.mediaType,
+    title: credit.name!,
+    voteAverage: credit.voteAverage,
   );
 }
