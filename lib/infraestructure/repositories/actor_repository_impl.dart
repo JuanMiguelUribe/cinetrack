@@ -22,4 +22,9 @@ class ActorRepositoryImpl extends ActorsRepository {
   Future<PersonDetailsEntity> getActorById(String id) {
     return datasource.getActorById(id);
   }
+
+  @override
+  Future<ActorCredit> getCreditByActor(String id) {
+    return datasource.getCreditByActor(id);
+  }
 }
