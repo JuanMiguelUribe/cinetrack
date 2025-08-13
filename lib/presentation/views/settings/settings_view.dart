@@ -51,56 +51,56 @@ class SettingsView extends StatelessWidget {
 
           _ListAppSettings(colors: colors),
           SizedBox(height: 8),
-          _ListLanguage(colors: colors),
-          SizedBox(height: 8),
+          // _ListLanguage(colors: colors),
+          // SizedBox(height: 8),
         ],
       ),
     );
   }
 }
 
-class _ListLanguage extends StatelessWidget {
-  const _ListLanguage({required this.colors});
+// class _ListLanguage extends StatelessWidget {
+//   const _ListLanguage({required this.colors});
 
-  final ColorScheme colors;
+//   final ColorScheme colors;
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.push("/app-settings");
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Container(
-          height: 50,
-          decoration: BoxDecoration(
-            color: colors.surfaceContainerHighest.withAlpha(150),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(
-              children: [
-                // Icon(Icons.settings, color: colors.onSurface, size: 30),
-                Text(
-                  AppLocalizations.of(context)!.app_setting_title,
-                  style: AppTextStyles.titlesForListSettings(context),
-                ),
-                Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  size: 17,
-                  color: colors.onSurface,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         context.push("/app-settings");
+//       },
+//       child: Padding(
+//         padding: const EdgeInsets.only(left: 20, right: 20),
+//         child: Container(
+//           height: 50,
+//           decoration: BoxDecoration(
+//             color: colors.surfaceContainerHighest.withAlpha(150),
+//             borderRadius: BorderRadius.circular(12),
+//           ),
+//           child: Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 18),
+//             child: Row(
+//               children: [
+//                 // Icon(Icons.settings, color: colors.onSurface, size: 30),
+//                 Text(
+//                   AppLocalizations.of(context)!.app_setting_title,
+//                   style: AppTextStyles.titlesForListSettings(context),
+//                 ),
+//                 Spacer(),
+//                 Icon(
+//                   Icons.arrow_forward_ios_outlined,
+//                   size: 17,
+//                   color: colors.onSurface,
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _ListAppSettings extends StatelessWidget {
   const _ListAppSettings({required this.colors});
