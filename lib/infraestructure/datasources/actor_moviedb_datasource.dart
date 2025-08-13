@@ -5,6 +5,7 @@ import 'package:movieflex/infraestructure/mappers/actor_mapper.dart';
 import 'package:movieflex/infraestructure/models/movieDb/actors_details_response.dart';
 import 'package:movieflex/infraestructure/models/movieDb/actorstv_response.dart';
 import 'package:dio/dio.dart';
+import 'package:movieflex/infraestructure/models/movieDb/credits_actor_response.dart';
 
 import '../models/movieDb/credits_response.dart';
 
@@ -52,5 +53,14 @@ class ActorMoviedbDatasource extends ActorsDatasource {
       actorDetail,
     );
     return actor;
+  }
+
+  @override
+  Future<ActorCredit> getCreditByActor(String id) async {
+    final response = await dio.get("/person/$id/combined_credits");
+    final actorDetail = CastCredit.fromJson(response.data);
+
+    final ActorCredit credit = ActorMapper.actorCreditToEntity(actorDetail);
+    return credit;
   }
 }
