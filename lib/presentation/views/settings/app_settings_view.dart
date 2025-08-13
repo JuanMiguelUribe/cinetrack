@@ -187,6 +187,7 @@ class AppSettingsView extends ConsumerWidget {
                             ref.invalidate(popularTvShowProvider);
                             ref.invalidate(topRatedTvShowProvider);
                             ref.invalidate(discoverMoviesProvider);
+                            ref.invalidate(actorDetailsProvider);
                             // ref.invalidate(initialLoadingDiscoverProvider);
                           }
                         },
