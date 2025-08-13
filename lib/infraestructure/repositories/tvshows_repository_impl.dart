@@ -52,7 +52,7 @@ class TvshowsDbRepositoryImpl extends TvShowsDBRepository {
   }
 
   @override
-  Future<List<Season>> tvShowSeasons(String id, int season) {
+  Future<Season> tvShowSeasons(String id, int season) {
     return datasource.tvShowSeasons(id, season);
   }
 }
