@@ -7,7 +7,7 @@ class Season {
   final int seasonNumber;
   final double voteAverage;
   final DateTime? airDate;
-  final List<EpisodeEntity> episodes;
+  final List<EpisodeEntity?> episodes;
 
   Season({
     required this.id,
@@ -17,7 +17,7 @@ class Season {
     required this.seasonNumber,
     required this.voteAverage,
     required this.airDate,
-    required this.episodes,
+    this.episodes = const [],
   });
 }
 
