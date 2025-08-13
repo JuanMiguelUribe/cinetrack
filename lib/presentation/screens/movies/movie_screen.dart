@@ -469,43 +469,54 @@ class _ActorsByMovie extends ConsumerWidget {
           itemCount: actors.length,
           itemBuilder: (context, index) {
             final actor = actors[index];
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FadeInRight(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        actor.profilePath ?? '',
-                        height: 150,
-                        width: 100,
-                        fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) =>
+                      ActorDetailsBottomSheet(actorId: actor.id.toString()),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FadeInRight(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.network(
+                          actor.profilePath ?? '',
+                          height: 150,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      actor.name,
-                      maxLines: 2,
-                      style: AppTextStyles.actorName(context),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        actor.name,
+                        maxLines: 2,
+                        style: AppTextStyles.actorName(context),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 0),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      actor.character ?? 'Not Found',
-                      maxLines: 2,
-                      style: AppTextStyles.characterName(context),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 0),
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        actor.character ?? 'Not Found',
+                        maxLines: 2,
+                        style: AppTextStyles.characterName(context),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
