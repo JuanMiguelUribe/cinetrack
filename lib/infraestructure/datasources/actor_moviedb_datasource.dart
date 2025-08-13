@@ -2,6 +2,7 @@ import 'package:movieflex/config/constants/environment.dart';
 import 'package:movieflex/domain/datasources/actors_datasource.dart';
 import 'package:movieflex/domain/entities/actor.dart';
 import 'package:movieflex/infraestructure/mappers/actor_mapper.dart';
+import 'package:movieflex/infraestructure/models/movieDb/actors_details_response.dart';
 import 'package:movieflex/infraestructure/models/movieDb/actorstv_response.dart';
 import 'package:dio/dio.dart';
 
@@ -40,5 +41,16 @@ class ActorMoviedbDatasource extends ActorsDatasource {
         .map((actor) => ActorMapper.actorsTvtoEntity(actor))
         .toList();
     return actors;
+  }
+
+  @override
+  Future<PersonDetailsEntity> getActorById(String id) async {
+    final response = await dio.get("/person/$id");
+    final actorDetail = ActorDbResponse.fromJson(response.data);
+
+    final PersonDetailsEntity actor = ActorMapper.actorDetailToEntity(
+      actorDetail,
+    );
+    return actor;
   }
 }
