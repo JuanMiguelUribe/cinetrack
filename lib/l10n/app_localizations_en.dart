@@ -273,4 +273,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get message_for_search => 'Search movies or series...';
+
+  @override
+  String get season_abbreviation => 'S';
+
+  @override
+  String get season => 'Season';
+
+  @override
+  String get episodes => 'Episodes';
 }

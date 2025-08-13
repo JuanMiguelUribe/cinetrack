@@ -625,6 +625,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search movies or series...'**
   String get message_for_search;
+
+  /// No description provided for @season_abbreviation.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get season_abbreviation;
+
+  /// No description provided for @season.
+  ///
+  /// In en, this message translates to:
+  /// **'Season'**
+  String get season;
+
+  /// No description provided for @episodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Episodes'**
+  String get episodes;
 }
 
 class _AppLocalizationsDelegate

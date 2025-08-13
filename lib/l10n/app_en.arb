@@ -87,7 +87,10 @@
   "genreWar": "War",
   "genreWestern": "Western",
   "reload": "Refresh",
-      "message_for_search": "Search movies or series..."
+  "message_for_search": "Search movies or series...",
+  "season_abbreviation": "S",
+  "season": "Season",
+  "episodes": "Episodes"
 
 
 

@@ -87,7 +87,11 @@
   "genreWar": "Guerra",
   "genreWestern": "Occidental",
     "reload": "Recargar",
-    "message_for_search": "Buscar películas o series..."
+    "message_for_search": "Buscar películas o series...",
+    "season_abbreviation": "T",
+  "season": "Temporada",
+    "episodes": "Episodios"
+
 
 
 
