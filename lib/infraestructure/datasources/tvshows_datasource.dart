@@ -132,14 +132,30 @@ class TvshowsDBDatasource extends TvShowsDBDatasource {
   }
 
   @override
-  Future<List<Season>> tvShowSeasons(String id, int season) async {
-    final response = await dio.get("/tv/$id/season/$season");
-    if (response.statusCode != 200) {
-      throw Exception("Error fetching series details");
-    }
+  Future<Season> tvShowSeasons(String id, int season) async {
+    try {
+      final response = await dio.get("/tv/$id/season/$season");
 
-    final tvshowDetails = SeasonsDbResponde.fromJson(response.data);
-    final seasonTv = TvshowMapper.seasonsDbToEntity(tvshowDetails);
-    return [seasonTv];
+      if (response.statusCode != 200) {
+        // Aquí ya evitas que se muestre un 404 feo
+        throw Failure(message: "No pudimos encontrar esa temporada.");
+      }
+
+      final tvshowDetails = SeasonsDbResponde.fromJson(response.data);
+      final seasonTv = TvshowMapper.seasonsDbToEntity(tvshowDetails);
+
+      return seasonTv;
+    } on DioException catch (_) {
+      // Errores de red, conexión, timeout, etc.
+      throw Failure(message: "Connection error. Please try again.");
+    } catch (e) {
+      // Cualquier otro error inesperado
+      throw Failure(message: "An unexpected error occurred.");
+    }
   }
+}
+
+class Failure implements Exception {
+  final String message;
+  Failure({required this.message});
 }
