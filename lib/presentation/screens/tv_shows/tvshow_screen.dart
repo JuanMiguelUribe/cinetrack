@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/tv_show_details.dart';
+import 'package:movieflex/infraestructure/datasources/tvshows_datasource.dart';
 import 'package:movieflex/infraestructure/mappers/tvshow_details_to_tvshow_mapper.dart';
 import 'package:movieflex/l10n/app_localizations.dart';
 import 'package:movieflex/presentation/providers/actors/actors_by_tvshow_provider.dart';
@@ -9,6 +10,8 @@ import 'package:movieflex/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
+import '../../../domain/entities/seasons.dart';
 
 class TvShowScreen extends ConsumerStatefulWidget {
   static const name = "tvshow-screen";
@@ -87,14 +90,14 @@ class _TvShowDetails extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
-    final seasonsAsync = ref.watch(
-      tvShowSeasonsProvider({
-        'id': tvshow.id.toString(),
-        'season': 1, // o el número de temporada que quieras
-      }),
-    );
-    debugPrint(seasonsAsync.toString());
+    final numberOfSeasons = tvshow.numberOfSeasons ?? 1;
+    final seasonNumbers = List.generate(numberOfSeasons, (i) => i + 1);
+    // print(seasonNumbers);
 
+    final selectedSeason = ref.watch(selectedSeasonProvider);
+    final asyncSeason = ref.watch(
+      tvShowSeasonsProvider((tvshow.id.toString(), selectedSeason)),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -138,6 +141,51 @@ class _TvShowDetails extends ConsumerWidget {
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
 
+        //*Titulo de episodios
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            AppLocalizations.of(context)!.episodes,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.titlesForDetailScreen(context),
+          ),
+        ),
+        SizedBox(height: 5),
+
+        //*Dropdown button para temporada
+        _SeasonSelector(
+          selectedSeason: selectedSeason,
+          seasonNumbers: seasonNumbers,
+        ),
+        const SizedBox(height: 16),
+
+        //*CARDS DE CADA EPISODIO
+        asyncSeason.when(
+          data: (season) {
+            return _CardsForEpisodes(season: season);
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) {
+            final errorMessage = (e is Failure)
+                ? e.message
+                : "An error occurred while loading the information.";
+
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, size: 48, color: Colors.redAccent),
+                  const SizedBox(height: 8),
+                  Text(errorMessage, textAlign: TextAlign.center),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            );
+          },
+        ),
+
+        //*DIVISOR DE SECCIÓN,
+        _buildSectionDivider("", context),
         // Text(tvshow.id.toString()),
         //*Titulo del Cast
         Padding(
@@ -152,23 +200,6 @@ class _TvShowDetails extends ConsumerWidget {
 
         //*Actores de la pelicula
         _ActorsByMovie(tvshowId: tvshow.id.toString()),
-        // seasonsAsync.when(
-        //   data: (seasons) => ListView.builder(
-        //     itemCount: seasons.length,
-        //     itemBuilder: (context, index) {
-        //       final season = seasons[index];
-        //       return ListTile(
-        //         leading: CircleAvatar(
-        //           child: Text(season.seasonNumber.toString()),
-        //         ),
-        //         title: Text(season.name),
-        //         subtitle: Text('Episodios: ${season.name}'),
-        //       );
-        //     },
-        //   ),
-        //   loading: () => const CircularProgressIndicator(),
-        //   error: (err, stack) => Text('Error: $err'),
-        // ),
 
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
@@ -193,6 +224,166 @@ class _TvShowDetails extends ConsumerWidget {
 
         SizedBox(height: 50),
       ],
+    );
+  }
+}
+
+class _CardsForEpisodes extends StatelessWidget {
+  final Season season;
+  const _CardsForEpisodes({required this.season});
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 2,
+
+      child: Padding(
+        padding: const EdgeInsets.only(left: 11, right: 11),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+          itemCount: season.episodes.length,
+          itemBuilder: (context, index) {
+            final episode = season.episodes[index];
+            return AspectRatio(
+              aspectRatio: 16 / 9, // ancho de cada tarjeta
+              child: Card(
+                clipBehavior: Clip.hardEdge,
+                child: Stack(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (episode!.stillPath != null)
+                      Image.network(
+                        episode.stillPath!,
+                        // height: 100,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    else
+                      Container(
+                        height: 100,
+                        color: Colors.grey[300],
+                        child: const Center(
+                          child: Icon(Icons.image_not_supported),
+                        ),
+                      ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 30,
+                        ),
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [Colors.black87, Colors.transparent],
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 4), // Baja el texto
+                          child: Align(alignment: Alignment.bottomCenter),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Row(
+                          children: [
+                            Text(
+                              "${AppLocalizations.of(context)!.season_abbreviation}${episode.seasonNumber.toString()}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              "E${episode.episodeNumber.toString()}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(width: 8),
+
+                            Text(
+                              episode.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
+
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _SeasonSelector extends ConsumerWidget {
+  const _SeasonSelector({
+    required this.selectedSeason,
+    required this.seasonNumbers,
+  });
+
+  final int selectedSeason;
+  final List<int> seasonNumbers;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade400),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<int>(
+            menuMaxHeight: 300,
+
+            value: selectedSeason,
+            icon: const Icon(Icons.arrow_drop_down),
+            items: seasonNumbers.map((season) {
+              return DropdownMenuItem<int>(
+                value: season,
+                child: Text("${AppLocalizations.of(context)!.season} $season"),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                ref.read(selectedSeasonProvider.notifier).state = value;
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
 }
@@ -495,7 +686,6 @@ class _ActorsByMovie extends ConsumerWidget {
 
     return SizedBox(
       height: 242,
-
       child: Padding(
         padding: const EdgeInsets.only(left: 8),
         child: ListView.builder(
@@ -503,43 +693,56 @@ class _ActorsByMovie extends ConsumerWidget {
           itemCount: actors.length,
           itemBuilder: (context, index) {
             final actor = actors[index];
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FadeInRight(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
-                        actor.profilePath ?? '',
-                        height: 150,
-                        width: 100,
-                        fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) =>
+                      ActorDetailsBottomSheet(actorId: actor.id.toString()),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FadeInRight(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.network(
+                          actor.profilePath ?? '',
+                          height: 150,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      actor.name,
-                      maxLines: 3,
-                      style: AppTextStyles.actorName(context),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 5),
+
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        actor.name,
+                        maxLines: 3,
+                        style: AppTextStyles.actorName(context),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 0),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      actor.character ?? 'Not Found',
-                      maxLines: 2,
-                      style: AppTextStyles.characterName(context),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 0),
+
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        actor.character ?? 'Not Found',
+                        maxLines: 2,
+                        style: AppTextStyles.characterName(context),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
