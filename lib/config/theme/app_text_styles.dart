@@ -136,5 +136,55 @@ class AppTextStyles {
     );
   }
 
+  static TextStyle titleActorName(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.roboto(
+      fontSize: 25,
+      color: colors.primary,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  static TextStyle actorDetailsDepartment(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.roboto(
+      fontSize: 18,
+      color: colors.onSurface.withAlpha(100),
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle actorDetailsBirthday(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.roboto(
+      fontSize: 15,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle actorDetailsGender(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.roboto(
+      fontSize: 15,
+      color: colors.onSurface,
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle actorDetailsDefunction(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return GoogleFonts.roboto(
+      fontSize: 15,
+      color: colors.error,
+      fontWeight: FontWeight.w400,
+    );
+  }
+
   // Puedes seguir agregando más: descripción, botón, etc.
 }
