@@ -82,6 +82,7 @@ class TvshowMapper {
           ? "https://image.tmdb.org/t/p/w500${seasondb.posterPath}"
           : "https://cdn.displate.com/artwork/270x380/2023-02-03/6b806b90ed460362ce845aec44991468_ee90576e764e6e2dc6be65372d967710.jpg",
       airDate: seasondb.airDate,
+
       episodes: seasondb.episodes
           .map(
             (ep) => EpisodeEntity(
@@ -91,7 +92,9 @@ class TvshowMapper {
               episodeNumber: ep.episodeNumber,
               seasonNumber: ep.seasonNumber,
               airDate: ep.airDate,
-              stillPath: ep.stillPath,
+              stillPath: (ep.stillPath != "")
+                  ? "https://image.tmdb.org/t/p/w500${seasondb.posterPath}"
+                  : "https://icon-library.com/images/not-found-icon/not-found-icon-28.jpg",
               voteAverage: ep.voteAverage,
             ),
           )
