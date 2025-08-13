@@ -251,6 +251,7 @@ class _ContentItem extends StatelessWidget {
           onContentSelected(context, content);
         },
         child: Container(
+          height: size.width * 0.4,
           decoration: BoxDecoration(
             color: Theme.of(
               context,
