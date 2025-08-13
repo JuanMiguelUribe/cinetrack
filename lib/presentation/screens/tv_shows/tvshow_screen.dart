@@ -429,14 +429,6 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
-    // String formatDate(DateTime? date) {
-    //   if (date == null) return AppLocalizations.of(context)!.unknownDate;
-    //   try {
-    //     return DateFormat('d MMMM y').format(date);
-    //   } catch (e) {
-    //     return AppLocalizations.of(context)!.unknownDate;
-    //   }
-    // }
 
     return Column(
       children: [
