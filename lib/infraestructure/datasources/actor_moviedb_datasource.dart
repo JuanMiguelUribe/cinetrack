@@ -56,11 +56,13 @@ class ActorMoviedbDatasource extends ActorsDatasource {
   }
 
   @override
-  Future<ActorCredit> getCreditByActor(String id) async {
+  Future<List<ActorCredit>> getCreditByActor(String id) async {
     final response = await dio.get("/person/$id/combined_credits");
-    final actorDetail = CastCredit.fromJson(response.data);
+    final actorDetail = CreditsActorDbResponse.fromJson(response.data);
 
-    final ActorCredit credit = ActorMapper.actorCreditToEntity(actorDetail);
-    return credit;
+    final List<ActorCredit> credits = actorDetail.cast
+        .map((castCredit) => ActorMapper.actorCreditToEntity(castCredit))
+        .toList();
+    return credits;
   }
 }
