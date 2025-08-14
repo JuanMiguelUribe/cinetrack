@@ -15,6 +15,8 @@ class ActorDetailsBottomSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final actorAsync = ref.watch(actorDetailsProvider(actorId));
+    final actorCredit = ref.watch(actorCreditsProvider(actorId));
+
     final size = MediaQuery.of(context).size;
     final colors = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
@@ -84,12 +86,31 @@ class ActorDetailsBottomSheet extends ConsumerWidget {
                       ),
 
                     const SizedBox(height: 16),
+                    //*BIOGRAFIA DE ACTOR
                     _BiographyContainer(
                       colors: colors,
                       textStyles: textStyles,
                       actor: actor,
                     ),
 
+                    //*Titulo de recomendaciones
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0, top: 16),
+                      child: Text(
+                        AppLocalizations.of(context)!.movies_and_Series,
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.titlesForDetailScreen(
+                          context,
+                        ).copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    actorCredit.when(
+                      data: (credits) {
+                        return CombinedHorizontalListView(combined: credits);
+                      },
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, stack) => Text('Error: $error'),
+                    ),
                     SizedBox(height: 50),
                   ],
                 ),
@@ -137,28 +158,26 @@ class _BiographyContainer extends StatelessWidget {
           ],
         ),
         padding: const EdgeInsets.all(12),
-        child: Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.biography,
-                style: textStyles.titleMedium?.copyWith(
-                  color: colors.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.biography,
+              style: textStyles.titleMedium?.copyWith(
+                color: colors.primary,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
-              const SizedBox(height: 0),
-              ExpandableText(
-                text: (actor.biography.trim().isNotEmpty)
-                    ? actor.biography
-                    : AppLocalizations.of(context)!.resultsSearch,
-                wordLimit: 65,
-                style: textStyles.bodyMedium?.copyWith(color: colors.onSurface),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 0),
+            ExpandableText(
+              text: (actor.biography.trim().isNotEmpty)
+                  ? actor.biography
+                  : AppLocalizations.of(context)!.resultsSearch,
+              wordLimit: 30,
+              style: textStyles.bodyMedium?.copyWith(color: colors.onSurface),
+            ),
+          ],
         ),
       ),
     );
@@ -227,7 +246,6 @@ class _HeaderProfile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              Text(actor.id.toString()),
               //* Fecha de nacimiento
               SizedBox(
                 child: RichText(

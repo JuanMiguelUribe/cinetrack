@@ -20,6 +20,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
   int _currentPage = 0;
 
   void _nextPage(int total) {
+    if (!mounted) return;
     if (_currentPage < total - 1 && _currentPage < 19) {
       _currentPage++;
       _pageController.animateToPage(
@@ -31,6 +32,7 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
   }
 
   void _previousPage() {
+    if (!mounted) return;
     if (_currentPage > 0) {
       _currentPage--;
       _pageController.animateToPage(
@@ -39,6 +41,12 @@ class _TrailerCarouselState extends ConsumerState<TrailerCarousel> {
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -309,12 +317,19 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
 
   @override
   void dispose() {
+    _controller.pause();
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayer(controller: _controller);
+    if (!mounted) return const SizedBox.shrink();
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(controller: _controller),
+      builder: (context, player) {
+        return player; // así queda más seguro
+      },
+    );
   }
 }

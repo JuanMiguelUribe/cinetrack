@@ -35,4 +35,7 @@ export 'shared/search_bar_widget.dart';
 export 'shared/show_color_picker.dart';
 
 export 'shared/menu_items.dart';
+
 export 'shared/actors_details_bottom_sheet.dart';
+
+export 'shared/combined_horizontal_listview.dart';

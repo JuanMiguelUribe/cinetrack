@@ -1,47 +1,51 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:movieflex/config/helpers/human_formats.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
-import 'package:movieflex/domain/entities/tv_shows.dart';
+import 'package:movieflex/domain/entities/actor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:movieflex/infraestructure/models/movieDb/credits_actor_response.dart';
 
-class TvShowHorizontalListView extends StatefulWidget {
-  final List<TvShow> tvShows;
+class CombinedHorizontalListView extends StatefulWidget {
+  final List<ActorCredit> combined;
   final String? title;
   final String? subtitle;
   final VoidCallback? loadNextPage;
+  final Color? color;
 
-  const TvShowHorizontalListView({
+  const CombinedHorizontalListView({
     super.key,
-    required this.tvShows,
+    required this.combined,
     this.title,
     this.subtitle,
     this.loadNextPage,
+    this.color,
   });
 
   @override
-  State<TvShowHorizontalListView> createState() =>
-      _TvShowHorizontalListViewState();
+  State<CombinedHorizontalListView> createState() =>
+      _CombinedHorizontalListViewState();
 }
 
-class _TvShowHorizontalListViewState extends State<TvShowHorizontalListView> {
-  final ScrollController scrollController = ScrollController();
+class _CombinedHorizontalListViewState
+    extends State<CombinedHorizontalListView> {
+  // final ScrollController scrollController = ScrollController();
   @override
   void initState() {
-    scrollController.addListener(() {
-      if (widget.loadNextPage == null) return;
-      if (scrollController.position.pixels + 50 >=
-          scrollController.position.maxScrollExtent - 500) {
-        widget.loadNextPage!();
-      }
-    });
+    // scrollController.addListener(() {
+    //   if (widget.loadNextPage == null) return;
+    //   if (scrollController.position.pixels + 50 >=
+    //       scrollController.position.maxScrollExtent - 500) {
+    //     widget.loadNextPage!();
+    //   }
+    // });
     super.initState();
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
+    // scrollController.dispose();
     super.dispose();
   }
 
@@ -52,19 +56,23 @@ class _TvShowHorizontalListViewState extends State<TvShowHorizontalListView> {
       child: Column(
         children: [
           if (widget.title != null || widget.subtitle != null)
-            _Title(title: widget.title, subtitle: widget.subtitle),
+            _Title(
+              title: widget.title,
+              subtitle: widget.subtitle,
+              color: widget.color,
+            ),
           const SizedBox(height: 5),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: ListView.builder(
-                controller: scrollController,
+          SizedBox(
+            height: 300,
 
-                itemCount: widget.tvShows.length,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 0),
+              child: ListView.builder(
+                itemCount: widget.combined.length,
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return _TvShowSlide(tvShow: widget.tvShows[index]);
+                  return _CombinedSlide(combined: widget.combined[index]);
                 },
               ),
             ),
@@ -75,16 +83,24 @@ class _TvShowHorizontalListViewState extends State<TvShowHorizontalListView> {
   }
 }
 
-class _TvShowSlide extends StatelessWidget {
-  final TvShow tvShow;
-  const _TvShowSlide({required this.tvShow});
+class _CombinedSlide extends StatelessWidget {
+  final ActorCredit combined;
+  const _CombinedSlide({required this.combined});
 
   @override
   Widget build(BuildContext context) {
     final textStyles = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () => context.push('/tvshow/${tvShow.id}'),
+      onTap: () {
+        if (combined.mediaType == MediaType.movie) {
+          context.push('/movie/${combined.id}');
+        } else if (combined.mediaType == MediaType.tv) {
+          context.push('/tvshow/${combined.id}');
+        } else {
+          context.push('/');
+        }
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
@@ -97,7 +113,7 @@ class _TvShowSlide extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  tvShow.posterPath!,
+                  combined.posterUrl,
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {
@@ -113,7 +129,7 @@ class _TvShowSlide extends StatelessWidget {
             SizedBox(
               width: 130,
               child: Text(
-                tvShow.name,
+                combined.title,
                 maxLines: 2,
                 style: const TextStyle(fontSize: 15),
               ),
@@ -125,7 +141,7 @@ class _TvShowSlide extends StatelessWidget {
                 children: [
                   Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
                   Text(
-                    tvShow.voteAverage.toStringAsFixed(1),
+                    combined.voteAverage.toStringAsFixed(1),
                     style: textStyles.bodyMedium?.copyWith(
                       color: Colors.yellow.shade800,
                       fontWeight: FontWeight.w600,
@@ -139,7 +155,7 @@ class _TvShowSlide extends StatelessWidget {
                   ),
                   SizedBox(width: 2),
                   Text(
-                    HumanFormats.humanReadbleNumber(tvShow.popularity),
+                    HumanFormats.humanReadbleNumber(combined.popularity),
                     style: textStyles.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w400,
                     ),
@@ -155,9 +171,10 @@ class _TvShowSlide extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({this.title, this.subtitle});
+  const _Title({this.title, this.subtitle, this.color = Colors.black});
   final String? title;
   final String? subtitle;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -167,7 +184,7 @@ class _Title extends StatelessWidget {
           if (title != null)
             Text(
               title!.toUpperCase(),
-              style: AppTextStyles.sectionTitle(context),
+              style: AppTextStyles.sectionTitle(context).copyWith(color: color),
             ),
           Spacer(),
           if (subtitle != null)
