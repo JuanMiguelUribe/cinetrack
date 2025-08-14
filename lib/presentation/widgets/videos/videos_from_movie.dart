@@ -110,6 +110,9 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
 
   @override
   void dispose() {
+    if (mounted) {
+      _controller.pause(); // Para el video antes de destruir el controlador
+    }
     _controller.dispose();
     super.dispose();
   }
