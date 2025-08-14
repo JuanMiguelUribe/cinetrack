@@ -69,13 +69,15 @@ class ActorCredit {
   final String title;
   final MediaType mediaType; // "movie" o "tv"
   final double voteAverage;
-  final String? posterUrl;
+  final String posterUrl;
+  final double popularity;
 
   const ActorCredit({
     required this.id,
     required this.title,
     required this.mediaType,
     required this.voteAverage,
-    this.posterUrl,
+    required this.posterUrl,
+    required this.popularity,
   });
 }
