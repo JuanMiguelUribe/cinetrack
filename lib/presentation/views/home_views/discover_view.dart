@@ -499,6 +499,7 @@ class _PageSwiperSeriesState extends ConsumerState<_PageSwiperSeries> {
             video: false,
             voteAverage: tv.voteAverage,
             voteCount: tv.voteCount,
+            releaseDate: tv.firstAirDate,
           ),
         )
         .toList();
