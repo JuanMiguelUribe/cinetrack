@@ -703,6 +703,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Movies And Series'**
   String get movies_and_Series;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @appSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get appSettings;
+
+  /// No description provided for @legalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Information'**
+  String get legalInfo;
+
+  /// No description provided for @tmdbCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'This product uses the TMDB API but is not endorsed or certified by TMDB.'**
+  String get tmdbCredit;
+
+  /// No description provided for @legalDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can find information about terms of use, privacy policies, and open-source licenses used in this app.'**
+  String get legalDescription;
+
+  /// No description provided for @viewLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'View Licenses'**
+  String get viewLicenses;
 }
 
 class _AppLocalizationsDelegate
