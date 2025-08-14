@@ -151,9 +151,9 @@ class _BiographyContainer extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: colors.surfaceContainerHigh.withAlpha(80),
-              blurRadius: 8,
-              offset: const Offset(0, 6),
+              color: colors.onSurface.withAlpha(50),
+              blurRadius: 6,
+              offset: const Offset(1, 3),
             ),
           ],
         ),
@@ -205,7 +205,7 @@ class _HeaderProfile extends StatelessWidget {
               height: 220,
               width: 150,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const Icon(Icons.person, size: 100),
+              errorBuilder: (_, _, _) => const Icon(Icons.person, size: 100),
             ),
           ),
         ),
