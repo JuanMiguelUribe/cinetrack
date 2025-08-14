@@ -205,14 +205,24 @@ class Crew {
 }
 
 enum Department {
+  // ignore: constant_identifier_names
   ACTING,
+  // ignore: constant_identifier_names
   ART,
+  // ignore: constant_identifier_names
   CREATOR,
+  // ignore: constant_identifier_names
   CREW,
+  // ignore: constant_identifier_names
   DIRECTING,
+  // ignore: constant_identifier_names
   EDITING,
+  // ignore: constant_identifier_names
+  // ignore: constant_identifier_names
   PRODUCTION,
+  // ignore: constant_identifier_names
   VISUAL_EFFECTS,
+  // ignore: constant_identifier_names
   WRITING,
 }
 
