@@ -309,4 +309,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alsoKnownAs => 'Also Known As';
+
+  @override
+  String get movies_and_Series => 'Movies And Series';
 }

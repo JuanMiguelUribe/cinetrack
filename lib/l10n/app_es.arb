@@ -98,8 +98,10 @@
   "born" : "Nacimiento",
   "died" : "Fallecimiento",
   "gender": "Género",
-    "biography" : "Biografía",
-      "alsoKnownAs": "Otros Nombres"
+  "biography" : "Biografía",
+  "alsoKnownAs": "Otros Nombres",
+  "movies_and_Series": "Películas y Series"
+
 
 
 

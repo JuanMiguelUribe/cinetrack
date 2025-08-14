@@ -697,6 +697,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Also Known As'**
   String get alsoKnownAs;
+
+  /// No description provided for @movies_and_Series.
+  ///
+  /// In en, this message translates to:
+  /// **'Movies And Series'**
+  String get movies_and_Series;
 }
 
 class _AppLocalizationsDelegate
