@@ -93,7 +93,7 @@ class CastCredit {
     id: json["id"] ?? 0,
     originalLanguage:
         originalLanguageValues.map[json["original_language"]] ??
-        OriginalLanguage.EN, // Valor por defecto si no existe
+        OriginalLanguage.en, // Valor por defecto si no existe
     originalTitle: json["original_title"] ?? '',
     overview: json["overview"] ?? '',
     popularity: json["popularity"] ?? 0,
@@ -111,7 +111,7 @@ class CastCredit {
     mediaType: mediaTypeValues.map[json["media_type"]] ?? MediaType.movie,
     originCountry:
         (json["origin_country"] as List<dynamic>?)
-            ?.map((x) => originCountryValues.map[x] ?? OriginCountry.US)
+            ?.map((x) => originCountryValues.map[x] ?? OriginCountry.us)
             .toList() ??
         [],
     originalName: json["original_name"] ?? '',
@@ -174,13 +174,13 @@ final mediaTypeValues = EnumValues({
   "tv": MediaType.tv,
 });
 
-enum OriginCountry { US }
+enum OriginCountry { us }
 
-final originCountryValues = EnumValues({"US": OriginCountry.US});
+final originCountryValues = EnumValues({"US": OriginCountry.us});
 
-enum OriginalLanguage { EN }
+enum OriginalLanguage { en }
 
-final originalLanguageValues = EnumValues({"en": OriginalLanguage.EN});
+final originalLanguageValues = EnumValues({"en": OriginalLanguage.en});
 
 class EnumValues<T> {
   Map<String, T> map;
