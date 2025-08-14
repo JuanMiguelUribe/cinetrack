@@ -24,7 +24,7 @@ class ActorRepositoryImpl extends ActorsRepository {
   }
 
   @override
-  Future<ActorCredit> getCreditByActor(String id) {
+  Future<List<ActorCredit>> getCreditByActor(String id) {
     return datasource.getCreditByActor(id);
   }
 }
