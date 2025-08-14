@@ -8,10 +8,19 @@ final videosProvider =
     FutureProvider.family<List<VideoMovie>, ({int id, MediaType type})>((
       ref,
       args,
-    ) {
+    ) async {
       final repo = ref.watch(movieRepositoryProvider);
 
-      return args.type == MediaType.movie
-          ? repo.getYoutubeVideosById(args.id)
-          : repo.getYoutubeVideosByIdTvShow(args.id);
+      // Obtiene todos los videos según el tipo
+      final videos = args.type == MediaType.movie
+          ? await repo.getYoutubeVideosById(args.id)
+          : await repo.getYoutubeVideosByIdTvShow(args.id);
+
+      // Aquí limitas (por ejemplo, a 5) y puedes filtrar solo trailers oficiales
+      final limitedVideos = videos
+          .where((video) => video.site.toLowerCase() == 'youtube')
+          .take(5)
+          .toList();
+
+      return limitedVideos;
     });
