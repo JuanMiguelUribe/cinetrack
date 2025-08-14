@@ -1,3 +1,32 @@
+class CreditsActorDbResponse {
+  final List<CastCredit> cast;
+  final List<CastCredit> crew;
+  final int id;
+
+  CreditsActorDbResponse({
+    required this.cast,
+    required this.crew,
+    required this.id,
+  });
+
+  factory CreditsActorDbResponse.fromJson(Map<String, dynamic> json) =>
+      CreditsActorDbResponse(
+        cast: List<CastCredit>.from(
+          json["cast"].map((x) => CastCredit.fromJson(x)),
+        ),
+        crew: List<CastCredit>.from(
+          json["crew"].map((x) => CastCredit.fromJson(x)),
+        ),
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+    "cast": List<dynamic>.from(cast.map((x) => x.toJson())),
+    "crew": List<dynamic>.from(crew.map((x) => x.toJson())),
+    "id": id,
+  };
+}
+
 class CastCredit {
   final bool adult;
   final String? backdropPath;
@@ -67,10 +96,8 @@ class CastCredit {
         OriginalLanguage.EN, // Valor por defecto si no existe
     originalTitle: json["original_title"] ?? '',
     overview: json["overview"] ?? '',
-    popularity: (json["popularity"] is num)
-        ? (json["popularity"] as num).toDouble()
-        : 0.0,
-    posterPath: json["poster_path"] as String?,
+    popularity: json["popularity"] ?? 0,
+    posterPath: json["poster_path"],
     releaseDate: json["release_date"] ?? '',
     title: json["title"] ?? '',
     video: json["video"] ?? false,
@@ -127,12 +154,14 @@ class CastCredit {
             originCountry!.map((x) => originCountryValues.reverse[x]),
           ),
     "original_name": originalName,
-    "first_air_date":
-        "${firstAirDate!.year.toString().padLeft(4, '0')}-${firstAirDate!.month.toString().padLeft(2, '0')}-${firstAirDate!.day.toString().padLeft(2, '0')}",
+    "first_air_date": firstAirDate != null
+        ? "${firstAirDate!.year.toString().padLeft(4, '0')}-${firstAirDate!.month.toString().padLeft(2, '0')}-${firstAirDate!.day.toString().padLeft(2, '0')}"
+        : null,
     "name": name,
     "episode_count": episodeCount,
-    "first_credit_air_date":
-        "${firstCreditAirDate!.year.toString().padLeft(4, '0')}-${firstCreditAirDate!.month.toString().padLeft(2, '0')}-${firstCreditAirDate!.day.toString().padLeft(2, '0')}",
+    "first_credit_air_date": firstCreditAirDate != null
+        ? "${firstCreditAirDate!.year.toString().padLeft(4, '0')}-${firstCreditAirDate!.month.toString().padLeft(2, '0')}-${firstCreditAirDate!.day.toString().padLeft(2, '0')}"
+        : null,
     "department": department,
     "job": job,
   };
