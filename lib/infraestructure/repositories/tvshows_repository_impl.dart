@@ -1,4 +1,5 @@
 import 'package:movieflex/domain/datasources/tvshows_datasources.dart';
+import 'package:movieflex/domain/entities/seasons.dart';
 import 'package:movieflex/domain/entities/tv_show_details.dart';
 import 'package:movieflex/domain/entities/tv_shows.dart';
 import 'package:movieflex/domain/respositories/tvshows_repository.dart';
@@ -43,5 +44,15 @@ class TvshowsDbRepositoryImpl extends TvShowsDBRepository {
     int page = 1,
   }) {
     return datasource.getRecomendationsTvShowById(tvshowId, page: page);
+  }
+
+  @override
+  Future<List<TvShow>> discoverSeries({int? page}) {
+    return datasource.discoverSeries(page: page);
+  }
+
+  @override
+  Future<Season> tvShowSeasons(String id, int season) {
+    return datasource.tvShowSeasons(id, season);
   }
 }

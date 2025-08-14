@@ -1,3 +1,5 @@
+export 'shared/app_drawer.dart';
+
 export 'package:movieflex/presentation/widgets/shared/trailer_carousel.dart';
 
 export 'package:movieflex/presentation/widgets/videos/videos_from_movie.dart';
@@ -29,3 +31,11 @@ export 'dialog/show_trailer_dialog.dart';
 export 'shared/build_section_divider.dart';
 
 export 'shared/search_bar_widget.dart';
+
+export 'shared/show_color_picker.dart';
+
+export 'shared/menu_items.dart';
+
+export 'shared/actors_details_bottom_sheet.dart';
+
+export 'shared/combined_horizontal_listview.dart';

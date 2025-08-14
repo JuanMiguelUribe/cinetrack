@@ -12,5 +12,5 @@ abstract class MoviesDatasource {
   Future<List<VideoMovie>> getYoutubeVideosById(int movieId);
   Future<List<VideoMovie>> getYoutubeVideosByIdTvShow(int tvshowId);
   Future<List<Movie>> getRecomendationsById(String movieId, {int page = 1});
-  Future<List<Movie>> discoverMovies({int page = 1});
+  Future<List<Movie>> discoverMovies({int? page});
 }

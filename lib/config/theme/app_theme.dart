@@ -13,21 +13,35 @@ const colorList = <Color>[
   Color(0xFF5D4037), // Marrón oscuro
   Color(0xFF78909C), // Gris azulado
   Color(0xFF546E7A), // Azul grisáceo
+  Color(0xFF5D547A), // Azul grisáceo
+  Color(0xFF7A6154), // Azul grisáceo
 ];
 
 class AppTheme {
   final int selectedColor;
   final bool isDarkMode;
+  final Color? customColor;
 
-  AppTheme({this.selectedColor = 0, this.isDarkMode = false})
-    : assert(
-        selectedColor >= 0 && selectedColor < colorList.length,
-        "Selected color index is out of range",
-      );
+  AppTheme({this.selectedColor = 0, this.isDarkMode = false, this.customColor});
 
-  ThemeData getTheme() => ThemeData(
-    useMaterial3: true,
-    brightness: isDarkMode ? Brightness.dark : Brightness.light,
-    colorSchemeSeed: colorList[selectedColor],
-  );
+  ThemeData getTheme() {
+    final color = customColor ?? colorList[selectedColor % colorList.length];
+    return ThemeData(
+      useMaterial3: true,
+      brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      colorSchemeSeed: color,
+    );
+  }
+
+  AppTheme copyWith({
+    bool? isDarkMode,
+    int? selectedColor,
+    Color? customColor,
+  }) {
+    return AppTheme(
+      isDarkMode: isDarkMode ?? this.isDarkMode,
+      selectedColor: selectedColor ?? this.selectedColor,
+      customColor: customColor ?? this.customColor,
+    );
+  }
 }

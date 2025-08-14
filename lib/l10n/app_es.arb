@@ -9,9 +9,9 @@
   "airingToday": "Al Aire Hoy",
   "onTheAir": "En el Aire",
   "movies": "Películas",
-  "tvshows": "Series de Televisión",
+  "tvshows": "Series",
   "always": "Siempre",
-  "homeNav": "Películas",
+  "homeNav": "Inicio",
   "seriesNav": "Series",
   "categoriasNav": "Descubrir",
   "favsNav": "Favoritos",
@@ -55,7 +55,60 @@
   "in_production": "En Producción",
   "yes_response": "Si",
   "no_response": "No",
-  "recommendations_title": "Recomendaciones"
+  "recommendations_title": "Recomendaciones",
+  "config_title": "Configuración",
+    "app_setting_title": "Configuración de la Aplicación",
+  "title_apptheme": "Tema de La Aplicación",
+  "description_apptheme": "Elige como quieres ver la aplicación",
+  "title_app_color": "Color de la Aplicación",
+  "choose_personalized_color": "Elegir color personalizado",
+  "reset_color_default": "Restablecer color predeterminado",
+  "select_a_color": "Selecciona un color",
+  "apply_button": "Aplicar",
+  "cancel_button": "Cancelar",
+  "language": "Idioma",
+  "genreAction": "Acción",
+  "genreAdventure": "Aventura",
+  "genreAnimation": "Animación",
+  "genreComedy": "Comedia",
+  "genreCrime": "Crimen",
+  "genreDocumentary": "Documental",
+  "genreDrama": "Drama",
+  "genreFamily": "Familiar",
+  "genreFantasy": "Fantasía",
+  "genreHistory": "Historia",
+  "genreHorror": "Terror",
+  "genreMusic": "Música",
+  "genreMystery": "Misterio",
+  "genreRomance": "Romance",
+  "genreScienceFiction": "Ciencia Ficción",
+  "genreTvMovie": "Película de TV",
+  "genreThriller": "Suspenso",
+  "genreWar": "Guerra",
+  "genreWestern": "Occidental",
+  "reload": "Recargar",
+  "message_for_search": "Buscar películas o series...",
+  "season_abbreviation": "T",
+  "season": "Temporada",
+  "episodes": "Episodios",
+  "genderMale": "Masculino",
+  "genderFemale": "Femenino",
+  "genderNonBinary": "No binario",
+  "gender_no_specified": "No especificado",
+  "born" : "Nacimiento",
+  "died" : "Fallecimiento",
+  "gender": "Género",
+  "biography" : "Biografía",
+  "alsoKnownAs": "Otros Nombres",
+  "movies_and_Series": "Películas y Series"
+
+
+
+
+
+
+
+
 
 
 

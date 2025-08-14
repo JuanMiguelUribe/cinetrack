@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:movieflex/presentation/screens/screens.dart';
-import 'package:movieflex/presentation/views/home_views/series_views.dart';
 import 'package:movieflex/presentation/views/home_views/views.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieflex/presentation/views/settings/app_settings_view.dart';
+import 'package:movieflex/presentation/views/settings/settings_view.dart';
 
 final appRouter = GoRouter(
   initialLocation: "/",
@@ -20,15 +22,7 @@ final appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/categories',
-              builder: (context, state) => const CategoriesView(),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/series',
-              builder: (context, state) => const SeriesView(),
+              builder: (context, state) => const DiscoverMoviesView(),
             ),
           ],
         ),
@@ -74,6 +68,39 @@ final appRouter = GoRouter(
         return TvShowScreen(tvshowID: id);
       },
     ),
+    GoRoute(
+      path: '/settings',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const SettingsView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/app-settings',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const AppSettingsView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
     //*Rutas Padre/Hijo, funciona
     // GoRoute(
     //   path: "/",
@@ -100,3 +127,19 @@ final appRouter = GoRouter(
     // ),
   ],
 );
+
+Route createSlideRoute(Widget page) {
+  return PageRouteBuilder(
+    transitionDuration: const Duration(milliseconds: 150),
+    reverseTransitionDuration: const Duration(milliseconds: 150),
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final offsetAnimation = Tween<Offset>(
+        begin: const Offset(1.0, 0.0), // derecha
+        end: Offset.zero,
+      ).animate(animation);
+
+      return SlideTransition(position: offsetAnimation, child: child);
+    },
+  );
+}

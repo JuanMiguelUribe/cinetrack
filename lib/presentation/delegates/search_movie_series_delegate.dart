@@ -251,6 +251,7 @@ class _ContentItem extends StatelessWidget {
           onContentSelected(context, content);
         },
         child: Container(
+          height: size.width * 0.4,
           decoration: BoxDecoration(
             color: Theme.of(
               context,
@@ -258,7 +259,7 @@ class _ContentItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withAlpha(150),
                 blurRadius: 6,
                 offset: const Offset(0, 4),
               ),

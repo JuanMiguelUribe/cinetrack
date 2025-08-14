@@ -2,16 +2,24 @@ import 'package:movieflex/config/constants/environment.dart';
 import 'package:movieflex/domain/datasources/actors_datasource.dart';
 import 'package:movieflex/domain/entities/actor.dart';
 import 'package:movieflex/infraestructure/mappers/actor_mapper.dart';
-import 'package:movieflex/infraestructure/models/movieDb/ActorsTv_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/actors_details_response.dart';
+import 'package:movieflex/infraestructure/models/movieDb/actorstv_response.dart';
 import 'package:dio/dio.dart';
+import 'package:movieflex/infraestructure/models/movieDb/credits_actor_response.dart';
 
 import '../models/movieDb/credits_response.dart';
 
 class ActorMoviedbDatasource extends ActorsDatasource {
-  final dio = Dio(
+  final String language;
+
+  ActorMoviedbDatasource({this.language = "en"});
+  late final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_key': Environment.movieDbKey, 'language': "en"},
+      queryParameters: {
+        'api_key': Environment.movieDbKey,
+        'language': language,
+      },
     ),
   );
   @override
@@ -34,5 +42,27 @@ class ActorMoviedbDatasource extends ActorsDatasource {
         .map((actor) => ActorMapper.actorsTvtoEntity(actor))
         .toList();
     return actors;
+  }
+
+  @override
+  Future<PersonDetailsEntity> getActorById(String id) async {
+    final response = await dio.get("/person/$id");
+    final actorDetail = ActorDbResponse.fromJson(response.data);
+
+    final PersonDetailsEntity actor = ActorMapper.actorDetailToEntity(
+      actorDetail,
+    );
+    return actor;
+  }
+
+  @override
+  Future<List<ActorCredit>> getCreditByActor(String id) async {
+    final response = await dio.get("/person/$id/combined_credits");
+    final actorDetail = CreditsActorDbResponse.fromJson(response.data);
+
+    final List<ActorCredit> credits = actorDetail.cast
+        .map((castCredit) => ActorMapper.actorCreditToEntity(castCredit))
+        .toList();
+    return credits;
   }
 }

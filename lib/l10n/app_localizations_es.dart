@@ -36,13 +36,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get movies => 'Películas';
 
   @override
-  String get tvshows => 'Series de Televisión';
+  String get tvshows => 'Series';
 
   @override
   String get always => 'Siempre';
 
   @override
-  String get homeNav => 'Películas';
+  String get homeNav => 'Inicio';
 
   @override
   String get seriesNav => 'Series';
@@ -177,4 +177,139 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get recommendations_title => 'Recomendaciones';
+
+  @override
+  String get config_title => 'Configuración';
+
+  @override
+  String get app_setting_title => 'Configuración de la Aplicación';
+
+  @override
+  String get title_apptheme => 'Tema de La Aplicación';
+
+  @override
+  String get description_apptheme => 'Elige como quieres ver la aplicación';
+
+  @override
+  String get title_app_color => 'Color de la Aplicación';
+
+  @override
+  String get choose_personalized_color => 'Elegir color personalizado';
+
+  @override
+  String get reset_color_default => 'Restablecer color predeterminado';
+
+  @override
+  String get select_a_color => 'Selecciona un color';
+
+  @override
+  String get apply_button => 'Aplicar';
+
+  @override
+  String get cancel_button => 'Cancelar';
+
+  @override
+  String get language => 'Idioma';
+
+  @override
+  String get genreAction => 'Acción';
+
+  @override
+  String get genreAdventure => 'Aventura';
+
+  @override
+  String get genreAnimation => 'Animación';
+
+  @override
+  String get genreComedy => 'Comedia';
+
+  @override
+  String get genreCrime => 'Crimen';
+
+  @override
+  String get genreDocumentary => 'Documental';
+
+  @override
+  String get genreDrama => 'Drama';
+
+  @override
+  String get genreFamily => 'Familiar';
+
+  @override
+  String get genreFantasy => 'Fantasía';
+
+  @override
+  String get genreHistory => 'Historia';
+
+  @override
+  String get genreHorror => 'Terror';
+
+  @override
+  String get genreMusic => 'Música';
+
+  @override
+  String get genreMystery => 'Misterio';
+
+  @override
+  String get genreRomance => 'Romance';
+
+  @override
+  String get genreScienceFiction => 'Ciencia Ficción';
+
+  @override
+  String get genreTvMovie => 'Película de TV';
+
+  @override
+  String get genreThriller => 'Suspenso';
+
+  @override
+  String get genreWar => 'Guerra';
+
+  @override
+  String get genreWestern => 'Occidental';
+
+  @override
+  String get reload => 'Recargar';
+
+  @override
+  String get message_for_search => 'Buscar películas o series...';
+
+  @override
+  String get season_abbreviation => 'T';
+
+  @override
+  String get season => 'Temporada';
+
+  @override
+  String get episodes => 'Episodios';
+
+  @override
+  String get genderMale => 'Masculino';
+
+  @override
+  String get genderFemale => 'Femenino';
+
+  @override
+  String get genderNonBinary => 'No binario';
+
+  @override
+  String get gender_no_specified => 'No especificado';
+
+  @override
+  String get born => 'Nacimiento';
+
+  @override
+  String get died => 'Fallecimiento';
+
+  @override
+  String get gender => 'Género';
+
+  @override
+  String get biography => 'Biografía';
+
+  @override
+  String get alsoKnownAs => 'Otros Nombres';
+
+  @override
+  String get movies_and_Series => 'Películas y Series';
 }

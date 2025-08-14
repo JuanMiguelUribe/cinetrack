@@ -7,7 +7,7 @@ void showTrailerDialog(BuildContext context, int movieId, MediaType type) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    barrierColor: Colors.black87.withOpacity(0.7),
+    barrierColor: Colors.black87.withAlpha(200),
     builder: (BuildContext context) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -38,7 +38,7 @@ void showTrailerDialog(BuildContext context, int movieId, MediaType type) {
                     color: Colors.white,
                     shadows: [
                       Shadow(
-                        color: Colors.black.withOpacity(0.8),
+                        color: Colors.black.withAlpha(200),
                         offset: Offset(2, 3),
                         blurRadius: 6,
                       ),

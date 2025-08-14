@@ -18,7 +18,7 @@ class ContentPosterLink extends StatelessWidget {
           borderRadius: BorderRadiusGeometry.circular(15),
           child: Container(
             decoration: BoxDecoration(
-              color: colors.onSurface.withOpacity(0.2),
+              color: colors.onSurface.withAlpha(80),
               // border: BoxBorder.symmetric(),
             ),
             child: Stack(

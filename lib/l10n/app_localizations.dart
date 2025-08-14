@@ -155,7 +155,7 @@ abstract class AppLocalizations {
   /// No description provided for @tvshows.
   ///
   /// In en, this message translates to:
-  /// **'Tv Shows'**
+  /// **'Tv Series'**
   String get tvshows;
 
   /// No description provided for @always.
@@ -167,7 +167,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeNav.
   ///
   /// In en, this message translates to:
-  /// **'Films'**
+  /// **'Home'**
   String get homeNav;
 
   /// No description provided for @seriesNav.
@@ -233,7 +233,7 @@ abstract class AppLocalizations {
   /// No description provided for @tvshowSearch.
   ///
   /// In en, this message translates to:
-  /// **'Tv Show'**
+  /// **'Tv Series'**
   String get tvshowSearch;
 
   /// No description provided for @myFavoriteMovies.
@@ -245,7 +245,7 @@ abstract class AppLocalizations {
   /// No description provided for @myFavoriteTvshows.
   ///
   /// In en, this message translates to:
-  /// **'Favorites TV Shows'**
+  /// **'Favorites TV Series'**
   String get myFavoriteTvshows;
 
   /// No description provided for @startTheSearch.
@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// No description provided for @exploreMoreTvShows.
   ///
   /// In en, this message translates to:
-  /// **'Explore More TV Shows'**
+  /// **'Explore More TV Series'**
   String get exploreMoreTvShows;
 
   /// No description provided for @favoriteMovieNotAddedMessage.
@@ -275,7 +275,7 @@ abstract class AppLocalizations {
   /// No description provided for @favoriteTvShowNotAddedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Add some TV shows to your favorites to see them here.'**
+  /// **'Add some TV series to your favorites to see them here.'**
   String get favoriteTvShowNotAddedMessage;
 
   /// No description provided for @watchTrailer.
@@ -433,6 +433,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recommendations'**
   String get recommendations_title;
+
+  /// No description provided for @config_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get config_title;
+
+  /// No description provided for @app_setting_title.
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get app_setting_title;
+
+  /// No description provided for @title_apptheme.
+  ///
+  /// In en, this message translates to:
+  /// **'App Theme'**
+  String get title_apptheme;
+
+  /// No description provided for @description_apptheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you want to view the app'**
+  String get description_apptheme;
+
+  /// No description provided for @title_app_color.
+  ///
+  /// In en, this message translates to:
+  /// **'App Color'**
+  String get title_app_color;
+
+  /// No description provided for @choose_personalized_color.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose custom color'**
+  String get choose_personalized_color;
+
+  /// No description provided for @reset_color_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset default color'**
+  String get reset_color_default;
+
+  /// No description provided for @select_a_color.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a color'**
+  String get select_a_color;
+
+  /// No description provided for @apply_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply_button;
+
+  /// No description provided for @cancel_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel_button;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @genreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Action'**
+  String get genreAction;
+
+  /// No description provided for @genreAdventure.
+  ///
+  /// In en, this message translates to:
+  /// **'Adventure'**
+  String get genreAdventure;
+
+  /// No description provided for @genreAnimation.
+  ///
+  /// In en, this message translates to:
+  /// **'Animation'**
+  String get genreAnimation;
+
+  /// No description provided for @genreComedy.
+  ///
+  /// In en, this message translates to:
+  /// **'Comedy'**
+  String get genreComedy;
+
+  /// No description provided for @genreCrime.
+  ///
+  /// In en, this message translates to:
+  /// **'Crime'**
+  String get genreCrime;
+
+  /// No description provided for @genreDocumentary.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentary'**
+  String get genreDocumentary;
+
+  /// No description provided for @genreDrama.
+  ///
+  /// In en, this message translates to:
+  /// **'Drama'**
+  String get genreDrama;
+
+  /// No description provided for @genreFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get genreFamily;
+
+  /// No description provided for @genreFantasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Fantasy'**
+  String get genreFantasy;
+
+  /// No description provided for @genreHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get genreHistory;
+
+  /// No description provided for @genreHorror.
+  ///
+  /// In en, this message translates to:
+  /// **'Horror'**
+  String get genreHorror;
+
+  /// No description provided for @genreMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get genreMusic;
+
+  /// No description provided for @genreMystery.
+  ///
+  /// In en, this message translates to:
+  /// **'Mystery'**
+  String get genreMystery;
+
+  /// No description provided for @genreRomance.
+  ///
+  /// In en, this message translates to:
+  /// **'Romance'**
+  String get genreRomance;
+
+  /// No description provided for @genreScienceFiction.
+  ///
+  /// In en, this message translates to:
+  /// **'Science Fiction'**
+  String get genreScienceFiction;
+
+  /// No description provided for @genreTvMovie.
+  ///
+  /// In en, this message translates to:
+  /// **'TV Movie'**
+  String get genreTvMovie;
+
+  /// No description provided for @genreThriller.
+  ///
+  /// In en, this message translates to:
+  /// **'Thriller'**
+  String get genreThriller;
+
+  /// No description provided for @genreWar.
+  ///
+  /// In en, this message translates to:
+  /// **'War'**
+  String get genreWar;
+
+  /// No description provided for @genreWestern.
+  ///
+  /// In en, this message translates to:
+  /// **'Western'**
+  String get genreWestern;
+
+  /// No description provided for @reload.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get reload;
+
+  /// No description provided for @message_for_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search movies or series...'**
+  String get message_for_search;
+
+  /// No description provided for @season_abbreviation.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get season_abbreviation;
+
+  /// No description provided for @season.
+  ///
+  /// In en, this message translates to:
+  /// **'Season'**
+  String get season;
+
+  /// No description provided for @episodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Episodes'**
+  String get episodes;
+
+  /// No description provided for @genderMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get genderMale;
+
+  /// No description provided for @genderFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get genderFemale;
+
+  /// No description provided for @genderNonBinary.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-Binary'**
+  String get genderNonBinary;
+
+  /// No description provided for @gender_no_specified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Specified'**
+  String get gender_no_specified;
+
+  /// No description provided for @born.
+  ///
+  /// In en, this message translates to:
+  /// **'Born'**
+  String get born;
+
+  /// No description provided for @died.
+  ///
+  /// In en, this message translates to:
+  /// **'Died'**
+  String get died;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @biography.
+  ///
+  /// In en, this message translates to:
+  /// **'Biography'**
+  String get biography;
+
+  /// No description provided for @alsoKnownAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Also Known As'**
+  String get alsoKnownAs;
+
+  /// No description provided for @movies_and_Series.
+  ///
+  /// In en, this message translates to:
+  /// **'Movies And Series'**
+  String get movies_and_Series;
 }
 
 class _AppLocalizationsDelegate

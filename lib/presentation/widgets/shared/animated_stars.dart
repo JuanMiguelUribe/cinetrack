@@ -87,14 +87,14 @@ class _AnimatedRatingCircleState extends State<AnimatedRatingCircle>
               Transform.translate(
                 offset: Offset(0, -5 * math.sin(_controller.value * math.pi)),
                 child: Text(
-                  '${(widget.rating).toStringAsFixed(1)}',
+                  (widget.rating).toStringAsFixed(1),
                   style: TextStyle(
                     fontSize: size * 0.6,
                     fontWeight: FontWeight.bold,
                     color: getGlowColorText(widget.rating),
                     shadows: [
                       Shadow(
-                        color: Colors.black.withOpacity(0.9),
+                        color: Colors.black.withAlpha(230),
                         blurRadius: 20,
                         offset: Offset(0, 0),
                       ),
@@ -151,7 +151,7 @@ class _StarPainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [color.withOpacity(0.2), color.withOpacity(0.8), color],
+        colors: [color.withAlpha(30), color.withAlpha(200), color],
         stops: const [0.0, 0.6, 1.0],
       ).createShader(fillShaderRect)
       ..style = PaintingStyle.fill;

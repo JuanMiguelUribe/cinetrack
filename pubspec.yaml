@@ -12,6 +12,7 @@ dependencies:
   dio: ^5.8.0+1
   flutter:
     sdk: flutter
+  flutter_colorpicker: ^1.1.0
   flutter_dotenv: ^5.2.1
   flutter_localizations:
     sdk: flutter
@@ -23,8 +24,11 @@ dependencies:
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.5
+  popover: ^0.3.1
+  shared_preferences: ^2.5.3
   url_launcher: ^6.3.2
   youtube_player_flutter: ^9.1.1
+  youtube_player_iframe: ^5.2.1
 
 dev_dependencies:
   build_runner: 2.4.13

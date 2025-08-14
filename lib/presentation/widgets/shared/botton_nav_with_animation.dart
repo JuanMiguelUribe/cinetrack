@@ -24,19 +24,14 @@ List<NavBarItem> getNavItems(BuildContext context) {
       index: 0,
     ),
     NavBarItem(
-      label: AppLocalizations.of(context)!.seriesNav,
-      icon: Icons.tv_sharp,
-      index: 1,
-    ),
-    NavBarItem(
       label: AppLocalizations.of(context)!.categoriasNav,
       icon: Icons.explore_rounded,
-      index: 2,
+      index: 1,
     ),
     NavBarItem(
       label: AppLocalizations.of(context)!.favsNav,
       icon: Icons.favorite_rounded,
-      index: 3,
+      index: 2,
     ),
   ];
 }
@@ -52,12 +47,9 @@ class BottonNavWithAnimationState
         context.go("/");
         break;
       case 1:
-        context.go("/series");
-        break;
-      case 2:
         context.go("/categories");
         break;
-      case 3:
+      case 2:
         context.go("/favorites");
         break;
     }
@@ -77,7 +69,7 @@ class BottonNavWithAnimationState
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: BackdropFilter(
@@ -86,11 +78,11 @@ class BottonNavWithAnimationState
                   height: 72,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: colors.inverseSurface.withOpacity(0.85),
+                    color: colors.inverseSurface.withAlpha(240),
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: colors.shadow.withOpacity(0.3),
+                        color: colors.shadow.withAlpha(70),
                         offset: const Offset(0, 10),
                         blurRadius: 20,
                       ),

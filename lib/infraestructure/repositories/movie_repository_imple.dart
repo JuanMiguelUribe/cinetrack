@@ -57,7 +57,7 @@ class MovieRepositoryImple extends MoviesRepository {
   }
 
   @override
-  Future<List<Movie>> discoverMovies({int page = 1}) {
+  Future<List<Movie>> discoverMovies({int? page}) {
     return datasource.discoverMovies(page: page);
   }
 }

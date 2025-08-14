@@ -36,13 +36,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get movies => 'Movies';
 
   @override
-  String get tvshows => 'Tv Shows';
+  String get tvshows => 'Tv Series';
 
   @override
   String get always => 'Always';
 
   @override
-  String get homeNav => 'Films';
+  String get homeNav => 'Home';
 
   @override
   String get seriesNav => 'Series';
@@ -75,13 +75,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get movieSearch => 'Movie';
 
   @override
-  String get tvshowSearch => 'Tv Show';
+  String get tvshowSearch => 'Tv Series';
 
   @override
   String get myFavoriteMovies => 'Favorites Movies';
 
   @override
-  String get myFavoriteTvshows => 'Favorites TV Shows';
+  String get myFavoriteTvshows => 'Favorites TV Series';
 
   @override
   String get startTheSearch => 'Start Exploring';
@@ -90,7 +90,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exploreMoreMovies => 'Explore More Movies';
 
   @override
-  String get exploreMoreTvShows => 'Explore More TV Shows';
+  String get exploreMoreTvShows => 'Explore More TV Series';
 
   @override
   String get favoriteMovieNotAddedMessage =>
@@ -98,7 +98,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get favoriteTvShowNotAddedMessage =>
-      'Add some TV shows to your favorites to see them here.';
+      'Add some TV series to your favorites to see them here.';
 
   @override
   String get watchTrailer => 'Watch Trailer';
@@ -177,4 +177,139 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recommendations_title => 'Recommendations';
+
+  @override
+  String get config_title => 'Settings';
+
+  @override
+  String get app_setting_title => 'App Settings';
+
+  @override
+  String get title_apptheme => 'App Theme';
+
+  @override
+  String get description_apptheme => 'Choose how you want to view the app';
+
+  @override
+  String get title_app_color => 'App Color';
+
+  @override
+  String get choose_personalized_color => 'Choose custom color';
+
+  @override
+  String get reset_color_default => 'Reset default color';
+
+  @override
+  String get select_a_color => 'Select a color';
+
+  @override
+  String get apply_button => 'Apply';
+
+  @override
+  String get cancel_button => 'Cancel';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get genreAction => 'Action';
+
+  @override
+  String get genreAdventure => 'Adventure';
+
+  @override
+  String get genreAnimation => 'Animation';
+
+  @override
+  String get genreComedy => 'Comedy';
+
+  @override
+  String get genreCrime => 'Crime';
+
+  @override
+  String get genreDocumentary => 'Documentary';
+
+  @override
+  String get genreDrama => 'Drama';
+
+  @override
+  String get genreFamily => 'Family';
+
+  @override
+  String get genreFantasy => 'Fantasy';
+
+  @override
+  String get genreHistory => 'History';
+
+  @override
+  String get genreHorror => 'Horror';
+
+  @override
+  String get genreMusic => 'Music';
+
+  @override
+  String get genreMystery => 'Mystery';
+
+  @override
+  String get genreRomance => 'Romance';
+
+  @override
+  String get genreScienceFiction => 'Science Fiction';
+
+  @override
+  String get genreTvMovie => 'TV Movie';
+
+  @override
+  String get genreThriller => 'Thriller';
+
+  @override
+  String get genreWar => 'War';
+
+  @override
+  String get genreWestern => 'Western';
+
+  @override
+  String get reload => 'Refresh';
+
+  @override
+  String get message_for_search => 'Search movies or series...';
+
+  @override
+  String get season_abbreviation => 'S';
+
+  @override
+  String get season => 'Season';
+
+  @override
+  String get episodes => 'Episodes';
+
+  @override
+  String get genderMale => 'Male';
+
+  @override
+  String get genderFemale => 'Female';
+
+  @override
+  String get genderNonBinary => 'Non-Binary';
+
+  @override
+  String get gender_no_specified => 'Not Specified';
+
+  @override
+  String get born => 'Born';
+
+  @override
+  String get died => 'Died';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get biography => 'Biography';
+
+  @override
+  String get alsoKnownAs => 'Also Known As';
+
+  @override
+  String get movies_and_Series => 'Movies And Series';
 }

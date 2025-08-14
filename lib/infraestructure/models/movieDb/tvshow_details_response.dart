@@ -10,7 +10,7 @@ class TvShowsDetails {
   final bool? inProduction;
   final List<String> languages;
   final DateTime lastAirDate;
-  final LastEpisodeToAir lastEpisodeToAir;
+  final LastEpisodeToAir? lastEpisodeToAir;
   final String name;
   final dynamic nextEpisodeToAir;
   final List<Network> networks;
@@ -66,6 +66,16 @@ class TvShowsDetails {
     required this.voteAverage,
     required this.voteCount,
   });
+  static DateTime? _parseDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00") {
+      return null;
+    }
+    try {
+      return DateTime.parse(dateStr);
+    } catch (_) {
+      return null;
+    }
+  }
 
   factory TvShowsDetails.fromJson(Map<String, dynamic> json) => TvShowsDetails(
     adult: json["adult"],
@@ -74,16 +84,19 @@ class TvShowsDetails {
       json["created_by"].map((x) => CreatedBy.fromJson(x)),
     ),
     episodeRunTime: List<dynamic>.from(json["episode_run_time"].map((x) => x)),
-    firstAirDate: DateTime.parse(json["first_air_date"]),
+    firstAirDate: _parseDate(json["first_air_date"]) ?? DateTime(1900),
+
     genres: List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
     homepage: json["homepage"],
     id: json["id"],
     inProduction: json["in_production"],
     languages: List<String>.from(json["languages"].map((x) => x)),
-    lastAirDate: json["last_air_date"] != null
-        ? DateTime.parse(json["last_air_date"])
-        : DateTime(1900),
-    lastEpisodeToAir: LastEpisodeToAir.fromJson(json["last_episode_to_air"]),
+    lastAirDate: _parseDate(json["last_air_date"]) ?? DateTime(1900),
+
+    lastEpisodeToAir: json["last_episode_to_air"] != null
+        ? LastEpisodeToAir.fromJson(json["last_episode_to_air"])
+        : null,
+
     name: json["name"],
     nextEpisodeToAir: json["next_episode_to_air"],
     networks: List<Network>.from(
@@ -128,7 +141,7 @@ class TvShowsDetails {
     "languages": List<dynamic>.from(languages.map((x) => x)),
     "last_air_date":
         "${lastAirDate.year.toString().padLeft(4, '0')}-${lastAirDate.month.toString().padLeft(2, '0')}-${lastAirDate.day.toString().padLeft(2, '0')}",
-    "last_episode_to_air": lastEpisodeToAir.toJson(),
+    "last_episode_to_air": lastEpisodeToAir!.toJson(),
     "name": name,
     "next_episode_to_air": nextEpisodeToAir,
     "networks": List<dynamic>.from(networks.map((x) => x.toJson())),
@@ -236,6 +249,16 @@ class LastEpisodeToAir {
     required this.showId,
     required this.stillPath,
   });
+  static DateTime? _parseDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00") {
+      return null;
+    }
+    try {
+      return DateTime.parse(dateStr);
+    } catch (_) {
+      return null;
+    }
+  }
 
   factory LastEpisodeToAir.fromJson(Map<String, dynamic> json) =>
       LastEpisodeToAir(
@@ -244,7 +267,7 @@ class LastEpisodeToAir {
         overview: json["overview"],
         voteAverage: json["vote_average"]?.toDouble(),
         voteCount: json["vote_count"],
-        airDate: DateTime.parse(json["air_date"]),
+        airDate: _parseDate(json["air_date"]) ?? DateTime(1900),
         episodeNumber: json["episode_number"],
         episodeType: json["episode_type"],
         productionCode: json["production_code"],
@@ -332,11 +355,20 @@ class Season {
     required this.seasonNumber,
     required this.voteAverage,
   });
+  static DateTime? _parseDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty || dateStr == "0000-00-00") {
+      return null;
+    }
+    try {
+      return DateTime.parse(dateStr);
+    } catch (_) {
+      return null;
+    }
+  }
 
   factory Season.fromJson(Map<String, dynamic> json) => Season(
-    airDate: json["air_date"] != null && json["air_date"].toString().isNotEmpty
-        ? DateTime.tryParse(json["air_date"])
-        : null,
+    airDate: _parseDate(json["air_date"]) ?? DateTime(1900),
+
     episodeCount: json["episode_count"] ?? 0,
     id: json["id"],
     name: json["name"] ?? "Temporada sin nombre",

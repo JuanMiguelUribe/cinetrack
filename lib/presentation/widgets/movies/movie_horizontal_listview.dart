@@ -146,6 +146,12 @@ class _Slide extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
+                  Icon(
+                    Icons.people_alt,
+                    color: Colors.green.shade500,
+                    size: 20,
+                  ),
+                  SizedBox(width: 2),
                   Text(
                     HumanFormats.humanReadbleNumber(movie.popularity),
                     style: textStyles.bodyMedium?.copyWith(

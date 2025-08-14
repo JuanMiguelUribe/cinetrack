@@ -132,6 +132,12 @@ class _TvShowSlide extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
+                  Icon(
+                    Icons.people_alt,
+                    color: Colors.green.shade500,
+                    size: 20,
+                  ),
+                  SizedBox(width: 2),
                   Text(
                     HumanFormats.humanReadbleNumber(tvShow.popularity),
                     style: textStyles.bodyMedium?.copyWith(

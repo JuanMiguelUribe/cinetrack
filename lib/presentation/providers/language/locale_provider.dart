@@ -1,14 +1,26 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LocaleProvider {
-  static String get currentLanguage {
-    return WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+final languageProvider = StateNotifierProvider<LanguageNotifier, String>((ref) {
+  return LanguageNotifier();
+});
+
+class LanguageNotifier extends StateNotifier<String> {
+  static const _key = 'preferred_language';
+
+  LanguageNotifier() : super('es') {
+    _loadLanguage();
   }
 
-  static String get movieDbLanguageCode {
-    final lang = currentLanguage;
-    if (lang == 'es') return 'es-ES';
-    if (lang == 'en') return 'en-US';
-    return 'es-ES'; // default
+  Future<void> _loadLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedLang = prefs.getString(_key);
+    if (savedLang != null) state = savedLang;
+  }
+
+  Future<void> setLanguage(String lang) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_key, lang);
+    state = lang;
   }
 }

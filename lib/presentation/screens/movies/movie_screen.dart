@@ -122,6 +122,7 @@ class _MovieDetails extends StatelessWidget {
               ),
             ),
           ),
+        const SizedBox(height: 8),
 
         // //*DIVISOR DE SECCIÓN,
         // _buildSectionDivider("", context),
@@ -162,6 +163,7 @@ class _MovieDetails extends StatelessWidget {
         // VideosFromMovie(movieId: movie.id),
         //*DIVISOR DE SECCIÓN,
         _buildSectionDivider("", context),
+
         //*Titulo Recomendaciones
         Padding(
           padding: const EdgeInsets.only(left: 16),
@@ -232,7 +234,7 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withAlpha(80),
                   blurRadius: 8,
                   offset: const Offset(0, 6),
                 ),
@@ -323,7 +325,7 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
+                            color: Colors.black.withAlpha(80),
                             blurRadius: 8,
                             offset: const Offset(0, 6),
                           ),
@@ -341,7 +343,11 @@ class _RatingAndOverviewState extends State<_RatingAndOverview> {
                           _buildDetailItem(
                             context,
                             AppLocalizations.of(context)!.details_release,
-                            "${widget.movie.releaseDate != null ? DateFormat('d MMMM y').format(widget.movie.releaseDate!) : AppLocalizations.of(context)!.unknownDate}",
+                            widget.movie.releaseDate != null
+                                ? DateFormat(
+                                    'd MMMM y',
+                                  ).format(widget.movie.releaseDate!)
+                                : AppLocalizations.of(context)!.unknownDate,
                           ),
                           _buildDetailItem(
                             context,
@@ -456,50 +462,61 @@ class _ActorsByMovie extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: SizedBox(
-        height: 215,
+        height: 240,
 
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: actors.length,
           itemBuilder: (context, index) {
             final actor = actors[index];
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FadeInRight(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        actor.profilePath ?? '',
-                        height: 150,
-                        width: 100,
-                        fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) =>
+                      ActorDetailsBottomSheet(actorId: actor.id.toString()),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FadeInRight(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.network(
+                          actor.profilePath ?? '',
+                          height: 150,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      actor.name,
-                      maxLines: 3,
-                      style: AppTextStyles.actorName(context),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        actor.name,
+                        maxLines: 2,
+                        style: AppTextStyles.actorName(context),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 0),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      actor.character ?? 'Not Found',
-                      maxLines: 2,
-                      style: AppTextStyles.characterName(context),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 0),
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        actor.character ?? 'Not Found',
+                        maxLines: 2,
+                        style: AppTextStyles.characterName(context),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
@@ -551,7 +568,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
         iconSize: 18,
         paddingSize: 12,
         icon: Icons.close,
-        onPressed: () => Navigator.pop(context),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
 
       flexibleSpace: FlexibleSpaceBar(
@@ -612,8 +631,8 @@ class _BackgroundStack extends StatelessWidget {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final gradientColors = isDarkMode
-        ? [Colors.transparent, colors.surface.withOpacity(0.91), colors.surface]
-        : [Colors.transparent, colors.surface.withOpacity(0.5), colors.surface];
+        ? [Colors.transparent, colors.surface.withAlpha(200), colors.surface]
+        : [Colors.transparent, colors.surface.withAlpha(150), colors.surface];
     return Stack(
       children: [
         SizedBox.expand(
@@ -621,8 +640,9 @@ class _BackgroundStack extends StatelessWidget {
             movie.posterPath!,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress != null)
+              if (loadingProgress != null) {
                 return const Center(child: CircularProgressIndicator());
+              }
 
               return FadeIn(child: child);
             },
