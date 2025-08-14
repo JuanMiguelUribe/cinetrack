@@ -8,3 +8,13 @@ final actorDetailsProvider = FutureProvider.family<PersonDetailsEntity, String>(
     return await repository.getActorById(actorId);
   },
 );
+
+final actorCreditsProvider = FutureProvider.family<List<ActorCredit>, String>((
+  ref,
+  actorId,
+) async {
+  final repository = ref.watch(actorsRepositoryProvider);
+  final allCredits = await repository.getCreditByActor(actorId);
+
+  return allCredits.length > 30 ? allCredits.sublist(0, 30) : allCredits;
+});
