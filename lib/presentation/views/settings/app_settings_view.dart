@@ -16,6 +16,7 @@ class AppSettingsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     final isDarkMode = ref.watch(themeNotifierProvider).isDarkMode;
+
     final AppTheme apptheme = ref.watch(themeNotifierProvider);
 
     return Scaffold(
