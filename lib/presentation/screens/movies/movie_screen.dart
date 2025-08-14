@@ -22,21 +22,26 @@ class MovieScreen extends ConsumerStatefulWidget {
 }
 
 class MovieScreenState extends ConsumerState<MovieScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    ref
-        .read(movieInfoProvider.notifier)
-        .loadMovie(widget.movieId); // Cargar la película al iniciar
-    ref
-        .read(actorsByMovieProvider.notifier)
-        .loadActors(widget.movieId); // Cargar la película al iniciar
-  }
+  bool _isDisposed = false;
 
   @override
   void dispose() {
+    _isDisposed = true;
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+    // Cargar la película al iniciar
+  }
+
+  Future<void> _loadData() async {
+    await ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    if (_isDisposed) return;
+
+    await ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
   }
 
   @override
