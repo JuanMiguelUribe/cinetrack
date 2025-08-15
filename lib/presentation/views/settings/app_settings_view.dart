@@ -16,6 +16,7 @@ class AppSettingsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     final isDarkMode = ref.watch(themeNotifierProvider).isDarkMode;
+    final isApplied = ref.watch(colorAppliedProvider);
 
     final AppTheme apptheme = ref.watch(themeNotifierProvider);
 
@@ -103,7 +104,9 @@ class AppSettingsView extends ConsumerWidget {
                       },
 
                       child: CircleAvatar(
-                        backgroundColor: color,
+                        backgroundColor: isApplied
+                            ? color.withAlpha(120)
+                            : color,
                         radius: isSelected ? 24 : 20,
 
                         child: isSelected
@@ -117,7 +120,15 @@ class AppSettingsView extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 15),
+          isApplied
+              ? Text(
+                  AppLocalizations.of(context)!.reset_to_pick_a_color,
+                  style: TextStyle(color: colors.error.withAlpha(180)),
+                )
+              : SizedBox(),
+          const SizedBox(height: 15),
 
+          //*ELEGIR COLOR PERSONALIZADO,
           ElevatedButton.icon(
             icon: const Icon(Icons.palette),
             label: Text(
@@ -125,8 +136,10 @@ class AppSettingsView extends ConsumerWidget {
             ),
             onPressed: () => showColorPicker(context, ref),
           ),
+          //*REESTABLECER TEMA PREDETERMINADO
           TextButton(
             onPressed: () async {
+              ref.read(colorAppliedProvider.notifier).state = false;
               final prefs = await SharedPreferences.getInstance();
               prefs.remove('customColor');
               ref.read(themeNotifierProvider.notifier).resetToDefault();
