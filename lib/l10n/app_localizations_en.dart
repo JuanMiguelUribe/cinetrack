@@ -332,4 +332,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewLicenses => 'View Licenses';
+
+  @override
+  String get reset_to_pick_a_color => 'Reset to Pick a Default Color ';
 }

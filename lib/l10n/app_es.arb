@@ -106,7 +106,9 @@
   "legalInfo": "Información legal",
   "tmdbCredit": "Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB.",
   "legalDescription": "Aquí puedes encontrar información sobre términos de uso, políticas de privacidad y licencias de código abierto usadas en esta app.",
-  "viewLicenses": "Ver licencias"
+  "viewLicenses": "Ver licencias",
+    "reset_to_pick_a_color": "Restablece Para Elegir un Color Predeterminado"
+
 
 
 

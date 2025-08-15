@@ -739,6 +739,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Licenses'**
   String get viewLicenses;
+
+  /// No description provided for @reset_to_pick_a_color.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Pick a Default Color '**
+  String get reset_to_pick_a_color;
 }
 
 class _AppLocalizationsDelegate

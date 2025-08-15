@@ -332,4 +332,8 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewLicenses => 'Ver licencias';
+
+  @override
+  String get reset_to_pick_a_color =>
+      'Restablece Para Elegir un Color Predeterminado';
 }
