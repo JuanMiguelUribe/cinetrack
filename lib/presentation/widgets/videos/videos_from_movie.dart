@@ -14,7 +14,7 @@ class VideosFromMovie extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final moviesFromVideo = ref.watch(
-      videosProvider((id: movieId, type: type)),
+      videosProviderTrailer((id: movieId, type: type)),
     );
 
     return moviesFromVideo.when(
@@ -110,6 +110,9 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
 
   @override
   void dispose() {
+    if (mounted) {
+      _controller.pause(); // Para el video antes de destruir el controlador
+    }
     _controller.dispose();
     super.dispose();
   }

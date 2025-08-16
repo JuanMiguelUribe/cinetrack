@@ -3,6 +3,7 @@ import 'package:movieflex/presentation/screens/screens.dart';
 import 'package:movieflex/presentation/views/home_views/views.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movieflex/presentation/views/settings/app_settings_view.dart';
+import 'package:movieflex/presentation/views/settings/legal_info_view.dart';
 import 'package:movieflex/presentation/views/settings/settings_view.dart';
 
 final appRouter = GoRouter(
@@ -89,6 +90,22 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         child: const AppSettingsView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/legal',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const LegalInfoView(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(

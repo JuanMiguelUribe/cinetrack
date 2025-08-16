@@ -27,12 +27,14 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
   @override
   void initState() {
     super.initState();
+    _loadData();
+  }
 
-    ref
-        .read(tvshowsInfoProvider.notifier)
-        .loadMovie(widget.tvshowID); // Cargar la película al iniciar
-    // Cargar la película al iniciar
-    ref.read(actorsByTvShowProvider.notifier).loadActors(widget.tvshowID);
+  Future<void> _loadData() async {
+    await ref.read(tvshowsInfoProvider.notifier).loadMovie(widget.tvshowID);
+    await ref.read(actorsByTvShowProvider.notifier).loadActors(widget.tvshowID);
+
+    if (!mounted) return;
   }
 
   @override
@@ -46,6 +48,7 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
       tvshowsInfoProvider,
     )[widget.tvshowID];
     final colors = Theme.of(context).colorScheme;
+    if (!mounted) return const SizedBox.shrink();
 
     if (tvshow == null) {
       return Scaffold(
@@ -55,6 +58,7 @@ class TvShowScreenState extends ConsumerState<TvShowScreen> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
+
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showTrailerDialog(context, tvshow.id, MediaType.tv),
@@ -98,6 +102,7 @@ class _TvShowDetails extends ConsumerWidget {
     final asyncSeason = ref.watch(
       tvShowSeasonsProvider((tvshow.id.toString(), selectedSeason)),
     );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

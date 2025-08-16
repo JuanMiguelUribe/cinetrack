@@ -312,4 +312,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get movies_and_Series => 'Movies And Series';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get appSettings => 'App Settings';
+
+  @override
+  String get legalInfo => 'Legal Information';
+
+  @override
+  String get tmdbCredit =>
+      'This product uses the TMDB API but is not endorsed or certified by TMDB.';
+
+  @override
+  String get legalDescription =>
+      'Here you can find information about terms of use, privacy policies, and open-source licenses used in this app.';
+
+  @override
+  String get viewLicenses => 'View Licenses';
+
+  @override
+  String get reset_to_pick_a_color => 'Reset to Pick a Default Color ';
 }

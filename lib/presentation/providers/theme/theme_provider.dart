@@ -14,6 +14,8 @@ final isDarkModeProvider = StateProvider<bool>((ref) => false);
 
 final selectedColorProvider = StateProvider<int>((ref) => 0);
 
+final colorAppliedProvider = StateProvider<bool>((ref) => false);
+
 //Controller o Notifier
 class ThemeNotifier extends StateNotifier<AppTheme> {
   ThemeNotifier() : super(AppTheme()) {
@@ -82,9 +84,10 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
   }
 
   void resetToDefault() async {
-    state = AppTheme(); // resetea todo
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDarkMode', false);
+    await prefs.setInt('selectedColor', 0);
     await prefs.remove('customColor');
-    await prefs.remove('selectedColor');
+    state = AppTheme(isDarkMode: false, selectedColor: 0, customColor: null);
   }
 }

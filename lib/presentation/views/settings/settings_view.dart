@@ -13,6 +13,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size;
     final colors = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -51,56 +52,65 @@ class SettingsView extends StatelessWidget {
 
           _ListAppSettings(colors: colors),
           SizedBox(height: 8),
-          // _ListLanguage(colors: colors),
-          // SizedBox(height: 8),
+          _ListLegalInfo(colors: colors),
+          SizedBox(height: 8),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              l10n.tmdbCredit,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12, color: colors.onSurfaceVariant),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-// class _ListLanguage extends StatelessWidget {
-//   const _ListLanguage({required this.colors});
+class _ListLegalInfo extends StatelessWidget {
+  const _ListLegalInfo({required this.colors});
 
-//   final ColorScheme colors;
+  final ColorScheme colors;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () {
-//         context.push("/app-settings");
-//       },
-//       child: Padding(
-//         padding: const EdgeInsets.only(left: 20, right: 20),
-//         child: Container(
-//           height: 50,
-//           decoration: BoxDecoration(
-//             color: colors.surfaceContainerHighest.withAlpha(150),
-//             borderRadius: BorderRadius.circular(12),
-//           ),
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 18),
-//             child: Row(
-//               children: [
-//                 // Icon(Icons.settings, color: colors.onSurface, size: 30),
-//                 Text(
-//                   AppLocalizations.of(context)!.app_setting_title,
-//                   style: AppTextStyles.titlesForListSettings(context),
-//                 ),
-//                 Spacer(),
-//                 Icon(
-//                   Icons.arrow_forward_ios_outlined,
-//                   size: 17,
-//                   color: colors.onSurface,
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.push("/legal");
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: colors.surfaceContainerHighest.withAlpha(150),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              children: [
+                // Icon(Icons.settings, color: colors.onSurface, size: 30),
+                Text(
+                  AppLocalizations.of(context)!.legalInfo,
+                  style: AppTextStyles.titlesForListSettings(context),
+                ),
+                Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  size: 17,
+                  color: colors.onSurface,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class _ListAppSettings extends StatelessWidget {
   const _ListAppSettings({required this.colors});

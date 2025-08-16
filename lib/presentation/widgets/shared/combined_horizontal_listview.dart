@@ -1,11 +1,11 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:movieflex/config/helpers/human_formats.dart';
 import 'package:movieflex/config/theme/app_text_styles.dart';
 import 'package:movieflex/domain/entities/actor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:movieflex/infraestructure/models/movieDb/credits_actor_response.dart';
+import 'package:movieflex/l10n/app_localizations.dart';
 
 class CombinedHorizontalListView extends StatefulWidget {
   final List<ActorCredit> combined;
@@ -148,18 +148,31 @@ class _CombinedSlide extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
-                    Icons.people_alt,
-                    color: Colors.green.shade500,
-                    size: 20,
-                  ),
+                  //*Icono de movie
+                  if (combined.mediaType == MediaType.movie)
+                    Icon(Icons.movie, color: Colors.green.shade500, size: 15),
                   SizedBox(width: 2),
-                  Text(
-                    HumanFormats.humanReadbleNumber(combined.popularity),
-                    style: textStyles.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w400,
+                  if (combined.mediaType == MediaType.movie)
+                    Text(
+                      AppLocalizations.of(context)!.movieSearch,
+                      style: textStyles.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
+
+                  //*Icono de Series
+                  if (combined.mediaType == MediaType.tv)
+                    Icon(Icons.tv, color: Colors.red.shade500, size: 15),
+                  SizedBox(width: 2),
+                  if (combined.mediaType == MediaType.tv)
+                    Text(
+                      AppLocalizations.of(context)!.tvshowSearch,
+                      style: textStyles.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
+                    ),
                 ],
               ),
             ),

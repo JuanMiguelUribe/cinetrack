@@ -100,9 +100,14 @@
   "gender": "Gender",
   "biography" : "Biography",
   "alsoKnownAs": "Also Known As",
-  "movies_and_Series": "Movies And Series"
-
-
+  "movies_and_Series": "Movies And Series",
+  "settingsTitle": "Settings",
+  "appSettings": "App Settings",
+  "legalInfo": "Legal Information",
+  "tmdbCredit": "This product uses the TMDB API but is not endorsed or certified by TMDB.",
+  "legalDescription": "Here you can find information about terms of use, privacy policies, and open-source licenses used in this app.",
+  "viewLicenses": "View Licenses",
+  "reset_to_pick_a_color": "Reset to Pick a Default Color "
 
 }
 
